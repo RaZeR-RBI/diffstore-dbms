@@ -22,12 +22,6 @@ namespace Diffstore.DBMS.Core
         public static TransactionPolicyInfo SingleRetry(this TransactionPolicyInfo policy,
             TimeSpan timeBeforeRetry) => policy.FixedRetries(1, timeBeforeRetry);
 
-        public static TransactionPolicyInfo NoRetries(this TransactionPolicyInfo policy)
-        {
-            policy.RetryTimeouts = Enumerable.Empty<TimeSpan>();
-            return policy;
-        }
-
         public static TransactionPolicyInfo WithRetries(this TransactionPolicyInfo policy,
             params TimeSpan[] waitTimes)
         {

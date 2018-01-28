@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Diffstore.DBMS.Core.Exceptions;
 using Diffstore.Entities;
 using Diffstore.Snapshots;
 using Polly;
@@ -12,26 +13,28 @@ namespace Diffstore.DBMS.Core
         where TKey : IComparable
         where TValue : class, new()
     {
+        private readonly IDiffstore<TKey, TValue> db;
         private readonly Policy<bool> lockPolicy;
         private readonly ITransactionProvider<TKey> transaction;
 
-        public PollyAsyncBackend(TransactionPolicyInfo policy, ITransactionProvider<TKey> transaction)
+        public PollyAsyncBackend(IDiffstore<TKey, TValue> db,
+            TransactionPolicyInfo policy, ITransactionProvider<TKey> transaction)
         {
+            this.db = db;
             this.transaction = transaction;
             this.lockPolicy = Policy
                 .HandleResult<bool>(acquired => !acquired)
                 .WaitAndRetry(policy.RetryTimeouts);
         }
 
-        private async Task AcquireLock(TKey key) => await lockPolicy.ExecuteAsync(() =>
-        {
-            return Task.FromResult(transaction.Begin(key));
-        });
+        private async Task AcquireLock(TKey key) =>
+            await lockPolicy.ExecuteAsync(() => Task.FromResult(transaction.Begin(key)));
 
-        private async Task ReleaseLock(TKey key) => await lockPolicy.ExecuteAsync(() =>
-        {
-            return Task.FromResult(transaction.End(key));
-        });
+        private async Task ReleaseLock(TKey key) =>
+            await lockPolicy.ExecuteAsync(() => Task.FromResult(transaction.End(key)));
+
+        private async Task Availability(TKey key) =>
+            await lockPolicy.ExecuteAsync(() => Task.FromResult(transaction.IsAvailable(key)));
 
         public Task<Entity<TKey, TValue>> this[TKey key] => Get(key);
 
@@ -39,24 +42,40 @@ namespace Diffstore.DBMS.Core
 
         public Task<IEnumerable<Entity<TKey, TValue>>> Entities => throw new NotImplementedException();
 
-        public async Task Delete(TKey key)
+        private async Task<T> Transaction<T>(TKey key, Func<T> fn)
         {
-            throw new NotImplementedException();
+            await AcquireLock(key);
+            try
+            {
+                var result = fn();
+                return result;
+            }
+            catch { throw; }
+            finally { await ReleaseLock(key); }
         }
 
-        public Task Delete(Entity<TKey, TValue> entity)
+        private async Task Transaction(TKey key, Action action)
         {
-            throw new NotImplementedException();
+            await AcquireLock(key);
+            try
+            {
+                action();
+            }
+            catch { throw; }
+            finally { await ReleaseLock(key); }
         }
 
-        public Task<bool> Exists(TKey key)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task Delete(TKey key) => await Transaction(key, () => db.Delete(key));
 
-        public Task<Entity<TKey, TValue>> Get(TKey key)
+        public async Task Delete(Entity<TKey, TValue> entity) => await Delete(entity.Key);
+
+        public async Task<bool> Exists(TKey key) => await Transaction(key, () => db.Exists(key));
+
+        public async Task<Entity<TKey, TValue>> Get(TKey key)
         {
-            throw new NotImplementedException();
+            await Availability(key);
+            if (!await Exists(key)) throw new EntityNotFoundException(key);
+            return db[key];
         }
 
         public Task<Snapshot<TKey, TValue>> GetFirst(TKey key)
@@ -104,9 +123,7 @@ namespace Diffstore.DBMS.Core
             throw new NotImplementedException();
         }
 
-        public Task Save(TKey key, TValue value, bool makeSnapshot = true)
-        {
-            throw new NotImplementedException();
-        }
+        public Task Save(TKey key, TValue value, bool makeSnapshot = true) =>
+            Save(Entity.Create(key, value), makeSnapshot);
     }
 }
