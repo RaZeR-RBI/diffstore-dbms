@@ -6,9 +6,11 @@ namespace Diffstore.DBMS.Core
     public interface ITransactionProvider<TKey>
         where TKey : IComparable
     {
-        bool Begin(TKey key);
-        bool End(TKey key);
-        bool IsAvailable(TKey key);
-        IEnumerable<TKey> InProgress { get; }
+        bool BeginRead(TKey key);
+        bool EndRead(TKey key);
+        bool BeginWrite(TKey key);
+        bool EndWrite(TKey key);
+        IEnumerable<TKey> InRead { get; }
+        IEnumerable<TKey> InWrite { get; }
     }
 }

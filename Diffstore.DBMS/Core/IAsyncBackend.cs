@@ -10,7 +10,6 @@ namespace Diffstore.DBMS.Core
         where TKey : IComparable
         where TValue : class, new()
     {
-        Task<Entity<TKey, TValue>> this[TKey key] { get; }
         Task<IEnumerable<TKey>> Keys { get; }
         Task<IEnumerable<Entity<TKey, TValue>>> Entities { get; }
         Task Delete(TKey key);
