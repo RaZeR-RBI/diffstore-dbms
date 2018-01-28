@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>Diffstore.DBMS</id>
+    <version>$version$</version>
+    <title>Diffstore DBMS</title>
+    <authors>Vilkov Adel</authors>
+    <owners>Vilkov Adel</owners>
+    <licenseUrl>https://github.com/RaZeR-RBI/diffstore-dbms/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/RaZeR-RBI/diffstore-dbms</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>REST DBMS-like frontend component for Diffstore storage engine</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>net netcore storage database statistics time data entity dbms rest</tags>
+    <dependencies>
+      <dependency id="Diffstore" version="1.0.2" />
+      <dependency id="Jil" version="2.15.4" />
+    </dependencies>
+  </metadata>
+</package>
