@@ -28,8 +28,8 @@ namespace Diffstore.DBMS.Core
             return true;
         }
 
-        public bool EndRead(TKey key) => readLocks.TryRemove(key);
+        public bool EndRead(TKey key) => readLocks.TryRemove(key) || true;
 
-        public bool EndWrite(TKey key) => writeLocks.TryRemove(key);
+        public bool EndWrite(TKey key) => writeLocks.TryRemove(key) || true;
     }
 }

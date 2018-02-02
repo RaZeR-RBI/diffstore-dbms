@@ -13,4 +13,10 @@ namespace Diffstore.DBMS.Core
         IEnumerable<TKey> InRead { get; }
         IEnumerable<TKey> InWrite { get; }
     }
+
+    public static class TransactionProvider
+    {
+        public static ITransactionProvider<TKey> OfType<TKey>() where TKey : IComparable =>
+            new ConcurrentTransactionProvider<TKey>();
+    }
 }

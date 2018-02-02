@@ -19,8 +19,14 @@ namespace Diffstore.DBMS.Core
             return policy;
         }
 
+        public static TransactionPolicyInfo FixedRetries(int retries, TimeSpan timeBetweenRetries) =>
+            new TransactionPolicyInfo().FixedRetries(retries, timeBetweenRetries);
+
         public static TransactionPolicyInfo SingleRetry(this TransactionPolicyInfo policy,
             TimeSpan timeBeforeRetry) => policy.FixedRetries(1, timeBeforeRetry);
+
+        public static TransactionPolicyInfo SingleRetry(TimeSpan timeBeforeRetry) =>
+            new TransactionPolicyInfo().SingleRetry(timeBeforeRetry);
 
         public static TransactionPolicyInfo WithRetries(this TransactionPolicyInfo policy,
             params TimeSpan[] waitTimes)
@@ -28,5 +34,8 @@ namespace Diffstore.DBMS.Core
             policy.RetryTimeouts = waitTimes;
             return policy;
         }
+
+        public static TransactionPolicyInfo WithRetries(params TimeSpan[] waitTimes) =>
+            new TransactionPolicyInfo().WithRetries(waitTimes);
     }
 }

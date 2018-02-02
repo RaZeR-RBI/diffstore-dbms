@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ConcurrentCollections;
 using Diffstore.DBMS.Core.Exceptions;
 using Diffstore.Entities;
 using Diffstore.Snapshots;
@@ -24,7 +26,11 @@ namespace Diffstore.DBMS.Core
             this.transaction = transaction;
             this.lockPolicy = Policy
                 .HandleResult<bool>(acquired => !acquired)
-                .WaitAndRetry(policy.RetryTimeouts);
+                .WaitAndRetryAsync(policy.RetryTimeouts);
+
+            this.existence = new ConcurrentDictionary<TKey, bool>(
+                db.Keys.ToDictionary(k => k, k => db.GetSnapshots(k).Any())
+            );
         }
 
         private async Task AcquireForRead(TKey key) =>
@@ -39,12 +45,17 @@ namespace Diffstore.DBMS.Core
         private async Task ReleaseFromWrite(TKey key) =>
             await lockPolicy.ExecuteAsync(() => Task.FromResult(transaction.EndWrite(key)));
 
-        public Task<IEnumerable<TKey>> Keys => throw new NotImplementedException();
+        // Entity and snapshot existence map. If a key is present, then the entity exists.
+        // If the value is true, the corresponding entity has at least one snapshot.
+        private ConcurrentDictionary<TKey, bool> existence = new ConcurrentDictionary<TKey, bool>();
+        public IEnumerable<TKey> Keys => existence.Keys;
 
-        public Task<IEnumerable<Entity<TKey, TValue>>> Entities => throw new NotImplementedException();
-
-        private async Task<T> WriteTransaction<T>(TKey key, Func<T> fn)
+        private async Task<T> WriteTransaction<T>(TKey key, Func<T> fn, 
+            bool checkEntityExistence = false)
         {
+            if (checkEntityExistence && !existence.ContainsKey(key))
+                throw new EntityNotFoundException(key);
+            
             await AcquireForWrite(key);
             try
             {
@@ -55,8 +66,12 @@ namespace Diffstore.DBMS.Core
             finally { await ReleaseFromWrite(key); }
         }
 
-        private async Task WriteTransaction(TKey key, Action action)
+        private async Task WriteTransaction(TKey key, Action action, 
+            bool checkEntityExistence = false)
         {
+            if (checkEntityExistence && !existence.ContainsKey(key))
+                throw new EntityNotFoundException(key);
+            
             await AcquireForWrite(key);
             try
             {
@@ -66,29 +81,34 @@ namespace Diffstore.DBMS.Core
             finally { await ReleaseFromWrite(key); }
         }
 
-        private async Task<T> ReadTransaction<T>(TKey key, Func<T> func, 
+        private async Task<T> ReadTransaction<T>(TKey key, Func<T> func,
             bool checkSnapshotExistence = false)
         {
+            if (!existence.ContainsKey(key)) throw new EntityNotFoundException(key);
+            if (checkSnapshotExistence && !existence[key])
+                throw new SnapshotNotFoundException(key);
+            
             await AcquireForRead(key);
             try
             {
-                if (!await Exists(key)) throw new EntityNotFoundException(key);
-                if (checkSnapshotExistence && !(await GetSnapshots(key)).Any())
-                    throw new SnapshotNotFoundException(key);
                 return func();
             }
             catch { throw; }
             finally { await ReleaseFromRead(key); }
         }
 
-        public async Task Delete(TKey key) => 
-            await WriteTransaction(key, () => db.Delete(key));
+        public async Task Delete(TKey key) =>
+            await WriteTransaction(key, () =>
+            {
+                db.Delete(key);
+                existence.TryRemove(key, out _);
+            });
 
-        public async Task Delete(Entity<TKey, TValue> entity) => 
+        public async Task Delete(Entity<TKey, TValue> entity) =>
             await Delete(entity.Key);
 
-        public async Task<bool> Exists(TKey key) => 
-            await WriteTransaction(key, () => db.Exists(key));
+        public Task<bool> Exists(TKey key) =>
+            Task.FromResult(existence.ContainsKey(key));
 
         public async Task<Entity<TKey, TValue>> Get(TKey key) =>
             await ReadTransaction(key, () => db.Get(key));
@@ -107,23 +127,40 @@ namespace Diffstore.DBMS.Core
 
         // note: ToList() calls ensure that all data is fetched before releasing the lock
         public async Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key) =>
-            await ReadTransaction(key, () => db.GetSnapshots(key).ToList(), checkSnapshotExistence: true);
+            await ReadTransaction(key, () => db.GetSnapshots(key).ToList(),
+                checkSnapshotExistence: true);
 
         public async Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key, int from, int count) =>
-            await ReadTransaction(key, () => db.GetSnapshots(key, from, count).ToList(), 
+            await ReadTransaction(key, () => db.GetSnapshots(key, from, count).ToList(),
                 checkSnapshotExistence: true);
 
         public async Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key, long timeStart, long timeEnd) =>
-            await ReadTransaction(key, () => db.GetSnapshotsBetween(key, timeStart, timeEnd).ToList(),
+            await ReadTransaction(key, () =>
+                db.GetSnapshotsBetween(key, timeStart, timeEnd).ToList(),
                 checkSnapshotExistence: true);
 
         public async Task PutSnapshot(Entity<TKey, TValue> entity, long time) =>
-            await WriteTransaction(entity.Key, () => db.PutSnapshot(entity, time));
+            await WriteTransaction(entity.Key, () =>
+            {
+                var key = entity.Key;
+                db.PutSnapshot(entity, time);
+                existence.AddOrUpdate(key, true, (entityKey, hasSnapshots) => true);
+            }, checkEntityExistence: true);
 
         public async Task Save(Entity<TKey, TValue> entity, bool makeSnapshot = true) =>
-            await WriteTransaction(entity.Key, () => db.Save(entity, makeSnapshot));
+            await WriteTransaction(entity.Key, () =>
+            {
+                var key = entity.Key;
+                db.Save(entity, makeSnapshot);
+                existence.AddOrUpdate(key,
+                    makeSnapshot || db.GetSnapshots(key).Any(),
+                    (entityKey, hasSnapshots) => true);
+            });
 
         public async Task Save(TKey key, TValue value, bool makeSnapshot = true) =>
             await Save(Entity.Create(key, value), makeSnapshot);
+
+        public async Task<IEnumerable<Entity<TKey, TValue>>> GetAll() =>
+            await Task.WhenAll(Keys.Select(Get));
     }
 }

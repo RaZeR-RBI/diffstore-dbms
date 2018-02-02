@@ -58,6 +58,7 @@ namespace Tests.Core
 
             Assert.Equal(readLockedKeys, transactionProvider.InRead);            
             Assert.Empty(transactionProvider.InWrite);
+            await Assert.ThrowsAsync<TimeoutException>(() => backend.Save(firstEntity));
         }
 
 
