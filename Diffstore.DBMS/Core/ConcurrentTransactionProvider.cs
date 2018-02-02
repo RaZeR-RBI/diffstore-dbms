@@ -23,13 +23,13 @@ namespace Diffstore.DBMS.Core
 
         public bool BeginWrite(TKey key)
         {
-            if (readLocks.Contains(key)) return false;
+            if (readLocks.Contains(key) || writeLocks.Contains(key)) return false;
             writeLocks.Add(key);
             return true;
         }
 
-        public bool EndRead(TKey key) => readLocks.TryRemove(key) || true;
+        public bool EndRead(TKey key) => readLocks.TryRemove(key) | true;
 
-        public bool EndWrite(TKey key) => writeLocks.TryRemove(key) || true;
+        public bool EndWrite(TKey key) => writeLocks.TryRemove(key) | true;
     }
 }

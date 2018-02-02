@@ -24,9 +24,14 @@ namespace Diffstore.DBMS.Core
         {
             this.db = db;
             this.transaction = transaction;
-            this.lockPolicy = Policy
-                .HandleResult<bool>(acquired => !acquired)
+            var retryPolicy = Policy
+                .HandleResult<bool>(false)
                 .WaitAndRetryAsync(policy.RetryTimeouts);
+            var fallbackPolicy = Policy
+                .HandleResult<bool>(false)
+                .FallbackAsync(false, (c, r) => throw new ResourceIsBusyException());
+
+            this.lockPolicy = fallbackPolicy.WrapAsync(retryPolicy);
 
             this.existence = new ConcurrentDictionary<TKey, bool>(
                 db.Keys.ToDictionary(k => k, k => db.GetSnapshots(k).Any())

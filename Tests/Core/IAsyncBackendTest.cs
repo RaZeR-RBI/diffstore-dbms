@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Diffstore;
 using Diffstore.DBMS.Core;
+using Diffstore.DBMS.Core.Exceptions;
 using Diffstore.Entities;
 using Moq;
 using Xunit;
@@ -58,7 +59,7 @@ namespace Tests.Core
 
             Assert.Equal(readLockedKeys, transactionProvider.InRead);            
             Assert.Empty(transactionProvider.InWrite);
-            await Assert.ThrowsAsync<TimeoutException>(() => backend.Save(firstEntity));
+            await Assert.ThrowsAsync<ResourceIsBusyException>(() => backend.Save(firstEntity));
         }
 
 
