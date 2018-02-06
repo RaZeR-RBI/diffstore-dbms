@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Diffstore.DBMS.Core;
+using Diffstore.DBMS.Drivers;
 using Diffstore.Entities;
 using Diffstore.Snapshots;
 
-namespace Diffstore.DBMS.Core
+namespace Diffstore.DBMS
 {
     public interface IDiffstoreDBMS<TKey, TValue>
         where TKey : IComparable

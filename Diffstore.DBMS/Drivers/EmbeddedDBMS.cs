@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ConcurrentCollections;
+using Diffstore.DBMS.Core;
 using Diffstore.DBMS.Core.Exceptions;
 using Diffstore.Entities;
 using Diffstore.Snapshots;
 using Polly;
 
-namespace Diffstore.DBMS.Core
+namespace Diffstore.DBMS.Drivers
 {
     public class EmbeddedDBMS<TKey, TValue> : IDiffstoreDBMS<TKey, TValue>
         where TKey : IComparable
