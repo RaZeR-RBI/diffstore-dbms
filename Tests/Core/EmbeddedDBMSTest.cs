@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Tests.Core
 {
-    public class IAsyncBackendTest
+    public class EmbeddedDBMSTest
     {
         private IDiffstore<int, SampleData> db = new DiffstoreBuilder<int, SampleData>()
             .WithMemoryStorage()
@@ -31,7 +31,7 @@ namespace Tests.Core
         public async void ShouldReturnWhatHasBeenSaved()
         {
             var transactionProvider = TransactionProvider.OfType<int>();
-            var backend = AsyncBackend.Create(db, transactionProvider, policy);
+            var backend = DiffstoreDBMS.Embedded(db, transactionProvider, policy);
             var data = CreateSampleData();
             var keys = data.Select(e => e.Key);
 
@@ -47,21 +47,33 @@ namespace Tests.Core
         public async Task ShouldAllowMultipleReadsAndThrowOnWriteAttempt()
         {
             var transactionProvider = SimulatedReadLock<int>();
-            var backend = AsyncBackend.Create(db, transactionProvider, policy);
+            var backend = DiffstoreDBMS.Embedded(db, transactionProvider, policy);
             var data = CreateSampleData();
             var firstKey = data.First().Key;
             var lastKey = data.Last().Key;
-            var readLockedKeys = new [] { firstKey, lastKey };
+            var readLockedKeys = new[] { firstKey, lastKey };
             await SaveData(data, backend);
 
             var firstEntity = await backend.Get(firstKey);
             var lastEntity = await backend.Get(lastKey);
 
-            Assert.Equal(readLockedKeys, transactionProvider.InRead);            
+            Assert.Equal(readLockedKeys, transactionProvider.InRead);
             Assert.Empty(transactionProvider.InWrite);
             await Assert.ThrowsAsync<ResourceIsBusyException>(() => backend.Save(firstEntity));
         }
 
+        [Fact]
+        public async Task ShouldAllowSingleWriteAndThrowOnAnyAccessAttempt()
+        {
+            var transactionProvider = SimulatedWriteLock<int>();
+            var backend = DiffstoreDBMS.Embedded(db, transactionProvider, policy);
+            var data = CreateSampleData();
+            await SaveData(data, backend);
+
+            await Assert.ThrowsAsync<ResourceIsBusyException>(
+                () => backend.Get(data.First().Key)
+            );
+        }
 
 
         private ITransactionProvider<T> SimulatedReadLock<T>()
@@ -73,13 +85,22 @@ namespace Tests.Core
             return mock.Object;
         }
 
+        private ITransactionProvider<T> SimulatedWriteLock<T>()
+            where T : IComparable
+        {
+            var mock = new Mock<ConcurrentTransactionProvider<T>>() { CallBase = true }
+                .As<ITransactionProvider<T>>();
+            mock.Setup(m => m.EndWrite(It.IsAny<T>())).Returns(true);
+            return mock.Object;
+        }
+
         private List<Entity<int, SampleData>> CreateSampleData() =>
             Enumerable.Range(EntityStartId, EntityEndId)
                 .Select(i => Entity.Create(i, new SampleData($"{i}")))
                 .ToList();
 
-        private async Task SaveData(IEnumerable<Entity<int, SampleData>> data, 
-            IAsyncBackend<int, SampleData> backend) =>
+        private async Task SaveData(IEnumerable<Entity<int, SampleData>> data,
+            IDiffstoreDBMS<int, SampleData> backend) =>
             await Task.WhenAll(data.Select(e => backend.Save(e)).ToArray());
     }
 }

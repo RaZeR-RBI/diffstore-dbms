@@ -6,7 +6,7 @@ using Diffstore.Snapshots;
 
 namespace Diffstore.DBMS.Core
 {
-    public interface IAsyncBackend<TKey, TValue>
+    public interface IDiffstoreDBMS<TKey, TValue>
         where TKey : IComparable
         where TValue : class, new()
     {
@@ -28,12 +28,12 @@ namespace Diffstore.DBMS.Core
         Task Save(TKey key, TValue value, bool makeSnapshot = true);
     }
 
-    public static class AsyncBackend
+    public static class DiffstoreDBMS
     {
-        public static IAsyncBackend<TKey, TValue> Create<TKey, TValue>(IDiffstore<TKey, TValue> db,
+        public static IDiffstoreDBMS<TKey, TValue> Embedded<TKey, TValue>(IDiffstore<TKey, TValue> db,
             ITransactionProvider<TKey> provider, TransactionPolicyInfo policy)
             where TKey : IComparable
             where TValue : class, new() =>
-                new PollyAsyncBackend<TKey, TValue>(db, policy, provider);
+                new EmbeddedDBMS<TKey, TValue>(db, policy, provider);
     }
 }

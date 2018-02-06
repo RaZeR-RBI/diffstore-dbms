@@ -11,7 +11,7 @@ using Polly;
 
 namespace Diffstore.DBMS.Core
 {
-    public class PollyAsyncBackend<TKey, TValue> : IAsyncBackend<TKey, TValue>
+    public class EmbeddedDBMS<TKey, TValue> : IDiffstoreDBMS<TKey, TValue>
         where TKey : IComparable
         where TValue : class, new()
     {
@@ -19,7 +19,7 @@ namespace Diffstore.DBMS.Core
         private readonly Policy<bool> lockPolicy;
         private readonly ITransactionProvider<TKey> transaction;
 
-        public PollyAsyncBackend(IDiffstore<TKey, TValue> db,
+        public EmbeddedDBMS(IDiffstore<TKey, TValue> db,
             TransactionPolicyInfo policy, ITransactionProvider<TKey> transaction)
         {
             this.db = db;
