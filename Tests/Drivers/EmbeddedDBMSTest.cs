@@ -56,10 +56,12 @@ namespace Tests.Drivers
             await SaveData(data, backend);
 
             var firstEntity = await backend.Get(firstKey);
+            var firstEntityToo = await backend.Get(firstKey);
             var lastEntity = await backend.Get(lastKey);
 
             Assert.Equal(readLockedKeys, transactionProvider.InRead);
             Assert.Empty(transactionProvider.InWrite);
+            Assert.Equal(firstEntity, firstEntityToo);            
             await Assert.ThrowsAsync<ResourceIsBusyException>(() => backend.Save(firstEntity));
         }
 
@@ -73,6 +75,9 @@ namespace Tests.Drivers
 
             await Assert.ThrowsAsync<ResourceIsBusyException>(
                 () => backend.Get(data.First().Key)
+            );
+            await Assert.ThrowsAsync<ResourceIsBusyException>(
+                () => backend.Save(data.First())
             );
         }
 

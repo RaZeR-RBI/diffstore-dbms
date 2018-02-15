@@ -1,7 +1,9 @@
 ﻿using System;
+using FluentCommandLineParser;
 
-namespace Example
+namespace Standalone
 {
+
     class Program
     {
         static void Main(string[] args)
