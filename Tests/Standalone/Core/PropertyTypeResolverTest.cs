@@ -35,9 +35,13 @@ namespace Tests.Standalone.Core
         [Fact]
         public void ShouldResolveCollections()
         {
+            // Note: we're caring about the instantiable type here,
+            // that's why IList becomes List and IDictionary becomes Dictionary
             var expected = new Dictionary<string, Type>()
             {
+                ["IList<int>"] = typeof(List<int>),
                 ["List<int>"] = typeof(List<int>),
+                ["IDictionary<string, bool>"] = typeof(Dictionary<string, bool>),
                 ["Dictionary<string, bool>"] = typeof(Dictionary<string, bool>),
             };
 
