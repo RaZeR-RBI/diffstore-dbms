@@ -1,5 +1,6 @@
 ﻿using System;
-using FluentCommandLineParser;
+using Diffstore;
+using Fclp;
 
 namespace Standalone
 {
@@ -8,7 +9,38 @@ namespace Standalone
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var p = new FluentCommandLineParser<Options>();
+            p.Setup(x => x.Store)
+                .As("store")
+                .SetDefault(StorageMethod.OnDisk);
+
+            p.Setup(x => x.EntityFormat)
+                .As("entityFormat")
+                .SetDefault(FileFormat.JSON);
+
+            p.Setup(x => x.SnapshotFormat)
+                .As("snapshotFormat")
+                .SetDefault(FileFormat.JSON);
+
+            p.Setup(x => x.Snapshots)
+                .As("snapshots")
+                .SetDefault(SnapshotStorage.SingleFile);
+
+            p.Setup(x => x.LoadSchemaFromStdIn)
+                .As("loadSchemaFromStdIn")
+                .SetDefault(false);
+
+            var result = p.Parse(args);
+            if (!result.HasErrors)
+                Run(p.Object);
+            else
+                foreach (var error in result.Errors)
+                    Console.WriteLine($"[FATAL] {error}");
+        }
+
+        static void Run(Options options)
+        {
+            // TODO
         }
     }
 }

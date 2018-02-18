@@ -9,4 +9,7 @@
     <PackageReference Include="FluentCommandLineParser" Version="1.4.3" />
     <PackageReference Include="Nancy" Version="1.4.4" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\third-party\FluentIL\src\FluentIL\FluentIL.csproj" />
+  </ItemGroup>
 </Project>

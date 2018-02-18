@@ -1,0 +1,3 @@
+[submodule "third-party/FluentIL"]
+	path = third-party/FluentIL
+	url = https://github.com/RaZeR-RawByte/FluentIL.git

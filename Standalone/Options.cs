@@ -14,10 +14,10 @@ namespace Standalone
 
     public class Options
     {
-        public StorageMethod Store = StorageMethod.OnDisk;
-        public FileFormat EntityFormat = FileFormat.JSON;
-        public FileFormat SnapshotFormat = FileFormat.JSON;
-        public SnapshotStorage Snapshots = SnapshotStorage.SingleFile;
-        public bool LoadSchemaFromStdIn = false;
+        public StorageMethod Store { get; set; }
+        public FileFormat EntityFormat { get; set; }
+        public FileFormat SnapshotFormat { get; set; }
+        public SnapshotStorage Snapshots { get; set; }
+        public bool LoadSchemaFromStdIn { get; set; }
     }
 }
