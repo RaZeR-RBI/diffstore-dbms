@@ -1,4 +1,4 @@
-namespace Tests
+namespace Tests.Diffstore.DBMS
 {
     public class SampleData
     {

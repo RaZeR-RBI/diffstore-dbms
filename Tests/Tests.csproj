@@ -12,5 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Diffstore.DBMS\Diffstore.DBMS.csproj" />
+    <ProjectReference Include="..\Standalone\Standalone.csproj" />
   </ItemGroup>
 </Project>

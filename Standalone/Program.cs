@@ -29,6 +29,14 @@ namespace Standalone
             p.Setup(x => x.LoadSchemaFromStdIn)
                 .As("loadSchemaFromStdIn")
                 .SetDefault(false);
+            
+            p.Setup(x => x.KeyType)
+                .As("keyType")
+                .SetDefault("long");
+
+            p.Setup(x => x.Port)
+                .As("port")
+                .SetDefault(8008);
 
             var result = p.Parse(args);
             if (!result.HasErrors)

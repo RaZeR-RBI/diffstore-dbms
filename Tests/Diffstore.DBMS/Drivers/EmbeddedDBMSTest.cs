@@ -10,7 +10,7 @@ using Diffstore.Entities;
 using Moq;
 using Xunit;
 
-namespace Tests.Drivers
+namespace Tests.Diffstore.DBMS.Drivers
 {
     public class EmbeddedDBMSTest
     {
