@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
+using Diffstore.Entities;
+using Diffstore.Snapshots;
 using FluentIL;
 
 namespace Standalone.Core
@@ -15,36 +18,43 @@ namespace Standalone.Core
                 AssemblyBuilderAccess.Run
             );
             var module = assembly.DefineDynamicModule("Default");
-            var type = module.DefineType("DynamicType", 
+            var type = module.DefineType("DynamicType",
                 TypeAttributes.Public |
                 TypeAttributes.Class |
                 TypeAttributes.AutoClass |
                 TypeAttributes.AnsiClass |
                 TypeAttributes.BeforeFieldInit |
-                TypeAttributes.AutoLayout, 
+                TypeAttributes.AutoLayout,
                 null);
             type.DefineDefaultConstructor(MethodAttributes.Public);
-            // TODO IgnoreChanges and DoNotSave attributes 
             foreach (var field in schema.Fields)
-                CreateProperty(type, field.Name, PropertyTypeResolver.FromName(field.Type));
+                CreateProperty(type, 
+                    field.Name, 
+                    PropertyTypeResolver.FromName(field.Type),
+                    field.IgnoreChanges,
+                    field.DoNotPersist);
 
             return type.CreateType();
         }
 
-        private static void CreateProperty(TypeBuilder tb, string propertyName, Type propertyType)
+        private static void CreateProperty(TypeBuilder tb, string propertyName,
+            Type propertyType, bool ignoreChanges = false, bool doNotPersist = false)
         {
-            var fieldBuilder = 
+            var fieldBuilder =
                 tb.DefineField("_" + propertyName, propertyType, FieldAttributes.Private);
 
-            var propertyBuilder = 
-                tb.DefineProperty(propertyName, PropertyAttributes.HasDefault, 
+            var propertyBuilder =
+                tb.DefineProperty(propertyName, PropertyAttributes.HasDefault,
                 propertyType, null);
 
-            var getPropMthdBldr = 
-                tb.DefineMethod("get_" + propertyName, 
-                MethodAttributes.Public | 
-                MethodAttributes.SpecialName | 
-                MethodAttributes.HideBySig, 
+            if (ignoreChanges) propertyBuilder.AddAttribute<IgnoreChangesAttribute>();
+            if (doNotPersist) propertyBuilder.AddAttribute<DoNotPersistAttribute>();
+
+            var getPropMthdBldr =
+                tb.DefineMethod("get_" + propertyName,
+                MethodAttributes.Public |
+                MethodAttributes.SpecialName |
+                MethodAttributes.HideBySig,
                 propertyType, Type.EmptyTypes);
             var getIl = getPropMthdBldr.GetILGenerator();
 
@@ -74,6 +84,14 @@ namespace Standalone.Core
 
             propertyBuilder.SetGetMethod(getPropMthdBldr);
             propertyBuilder.SetSetMethod(setPropMthdBldr);
+        }
+
+        private static void AddAttribute<T>(this PropertyBuilder builder) 
+        {
+            var type = typeof(T);
+            var ctorInfo = type.GetConstructor(new Type[] { });
+            var attr = new CustomAttributeBuilder(ctorInfo, new object[] { });
+            builder.SetCustomAttribute(attr);
         }
     }
 }

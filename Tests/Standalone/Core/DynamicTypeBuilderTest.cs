@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Diffstore.Entities;
 using Diffstore.Snapshots;
 using Standalone.Core;
 using Xunit;
@@ -35,7 +36,7 @@ namespace Tests.Standalone.Core
             var schema = new SchemaDefinition()
                 .WithField("SavedField", "string")
                 .WithField("OnlyActualField", "string", ignoreChanges: true)
-                .WithField("IgnoredField", "string", doNotSave: true);
+                .WithField("IgnoredField", "string", doNotPersist: true);
             
             var type = DynamicTypeBuilder.CreateFrom(schema);
             var properties = type.GetProperties();
@@ -51,7 +52,7 @@ namespace Tests.Standalone.Core
             Assert.Contains(properties, p =>
                 p.Name == "IgnoredField" &&
                 p.GetCustomAttributes(false).Length == 1 &&
-                Attribute.IsDefined(p, typeof(IgnoreChangesAttribute)));
+                Attribute.IsDefined(p, typeof(DoNotPersistAttribute)));
         }
     }
 }

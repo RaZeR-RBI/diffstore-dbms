@@ -12,14 +12,14 @@ namespace Standalone.Core
         public string Name { get; set; }
         public string Type { get; set; }
         public bool IgnoreChanges { get; set; }
-        public bool DoNotSave { get; set; }
+        public bool DoNotPersist { get; set; }
     }
 
     public static class SchemaDefinitionExtensions
     {
         public static SchemaDefinition WithField(this SchemaDefinition schema,
             string name, string type,
-            bool ignoreChanges = false, bool doNotSave = false)
+            bool ignoreChanges = false, bool doNotPersist = false)
             {
                 if (schema.Fields == null)
                     schema.Fields = new List<FieldDefinition>();
@@ -28,7 +28,7 @@ namespace Standalone.Core
                     Name = name,
                     Type = type,
                     IgnoreChanges = ignoreChanges,
-                    DoNotSave = doNotSave,
+                    DoNotPersist = doNotPersist,
                 });
                 return schema;
             }
