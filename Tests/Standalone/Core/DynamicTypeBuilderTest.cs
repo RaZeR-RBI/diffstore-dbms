@@ -37,13 +37,13 @@ namespace Tests.Standalone.Core
                 .WithField("SavedField", "string")
                 .WithField("OnlyActualField", "string", ignoreChanges: true)
                 .WithField("IgnoredField", "string", doNotPersist: true);
-            
+
             var type = DynamicTypeBuilder.CreateFrom(schema);
             var properties = type.GetProperties();
 
             Assert.Equal(3, properties.Length);
             Assert.Contains(properties, p =>
-                p.Name == "SavedField" && 
+                p.Name == "SavedField" &&
                 !p.GetCustomAttributes(false).Any());
             Assert.Contains(properties, p =>
                 p.Name == "OnlyActualField" &&
@@ -61,7 +61,7 @@ namespace Tests.Standalone.Core
             var schema = new SchemaDefinition()
                 .WithField("StringField", "string")
                 .WithField("IntField", "int");
-            
+
             var type = DynamicTypeBuilder.CreateFrom(schema);
             var stringField = type.GetProperty("StringField");
             var intField = type.GetProperty("IntField");
@@ -71,11 +71,15 @@ namespace Tests.Standalone.Core
             var objectTwo = Activator.CreateInstance(type);
             stringField.SetValue(objectOne, "One");
             stringField.SetValue(objectOneToo, "One");
-            stringField.SetValue(objectTwo, "Two");
+            intField.SetValue(objectOne, 1);
+            intField.SetValue(objectOneToo, 1);
+            intField.SetValue(objectTwo, 2000);
 
             Assert.Equal(objectOne, objectOneToo);
+            Assert.Equal(objectOne.GetHashCode(), objectOneToo.GetHashCode());
             Assert.NotEqual(objectOne, objectTwo);
-            Assert.NotEqual(objectOneToo, objectTwo);
+            var hash = objectOne.GetHashCode();
+            Assert.NotEqual(objectOne.GetHashCode(), objectTwo.GetHashCode());
         }
     }
 }

@@ -12,6 +12,13 @@ namespace Standalone.Core
 {
     public static class DynamicTypeBuilder
     {
+        private struct PropertyEmitInfo
+        {
+            public MethodBuilder Getter;
+            public MethodBuilder Setter;
+            public FieldBuilder BackingField;
+        }
+
         public static Type CreateFrom(SchemaDefinition schema)
         {
             var assembly = AssemblyBuilder.DefineDynamicAssembly(
@@ -36,12 +43,12 @@ namespace Standalone.Core
                     field.DoNotPersist)
                     );
 
-            // TODO GetHashCode
             CreateEquals(type, properties);
+            CreateGetHashCode(type, properties);
             return type.CreateType();
         }
 
-        private static (MethodBuilder getter, MethodBuilder setter) CreateProperty(
+        private static PropertyEmitInfo CreateProperty(
             TypeBuilder tb, string propertyName,
             Type propertyType, bool ignoreChanges = false, bool doNotPersist = false)
         {
@@ -89,7 +96,12 @@ namespace Standalone.Core
 
             propertyBuilder.SetGetMethod(getPropMthdBldr);
             propertyBuilder.SetSetMethod(setPropMthdBldr);
-            return (getPropMthdBldr, setPropMthdBldr);
+            return new PropertyEmitInfo()
+            {
+                Getter = getPropMthdBldr,
+                Setter = setPropMthdBldr,
+                BackingField = fieldBuilder
+            };
         }
 
         private static void AddAttribute<T>(this PropertyBuilder builder)
@@ -101,10 +113,10 @@ namespace Standalone.Core
         }
 
         private static void CreateEquals(TypeBuilder type,
-            IEnumerable<(MethodBuilder getter, MethodBuilder setter)> properties)
+            IEnumerable<PropertyEmitInfo> properties)
         {
             var getMethods = properties
-                .Select(m => m.getter)
+                .Select(m => m.Getter)
                 .ToList();
 
             // private bool Equals(DynamicType other)
@@ -127,7 +139,9 @@ namespace Standalone.Core
                     impl.Emit(OpCodes.Ceq);
                 else
                 {
-                    var equals = m.ReturnType.GetMethod("Equals", new [] { typeof(object) });
+                    var equals = typeof(Object).GetMethod("Equals", new[] {
+                        typeof(Object), typeof(Object)
+                    });
                     impl.EmitCall(OpCodes.Call, equals, Type.EmptyTypes);
                 }
             });
@@ -151,8 +165,79 @@ namespace Standalone.Core
             equalsIl.Emit(OpCodes.Ldarg_1); // object other
             equalsIl.Emit(OpCodes.Isinst, equalsMethod.DeclaringType);
             // return Equals(other as DynamicType)
-            equalsIl.EmitCall(OpCodes.Call, equalsImpl.GetBaseDefinition(), Type.EmptyTypes);
+            equalsIl.EmitCall(OpCodes.Call, equalsImpl, Type.EmptyTypes);
             equalsIl.Emit(OpCodes.Ret);
+        }
+
+        private static void CreateGetHashCode(TypeBuilder type,
+            IEnumerable<PropertyEmitInfo> properties)
+        {
+            var fields = properties
+                .Select(p => p.BackingField)
+                .ToList();
+
+            var refHashHelper = CreateRefHashHelper(type);
+
+            // public override int GetHashCode() 
+            var getHashCodeImpl = type.DefineMethod("GetHashCode",
+                MethodAttributes.Public |
+                MethodAttributes.Virtual |
+                MethodAttributes.HideBySig,
+                CallingConventions.HasThis,
+                typeof(int),
+                Type.EmptyTypes);
+
+            var il = getHashCodeImpl.GetILGenerator();
+            il.DeclareLocal(typeof(long));
+            il.Emit(OpCodes.Ldc_I8, 0L);
+            il.Emit(OpCodes.Stloc_0);
+            il.Emit(OpCodes.Ldarg_0); // this
+
+            fields.ForEach(f =>
+            {
+                // hash = (hash * 397) ^ value
+                il.Emit(OpCodes.Dup);
+                il.Emit(OpCodes.Ldfld, f);
+                if (!f.FieldType.IsPrimitive)
+                    il.EmitCall(OpCodes.Call, refHashHelper, Type.EmptyTypes);
+                il.Emit(OpCodes.Conv_I8); // expand to int64
+                il.Emit(OpCodes.Ldloc_0);
+                il.Emit(OpCodes.Ldc_I8, 397L);
+                il.Emit(OpCodes.Mul);
+                il.Emit(OpCodes.Xor);
+                il.Emit(OpCodes.Stloc_0);
+            });
+            il.Emit(OpCodes.Pop); // pop this from stack
+            il.Emit(OpCodes.Ldloc_0);
+            il.Emit(OpCodes.Conv_I4); // cast back to int32
+            il.Emit(OpCodes.Ret);
+        }
+
+        private static MethodBuilder CreateRefHashHelper(TypeBuilder type)
+        {
+            // private int RefHash(object obj)
+            var refHashHelper = type.DefineMethod("RefHash",
+                MethodAttributes.Private |
+                MethodAttributes.Static |
+                MethodAttributes.HideBySig,
+                CallingConventions.Standard,
+                typeof(int),
+                new[] { typeof(object) });
+
+            var il = refHashHelper.GetILGenerator();
+            var notNullLabel = il.DefineLabel();
+
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Brtrue_S, notNullLabel);
+            il.Emit(OpCodes.Ldc_I4_0);
+            il.Emit(OpCodes.Ret);
+            il.MarkLabel(notNullLabel);
+            il.Emit(OpCodes.Ldarg_0);
+            il.EmitCall(OpCodes.Callvirt, 
+                typeof(object).GetMethod("GetHashCode"),
+                Type.EmptyTypes);
+            il.Emit(OpCodes.Ret);
+            return refHashHelper;
         }
     }
 }
