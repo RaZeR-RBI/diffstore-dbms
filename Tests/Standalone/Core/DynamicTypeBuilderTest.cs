@@ -78,7 +78,6 @@ namespace Tests.Standalone.Core
             Assert.Equal(objectOne, objectOneToo);
             Assert.Equal(objectOne.GetHashCode(), objectOneToo.GetHashCode());
             Assert.NotEqual(objectOne, objectTwo);
-            var hash = objectOne.GetHashCode();
             Assert.NotEqual(objectOne.GetHashCode(), objectTwo.GetHashCode());
         }
     }

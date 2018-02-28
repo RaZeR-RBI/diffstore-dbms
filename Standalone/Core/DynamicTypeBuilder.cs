@@ -191,12 +191,11 @@ namespace Standalone.Core
             il.DeclareLocal(typeof(long));
             il.Emit(OpCodes.Ldc_I8, 0L);
             il.Emit(OpCodes.Stloc_0);
-            il.Emit(OpCodes.Ldarg_0); // this
 
             fields.ForEach(f =>
             {
                 // hash = (hash * 397) ^ value
-                il.Emit(OpCodes.Dup);
+                il.Emit(OpCodes.Ldarg_0);
                 il.Emit(OpCodes.Ldfld, f);
                 if (!f.FieldType.IsPrimitive)
                     il.EmitCall(OpCodes.Call, refHashHelper, Type.EmptyTypes);
@@ -207,7 +206,6 @@ namespace Standalone.Core
                 il.Emit(OpCodes.Xor);
                 il.Emit(OpCodes.Stloc_0);
             });
-            il.Emit(OpCodes.Pop); // pop this from stack
             il.Emit(OpCodes.Ldloc_0);
             il.Emit(OpCodes.Conv_I4); // cast back to int32
             il.Emit(OpCodes.Ret);
