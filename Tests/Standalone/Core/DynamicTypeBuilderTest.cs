@@ -54,5 +54,28 @@ namespace Tests.Standalone.Core
                 p.GetCustomAttributes(false).Length == 1 &&
                 Attribute.IsDefined(p, typeof(DoNotPersistAttribute)));
         }
+
+        [Fact]
+        public void ShouldOverrideEqualsAndHashCode()
+        {
+            var schema = new SchemaDefinition()
+                .WithField("StringField", "string")
+                .WithField("IntField", "int");
+            
+            var type = DynamicTypeBuilder.CreateFrom(schema);
+            var stringField = type.GetProperty("StringField");
+            var intField = type.GetProperty("IntField");
+
+            var objectOne = Activator.CreateInstance(type);
+            var objectOneToo = Activator.CreateInstance(type);
+            var objectTwo = Activator.CreateInstance(type);
+            stringField.SetValue(objectOne, "One");
+            stringField.SetValue(objectOneToo, "One");
+            stringField.SetValue(objectTwo, "Two");
+
+            Assert.Equal(objectOne, objectOneToo);
+            Assert.NotEqual(objectOne, objectTwo);
+            Assert.NotEqual(objectOneToo, objectTwo);
+        }
     }
 }

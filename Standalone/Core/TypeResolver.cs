@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Standalone.Core
 {
-    public static class PropertyTypeResolver
+    public static class TypeResolver
     {
         private static Dictionary<string, Type> primitives =
             new Dictionary<string, Type>()
@@ -18,6 +18,9 @@ namespace Standalone.Core
                 ["uint"] = typeof(uint),
                 ["long"] = typeof(long),
                 ["ulong"] = typeof(ulong),
+                ["float"] = typeof(float),
+                ["double"] = typeof(double),
+                ["decimal"] = typeof(decimal),
                 ["char"] = typeof(char),
                 ["string"] = typeof(string)
             };
@@ -30,10 +33,13 @@ namespace Standalone.Core
             "(?<=^Dictionary<|IDictionary<)(?<key>.*)(?:,\\s)(?<value>.*)(?=>)"
         );
 
-        public static Type FromName(string name)
+        public static Type FromName(string name, bool primitivesOnly = false)
         {
             if (primitives.ContainsKey(name))
                 return primitives[name];
+
+            if (primitivesOnly)
+                throw new ArgumentException("Unsupported type \"{name}\", primitive required");
 
             if (isList.IsMatch(name))
             {

@@ -22,12 +22,15 @@ namespace Tests.Standalone.Core
                 ["uint"] = typeof(uint),
                 ["long"] = typeof(long),
                 ["ulong"] = typeof(ulong),
+                ["float"] = typeof(float),
+                ["double"] = typeof(double),
+                ["decimal"] = typeof(decimal),
                 ["char"] = typeof(char),
                 ["string"] = typeof(string)
             };
 
             var actual = expected.Keys
-                .ToDictionary(k => k, PropertyTypeResolver.FromName);
+                .ToDictionary(k => k, k => TypeResolver.FromName(k));
 
             Assert.Equal(expected, actual);
         }
@@ -46,7 +49,7 @@ namespace Tests.Standalone.Core
             };
 
             var actual = expected.Keys
-                .ToDictionary(k => k, PropertyTypeResolver.FromName);
+                .ToDictionary(k => k, k => TypeResolver.FromName(k));
 
             Assert.Equal(expected, actual);
         }

@@ -28,12 +28,13 @@ namespace Standalone.Core
                 null);
             type.DefineDefaultConstructor(MethodAttributes.Public);
             foreach (var field in schema.Fields)
-                CreateProperty(type, 
-                    field.Name, 
-                    PropertyTypeResolver.FromName(field.Type),
+                CreateProperty(type,
+                    field.Name,
+                    TypeResolver.FromName(field.Type),
                     field.IgnoreChanges,
                     field.DoNotPersist);
 
+            CreateEquals(type);
             return type.CreateType();
         }
 
@@ -86,12 +87,28 @@ namespace Standalone.Core
             propertyBuilder.SetSetMethod(setPropMthdBldr);
         }
 
-        private static void AddAttribute<T>(this PropertyBuilder builder) 
+        private static void AddAttribute<T>(this PropertyBuilder builder)
         {
             var type = typeof(T);
             var ctorInfo = type.GetConstructor(new Type[] { });
             var attr = new CustomAttributeBuilder(ctorInfo, new object[] { });
             builder.SetCustomAttribute(attr);
+        }
+
+        private static void CreateEquals(TypeBuilder type)
+        {
+            var method = type.DefineMethod("Equals", 
+                MethodAttributes.Public |
+                MethodAttributes.Virtual |
+                MethodAttributes.HideBySig, 
+                CallingConventions.HasThis,
+                typeof(bool),
+                new [] { typeof(object) });
+
+            var il = method.GetILGenerator();
+            il.Emit(OpCodes.Ldc_I4_1); // return true (for now)
+            il.Emit(OpCodes.Ret);
+            // TODO
         }
     }
 }
