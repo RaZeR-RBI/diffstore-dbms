@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -27,18 +28,21 @@ namespace Standalone.Core
                 TypeAttributes.AutoLayout,
                 null);
             type.DefineDefaultConstructor(MethodAttributes.Public);
-            foreach (var field in schema.Fields)
+            var properties = schema.Fields.Select(field =>
                 CreateProperty(type,
                     field.Name,
                     TypeResolver.FromName(field.Type),
                     field.IgnoreChanges,
-                    field.DoNotPersist);
+                    field.DoNotPersist)
+                    );
 
-            CreateEquals(type);
+            // TODO GetHashCode
+            CreateEquals(type, properties);
             return type.CreateType();
         }
 
-        private static void CreateProperty(TypeBuilder tb, string propertyName,
+        private static (MethodBuilder getter, MethodBuilder setter) CreateProperty(
+            TypeBuilder tb, string propertyName,
             Type propertyType, bool ignoreChanges = false, bool doNotPersist = false)
         {
             var fieldBuilder =
@@ -85,6 +89,7 @@ namespace Standalone.Core
 
             propertyBuilder.SetGetMethod(getPropMthdBldr);
             propertyBuilder.SetSetMethod(setPropMthdBldr);
+            return (getPropMthdBldr, setPropMthdBldr);
         }
 
         private static void AddAttribute<T>(this PropertyBuilder builder)
@@ -95,20 +100,59 @@ namespace Standalone.Core
             builder.SetCustomAttribute(attr);
         }
 
-        private static void CreateEquals(TypeBuilder type)
+        private static void CreateEquals(TypeBuilder type,
+            IEnumerable<(MethodBuilder getter, MethodBuilder setter)> properties)
         {
-            var method = type.DefineMethod("Equals", 
-                MethodAttributes.Public |
-                MethodAttributes.Virtual |
-                MethodAttributes.HideBySig, 
+            var getMethods = properties
+                .Select(m => m.getter)
+                .ToList();
+
+            // private bool Equals(DynamicType other)
+            var equalsImpl = type.DefineMethod("Equals",
+                MethodAttributes.Private |
+                MethodAttributes.HideBySig,
                 CallingConventions.HasThis,
                 typeof(bool),
-                new [] { typeof(object) });
+                Type.EmptyTypes);
+            equalsImpl.SetParameters(equalsImpl.DeclaringType);
 
-            var il = method.GetILGenerator();
-            il.Emit(OpCodes.Ldc_I4_1); // return true (for now)
-            il.Emit(OpCodes.Ret);
-            // TODO
+            var impl = equalsImpl.GetILGenerator();
+            getMethods.ForEach(m =>
+            {
+                impl.Emit(OpCodes.Ldarg_0); // this
+                impl.EmitCall(OpCodes.Call, m, Type.EmptyTypes);
+                impl.Emit(OpCodes.Ldarg_1); // DynamicType other
+                impl.EmitCall(OpCodes.Call, m, Type.EmptyTypes);
+                if (m.ReturnType.IsPrimitive)
+                    impl.Emit(OpCodes.Ceq);
+                else
+                {
+                    var equals = m.ReturnType.GetMethod("Equals", new [] { typeof(object) });
+                    impl.EmitCall(OpCodes.Call, equals, Type.EmptyTypes);
+                }
+            });
+
+            for (int i = 0; i < getMethods.Count - 1; i++)
+                impl.Emit(OpCodes.And);
+
+            impl.Emit(OpCodes.Ret);
+
+            // public override bool Equals(object other)
+            var equalsMethod = type.DefineMethod("Equals",
+                MethodAttributes.Public |
+                MethodAttributes.Virtual |
+                MethodAttributes.HideBySig,
+                CallingConventions.HasThis,
+                typeof(bool),
+                new[] { typeof(object) });
+
+            var equalsIl = equalsMethod.GetILGenerator();
+            equalsIl.Emit(OpCodes.Ldarg_0); // this
+            equalsIl.Emit(OpCodes.Ldarg_1); // object other
+            equalsIl.Emit(OpCodes.Isinst, equalsMethod.DeclaringType);
+            // return Equals(other as DynamicType)
+            equalsIl.EmitCall(OpCodes.Call, equalsImpl.GetBaseDefinition(), Type.EmptyTypes);
+            equalsIl.Emit(OpCodes.Ret);
         }
     }
 }
