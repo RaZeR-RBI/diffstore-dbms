@@ -6,7 +6,6 @@ using System.Reflection.Emit;
 using System.Threading;
 using Diffstore.Entities;
 using Diffstore.Snapshots;
-using FluentIL;
 
 namespace Standalone.Core
 {
