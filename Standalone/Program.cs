@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading;
 using Diffstore;
 using Fclp;
 using Jil;
@@ -119,8 +121,54 @@ namespace Standalone
         }
 
         static SchemaDefinition LoadSchema(bool fromStdIn) =>
-            fromStdIn ? 
-                null : // TODO Schema loading from stdin 
-                JSON.Deserialize<SchemaDefinition>(File.ReadAllText("schema.json"));
+            JSON.Deserialize<SchemaDefinition>(fromStdIn ? 
+                ReadStdIn() :
+                File.ReadAllText("schema.json"));
+
+        static string ReadStdIn()
+        {
+            string stdin = null;
+            if (Console.IsInputRedirected)
+            {
+                using (var stream = Console.OpenStandardInput())
+                {
+                    var buffer = new byte[1000]; 
+                    var builder = new StringBuilder();
+                    var read = -1;
+                    while (true)
+                    {
+                        var gotInput = new AutoResetEvent(false);
+                        var inputThread = new Thread(() =>
+                        {
+                            try
+                            {
+                                read = stream.Read(buffer, 0, buffer.Length);
+                                gotInput.Set();
+                            }
+                            catch (ThreadAbortException)
+                            {
+                                Thread.ResetAbort();
+                            }
+                        })
+                        {
+                            IsBackground = true
+                        };
+                        inputThread.Start();
+                        if (!gotInput.WaitOne(100))
+                        {
+                            inputThread.Abort();
+                            break;
+                        }
+                        if (read == 0)
+                        {
+                            stdin = builder.ToString();
+                            break;
+                        }
+                        builder.Append(Console.InputEncoding.GetString(buffer, 0, read));
+                    }
+                }
+            }
+            return stdin;
+        }
     }
 }
