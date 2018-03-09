@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Diffstore;
 
 namespace Standalone
@@ -21,8 +22,10 @@ namespace Standalone
         public SnapshotStorage Snapshots { get; set; }
         public bool LoadSchemaFromStdIn { get; set; }
         public string KeyType { get; set; }
+        public int MaxRetries { get; set; }
+        public int RetryTimeout { get; set; }
 
         // Frontend-related
-        public int Port { get; set; }
+        public List<string> Listeners { get; set; }
     }
 }

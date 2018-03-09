@@ -1,6 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Diffstore;
 using Fclp;
+using Jil;
+using Nancy;
+using Nancy.Hosting.Self;
+using Standalone.Core;
+using Standalone.Nancy;
 
 namespace Standalone
 {
@@ -12,31 +20,77 @@ namespace Standalone
             var p = new FluentCommandLineParser<Options>();
             p.Setup(x => x.Store)
                 .As("store")
+                .WithDescription(
+                    "Storage location. Values: OnDisk, InMemory. Default: OnDisk"
+                )
                 .SetDefault(StorageMethod.OnDisk);
 
             p.Setup(x => x.EntityFormat)
                 .As("entityFormat")
+                .WithDescription(
+                    "Entity storage format. Values: JSON, XML, Binary. Default: JSON"
+                )
                 .SetDefault(FileFormat.JSON);
 
             p.Setup(x => x.SnapshotFormat)
                 .As("snapshotFormat")
+                .WithDescription(
+                    "Snapshot storage format. Values: JSON, XML, Binary. Default: JSON"
+                )
                 .SetDefault(FileFormat.JSON);
 
             p.Setup(x => x.Snapshots)
                 .As("snapshots")
+                .WithDescription(
+                    "Snapshot storage mechanism. Values: SingleFile, LastFirstOptimized. " +
+                    "Default: SingleFile"
+                )
                 .SetDefault(SnapshotStorage.SingleFile);
 
             p.Setup(x => x.LoadSchemaFromStdIn)
                 .As("loadSchemaFromStdIn")
+                .WithDescription(
+                    "Determines if schema definition should be loaded from stdin. " +
+                    "Default: false"
+                )
                 .SetDefault(false);
-            
+
             p.Setup(x => x.KeyType)
                 .As("keyType")
+                .WithDescription(
+                    "Entity key type. Default: long"
+                )
                 .SetDefault("long");
 
-            p.Setup(x => x.Port)
+            p.Setup(x => x.Listeners)
                 .As("port")
-                .SetDefault(8008);
+                .WithDescription(
+                    "One or several URIs to listen on. Default: http://localhost:8008"
+                )
+                .SetDefault(new List<string> { "http://localhost:8008" });
+
+            p.Setup(x => x.MaxRetries)
+                .As("maxRetries")
+                .WithDescription(
+                    "Maximum retries if the requested entity is busy. " +
+                    "Default: 5"
+                )
+                .SetDefault(5);
+
+            p.Setup(x => x.RetryTimeout)
+                .As("retryTimeout")
+                .WithDescription(
+                    "Timeout in ms between retries if the requested entity is busy. " +
+                    "Default: 1000"
+                )
+               .SetDefault(1000);
+
+            p.SetupHelp("?", "h", "help")
+                .Callback(text =>
+                {
+                    Console.WriteLine(text);
+                    Environment.Exit(0);
+                });
 
             var result = p.Parse(args);
             if (!result.HasErrors)
@@ -48,7 +102,25 @@ namespace Standalone
 
         static void Run(Options options)
         {
-            // TODO
+            var URIs = options.Listeners.Select(s => new Uri(s)).ToArray();
+            var schema = LoadSchema(options.LoadSchemaFromStdIn);
+            var bootstrapper = new MainBootstrapper(options, schema);
+            using (var host = new NancyHost(bootstrapper, URIs))
+            {
+                host.Start();
+                Console.WriteLine(
+                    $"Listening on {string.Join(", ", options.Listeners)}. " +
+                    "Press any key to stop."
+                );
+                Console.ReadKey();
+                Console.WriteLine("Stopping...");
+                host.Stop();
+            }
         }
+
+        static SchemaDefinition LoadSchema(bool fromStdIn) =>
+            fromStdIn ? 
+                null : // TODO Schema loading from stdin 
+                JSON.Deserialize<SchemaDefinition>(File.ReadAllText("schema.json"));
     }
 }

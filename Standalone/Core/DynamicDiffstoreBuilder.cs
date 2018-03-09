@@ -11,9 +11,12 @@ namespace Standalone.Core
         public dynamic Storage { get; }
         public Type KeyType { get; }
         public Type ValueType { get; }
+        public SchemaDefinition Schema { get; }
 
-        public DynamicDiffstore(dynamic storage, Type keyType, Type entityType) =>
-            (Storage, KeyType, ValueType) = (storage, keyType, entityType);
+        public DynamicDiffstore(dynamic storage, Type keyType, Type entityType,
+            SchemaDefinition schema) =>
+            (Storage, KeyType, ValueType, Schema) = 
+            (storage, keyType, entityType, schema);
     }
 
     public static class DynamicDiffstoreBuilder
@@ -25,17 +28,17 @@ namespace Standalone.Core
 
             var builderType = typeof(DiffstoreBuilder<,>).MakeGenericType(keyType, valueType);
             dynamic instance = Activator.CreateInstance(builderType);
-            
-            switch(options.Store)
+
+            switch (options.Store)
             {
                 case StorageMethod.InMemory: instance.WithMemoryStorage(); break;
                 case StorageMethod.OnDisk: instance.WithDiskStorage("storage"); break;
             }
 
             instance.WithFileBasedEntities(options.EntityFormat);
-            switch(options.Snapshots)
+            switch (options.Snapshots)
             {
-                case SnapshotStorage.LastFirst: 
+                case SnapshotStorage.LastFirst:
                     instance.WithLastFirstOptimizedSnapshots(); break;
                 case SnapshotStorage.SingleFile:
                     instance.WithSingleFileSnapshots(options.SnapshotFormat); break;
@@ -45,15 +48,16 @@ namespace Standalone.Core
                 .MakeGenericType(keyType, valueType);
             var transactionProviderType = typeof(ConcurrentTransactionProvider<>)
                 .MakeGenericType(keyType);
-            // TODO Make configurable
-            var transactionPolicy = TransactionPolicy
-                .FixedRetries(5, TimeSpan.FromMilliseconds(1000));
-            
+            var transactionPolicy = TransactionPolicy.FixedRetries(
+                options.MaxRetries,
+                TimeSpan.FromMilliseconds(options.RetryTimeout)
+            );
+
             var wrapper = Activator.CreateInstance(wrapperType,
-                instance.Setup(), 
+                instance.Setup(),
                 transactionPolicy,
                 Activator.CreateInstance(transactionProviderType));
-            return new DynamicDiffstore(wrapper, keyType, valueType);
+            return new DynamicDiffstore(wrapper, keyType, valueType, schema);
         }
     }
 }
