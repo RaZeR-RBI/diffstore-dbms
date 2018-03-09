@@ -12,7 +12,4 @@
     <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
     <PackageReference Include="System.Runtime" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\third-party\FluentIL\src\FluentIL\FluentIL.csproj" />
-  </ItemGroup>
 </Project>

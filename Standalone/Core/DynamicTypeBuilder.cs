@@ -10,7 +10,6 @@ using System.Threading;
 using Diffstore;
 using Diffstore.Entities;
 using Diffstore.Snapshots;
-using FluentIL;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
