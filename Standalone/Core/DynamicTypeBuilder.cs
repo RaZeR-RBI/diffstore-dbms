@@ -50,12 +50,39 @@ namespace Standalone.Core
             var doNotPersistAttr = $"{typeof(DoNotPersistAttribute)}";
             var code = new StringBuilder();
             code.AppendLine("public class EntityType {");
+
             foreach (var field in schema.Fields)
             {
                 if (field.IgnoreChanges) code.AppendLine($"[{ignoreChangesAttr}]");
                 if (field.DoNotPersist) code.AppendLine($"[{doNotPersistAttr}]");
                 code.AppendLine($"public {field.Type} {field.Name} " + " { get; set; }");
             }
+
+            code.AppendLine(@"
+                public override bool Equals(object other)
+                {
+                    return Equals(other as EntityType);
+                }
+           ");
+
+            code.AppendLine("private bool Equals(EntityType other) {");
+            var condition = string.Join(" && ",
+                schema.Fields.Select(f => $"{f.Name} == other.{f.Name}"));
+            code.AppendLine($"return {condition};");
+            code.AppendLine("}");
+
+            code.AppendLine("public override int GetHashCode() { unchecked {");
+            code.AppendLine("int hashCode = 0;");
+            foreach (var field in schema.Fields)
+            {
+                var isPrimitive = TypeResolver.FromName(field.Type).IsPrimitive;
+                var getter = isPrimitive ? 
+                    $"(int){field.Name}" : 
+                    $"({field.Name} != null ? {field.Name}.GetHashCode() : 0)";
+                code.AppendLine($"hashCode = (hashCode*397)^{getter};");
+            }
+            code.AppendLine("return hashCode; } }");
+
             code.AppendLine("}");
             return CSharpSyntaxTree.ParseText($"{code}");
         }
