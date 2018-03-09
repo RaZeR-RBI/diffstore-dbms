@@ -1,5 +1,8 @@
 using System;
 using Diffstore;
+using Diffstore.DBMS;
+using Diffstore.DBMS.Core;
+using Diffstore.DBMS.Drivers;
 
 namespace Standalone.Core
 {
@@ -7,10 +10,10 @@ namespace Standalone.Core
     {
         public dynamic Storage { get; }
         public Type KeyType { get; }
-        public Type EntityType { get; }
+        public Type ValueType { get; }
 
         public DynamicDiffstore(dynamic storage, Type keyType, Type entityType) =>
-            (Storage, KeyType, EntityType) = (storage, keyType, entityType);
+            (Storage, KeyType, ValueType) = (storage, keyType, entityType);
     }
 
     public static class DynamicDiffstoreBuilder
@@ -29,11 +32,28 @@ namespace Standalone.Core
                 case StorageMethod.OnDisk: instance.WithDiskStorage("storage"); break;
             }
 
-            instance.WithFileBasedEntities(options.EntityFormat, null, null);
+            instance.WithFileBasedEntities(options.EntityFormat);
+            switch(options.Snapshots)
+            {
+                case SnapshotStorage.LastFirst: 
+                    instance.WithLastFirstOptimizedSnapshots(); break;
+                case SnapshotStorage.SingleFile:
+                    instance.WithSingleFileSnapshots(options.SnapshotFormat); break;
+            }
 
-            // TODO
-            throw new NotImplementedException();
-            // return new DynamicDiffstore(instance.Setup(), keyType, valueType);
+            var wrapperType = typeof(EmbeddedDBMS<,>)
+                .MakeGenericType(keyType, valueType);
+            var transactionProviderType = typeof(ConcurrentTransactionProvider<>)
+                .MakeGenericType(keyType);
+            // TODO Make configurable
+            var transactionPolicy = TransactionPolicy
+                .FixedRetries(5, TimeSpan.FromMilliseconds(1000));
+            
+            var wrapper = Activator.CreateInstance(wrapperType,
+                instance.Setup(), 
+                transactionPolicy,
+                Activator.CreateInstance(transactionProviderType));
+            return new DynamicDiffstore(wrapper, keyType, valueType);
         }
     }
 }
