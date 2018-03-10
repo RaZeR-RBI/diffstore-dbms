@@ -114,7 +114,8 @@ namespace Standalone
             var bootstrapper = new MainBootstrapper(options, schema);
             var host = new NancyHost(bootstrapper, URIs);
             var exitEvent = new ManualResetEvent(false);
-            Console.CancelKeyPress += (s, e) => {
+            Console.CancelKeyPress += (s, e) =>
+            {
                 e.Cancel = true; exitEvent.Set();
             };
 
@@ -125,8 +126,11 @@ namespace Standalone
 
             exitEvent.WaitOne();
             Console.WriteLine("Shutdown requested, exiting...");
-            host.Stop();
-            Console.WriteLine("Stopped");
+            AppDomain.CurrentDomain.ProcessExit += (s, e) =>
+            {
+                host.Stop();
+                Console.WriteLine("Stopped");
+            };
         }
 
         static SchemaDefinition LoadSchema(bool fromStdIn) =>

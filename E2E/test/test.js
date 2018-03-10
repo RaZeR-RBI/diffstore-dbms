@@ -1,12 +1,24 @@
 var fs = require('fs');
 var chakram = require('chakram');
+var expect = chakram.expect;
 var spawn = require('child_process').spawn;
 
 var schemaFile = 'schema.json';
 
 describe('Test suite',
     function () {
-        var schema = null;
+        const schema = JSON.parse(fs.readFileSync(schemaFile));
+        it('should return the schema JSON on index page', function () {
+            return chakram.get('/')
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    expect(response).to.have.header('content-type', 'application/json');
+                    expect(response).to.comprise.of.json(schema);
+                });
+        });
+
+
+        /* Setup and teardown */
         var dbms = null;
         var fd = -1;
 
@@ -23,24 +35,25 @@ describe('Test suite',
                 'InMemory'
             ], options = {
                 detached: true,
-                stdio: [fd, 'pipe', 'pipe']
+                stdio: [fd, 'pipe', process.stderr] 
+            });
+            dbms.on('exit', function (code, signal) {
+                if (code !== 0) throw new Error("Could not start DBMS");
             });
             dbms.stdout.on('data', function (data) {
-                done();
-            });
-            dbms.stderr.on('data', function (data) {
-                throw new Error('Cannot start DBMS');
+                var line = String.fromCharCode.apply(String, data);
+                // Extract server listening URI if available
+                var URIs = line.match(/(https?:\/\/[^\s]+[\/\d])/);
+                if (URIs.length !== 0) {
+                    chakram.setRequestDefaults({ baseUrl: URIs[0] });
+                    done();
+                }
             });
         });
 
         after(function () {
             process.kill(-dbms.pid);
             fs.closeSync(fd);
-        });
-
-
-        it('should return the schema JSON on index page', function () {
-            // TODO
         });
     }
 );
