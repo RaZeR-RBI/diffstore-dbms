@@ -1,0 +1,12 @@
+{
+    "fields": [
+        {
+            "name": "foo",
+            "type": "int"
+        },
+        {
+            "name": "bar",
+            "type": "string"
+        }
+    ]
+}

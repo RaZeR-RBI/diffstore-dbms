@@ -104,24 +104,33 @@ namespace Standalone
 
         static void Run(Options options)
         {
+            var jsonOptions = new Jil.Options(
+                serializationNameFormat: SerializationNameFormat.CamelCase
+            );
+            JSON.SetDefaultOptions(jsonOptions);
+
             var URIs = options.Listeners.Select(s => new Uri(s)).ToArray();
             var schema = LoadSchema(options.LoadSchemaFromStdIn);
             var bootstrapper = new MainBootstrapper(options, schema);
-            using (var host = new NancyHost(bootstrapper, URIs))
-            {
-                host.Start();
-                Console.WriteLine(
-                    $"Listening on {string.Join(", ", options.Listeners)}. " +
-                    "Press any key to stop."
-                );
-                Console.ReadKey();
-                Console.WriteLine("Stopping...");
-                host.Stop();
-            }
+            var host = new NancyHost(bootstrapper, URIs);
+            var exitEvent = new ManualResetEvent(false);
+            Console.CancelKeyPress += (s, e) => {
+                e.Cancel = true; exitEvent.Set();
+            };
+
+            host.Start();
+            Console.WriteLine(
+                $"Listening on {string.Join(", ", options.Listeners)}. "
+            );
+
+            exitEvent.WaitOne();
+            Console.WriteLine("Shutdown requested, exiting...");
+            host.Stop();
+            Console.WriteLine("Stopped");
         }
 
         static SchemaDefinition LoadSchema(bool fromStdIn) =>
-            JSON.Deserialize<SchemaDefinition>(fromStdIn ? 
+            JSON.Deserialize<SchemaDefinition>(fromStdIn ?
                 ReadStdIn() :
                 File.ReadAllText("schema.json"));
 
@@ -132,7 +141,7 @@ namespace Standalone
             {
                 using (var stream = Console.OpenStandardInput())
                 {
-                    var buffer = new byte[1000]; 
+                    var buffer = new byte[1000];
                     var builder = new StringBuilder();
                     var read = -1;
                     while (true)
@@ -168,6 +177,10 @@ namespace Standalone
                     }
                 }
             }
+            if (stdin == null)
+                throw new InvalidDataException(
+                    "Could not read from stdin: Input is not redirected"
+                );
             return stdin;
         }
     }
