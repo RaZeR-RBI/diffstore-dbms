@@ -17,6 +17,28 @@ describe('Test suite',
                 });
         });
 
+        it('should properly save entities', function () {
+            var key = 1;
+            var value = {
+                foo: 1337,
+                bar: 'hello'
+            };
+            var saveRequest = {
+                makeSnapshot: true,
+                value: value
+            };
+            return chakram.post('/entities/' + key, saveRequest)
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    return chakram.get('/entities/' + key);
+                })
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    expect(response).to.have.header('content-type', 'application/json');
+                    expect(response).to.comprise.of.json(value);
+                });
+        });
+
 
         /* Setup and teardown */
         var dbms = null;
@@ -35,7 +57,7 @@ describe('Test suite',
                 'InMemory'
             ], options = {
                 detached: true,
-                stdio: [fd, 'pipe', process.stderr] 
+                stdio: [fd, 'pipe', process.stderr]
             });
             dbms.on('exit', function (code, signal) {
                 if (code !== 0) throw new Error("Could not start DBMS");
