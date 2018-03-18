@@ -25,9 +25,10 @@ describe('Test suite',
             };
             var saveRequest = {
                 makeSnapshot: true,
+                key: key,
                 value: value
             };
-            return chakram.post('/entities/' + key, saveRequest)
+            return chakram.post('/entities', saveRequest)
                 .then(function (response) {
                     expect(response).to.have.status(200);
                     return chakram.get('/entities/' + key);
@@ -35,7 +36,10 @@ describe('Test suite',
                 .then(function (response) {
                     expect(response).to.have.status(200);
                     expect(response).to.have.header('content-type', 'application/json');
-                    expect(response).to.comprise.of.json(value);
+                    expect(response).to.comprise.of.json({
+                        key: key,
+                        value: value
+                    });
                 });
         });
 
