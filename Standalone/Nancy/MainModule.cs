@@ -18,20 +18,19 @@ namespace Standalone.Nancy
             _backend = backend;
             var db = backend.Storage;
             Get("/", d => _backend.Schema);
-            Get("/entities/{id}", async (p) =>
-            {
-                return await db.Get(p.id);
-            });
+            Get("/entities/{id}", async (p) => await db.Get(p.id));
             Post("/entities", async (_) =>
             {
-                var request = (dynamic)GetRequestBody(SaveRequest.For(backend));
+                var request = GetRequestBody(SaveRequest.For(backend));
                 await db.Save(request.Key, request.Value, request.MakeSnapshot);
                 return null;
             });
+
+            Get("/snapshots/{id}", async (p) => await db.GetSnapshots(p.id));
             // TODO Routes for every action
         }
 
-        private object GetRequestBody(Type type) =>
+        private dynamic GetRequestBody(Type type) =>
             JSON.Deserialize(AsString(this.Request.Body), type, JilSerializer.Options);
 
         // TODO Move to extensions

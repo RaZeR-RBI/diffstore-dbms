@@ -17,7 +17,7 @@ describe('Test suite',
                 });
         });
 
-        it('should properly save entities', function () {
+        it('should save entities and make snapshots', function () {
             var key = 1;
             var value = {
                 foo: 1337,
@@ -28,18 +28,28 @@ describe('Test suite',
                 key: key,
                 value: value
             };
+            var expectedEntity = {
+                key: key,
+                value: value
+            };
             return chakram.post('/entities', saveRequest)
                 .then(function (response) {
+                    // Step 1 - save a new entity
                     expect(response).to.have.status(200);
                     return chakram.get('/entities/' + key);
                 })
                 .then(function (response) {
+                    // Step 2 - check if the entity was successfully saved
                     expect(response).to.have.status(200);
                     expect(response).to.have.header('content-type', 'application/json');
-                    expect(response).to.comprise.of.json({
-                        key: key,
-                        value: value
-                    });
+                    expect(response).to.comprise.of.json(expectedEntity);
+                    return chakram.get('/snapshots/' + key);
+                })
+                .then(function (response) {
+                    // Step 3 - check if a snapshot of an entity was created
+                    expect(response).to.have.status(200);
+                    expect(response).to.have.header('content-type', 'application/json');
+                    expect(response).to.comprise.of.json([{state: expectedEntity}]);
                 });
         });
 
