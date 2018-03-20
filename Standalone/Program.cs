@@ -112,7 +112,10 @@ namespace Standalone
             var URIs = options.Listeners.Select(s => new Uri(s)).ToArray();
             var schema = LoadSchema(options.LoadSchemaFromStdIn);
             var bootstrapper = new MainBootstrapper(options, schema);
-            var host = new NancyHost(bootstrapper, URIs);
+            var config = new HostConfiguration {
+                AllowChunkedEncoding = false
+            };
+            var host = new NancyHost(bootstrapper, config, URIs);
             var exitEvent = new ManualResetEvent(false);
             Console.CancelKeyPress += (s, e) =>
             {

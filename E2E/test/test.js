@@ -12,7 +12,6 @@ describe('Test suite',
             return chakram.get('/')
                 .then(function (response) {
                     expect(response).to.have.status(200);
-                    expect(response).to.have.header('content-type', 'application/json');
                     expect(response).to.comprise.of.json(schema);
                 });
         });
@@ -41,17 +40,50 @@ describe('Test suite',
                 .then(function (response) {
                     // Step 2 - check if the entity was successfully saved
                     expect(response).to.have.status(200);
-                    expect(response).to.have.header('content-type', 'application/json');
                     expect(response).to.comprise.of.json(expectedEntity);
                     return chakram.get('/snapshots/' + key);
                 })
                 .then(function (response) {
                     // Step 3 - check if a snapshot of an entity was created
                     expect(response).to.have.status(200);
-                    expect(response).to.have.header('content-type', 'application/json');
                     expect(response).to.comprise.of.json([{state: expectedEntity}]);
                 });
         });
+
+        it('should check for existence and allow deletion', function () {
+            var key = 2;
+            var value = {
+                foo: 0,
+                bar: 'delete me'
+            };
+            var saveRequest = {
+                makeSnapshot: true,
+                key: key,
+                value: value
+            };
+
+            return chakram.post('/entities', saveRequest)
+                .then(function (response) {
+                    // Step 1 - save a new entity
+                    expect(response).to.have.status(200);
+                    return chakram.head('/entities/' + key);
+                })
+                .then(function (response) {
+                    // Step 2 - check if saved entity exists
+                    expect(response).to.have.status(200);
+                    return chakram.delete('/entities/' + key);
+                })
+                .then(function (response) {
+                    // Step 3 - delete the entity
+                    return chakram.head('/entities/' + key);
+                })
+                .then(function (response) {
+                    // Step 4 - check if the entity has disappeared
+                    console.dir(response);
+                    expect(response).to.have.status(404);
+                });
+        });
+
 
 
         /* Setup and teardown */

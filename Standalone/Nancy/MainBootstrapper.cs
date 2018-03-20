@@ -28,11 +28,9 @@ namespace Standalone.Nancy
         protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
         {
             base.RequestStartup(container, pipelines, context);
-            pipelines.AfterRequest.AddItemToEndOfPipeline(ctx => {
-                ctx.Response.Headers["Content-Type"] = "application/json";
-            });
             pipelines.OnError.AddItemToEndOfPipeline((ctx, ex) => {
-                var response = (Response)ex.Message;
+                var response = ResponseMayHaveBody(ctx.Request.Method) ? 
+                    (Response)ex.Message : new Response();
                 switch (ex) {
                     case EntityNotFoundException e:
                         response.WithStatusCode(HttpStatusCode.NotFound);
@@ -43,6 +41,18 @@ namespace Standalone.Nancy
                 }
                 return response;
             });
+        }
+
+        private bool ResponseMayHaveBody(string method)
+        {
+            switch (method)
+            {
+                case "HEAD":
+                case "PATCH":
+                case "PUT":
+                    return false;
+                default: return true;
+            }
         }
     }
 }

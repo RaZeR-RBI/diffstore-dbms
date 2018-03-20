@@ -18,6 +18,7 @@ namespace Standalone.Nancy
             _backend = backend;
             var db = backend.Storage;
             Get("/", d => _backend.Schema);
+            Head("/entities/{id}", async(p) => await db.Exists(p.id));
             Get("/entities/{id}", async (p) => await db.Get(p.id));
             Post("/entities", async (_) =>
             {
@@ -25,8 +26,18 @@ namespace Standalone.Nancy
                 await db.Save(request.Key, request.Value, request.MakeSnapshot);
                 return null;
             });
+            Delete("/entities/{id}", async (p) => {
+                await db.Delete(p.id);
+            });
 
-            Get("/snapshots/{id}", async (p) => await db.GetSnapshots(p.id));
+            Get("/snapshots/{id}", async (p) => {
+                var query = this.Request.Query;
+                if (query.from.HasValue && query.count.HasValue)
+                    return await db.GetSnapshots(p.id, query.from, query.count);
+                if (query.timeStart.HasValue && query.timeEnd.HasValue)
+                    return await db.GetSnapshotsBetween(p.id, query.timeStart, query.timeEnd);
+                return await db.GetSnapshots(p.id);
+            });
             // TODO Routes for every action
         }
 
