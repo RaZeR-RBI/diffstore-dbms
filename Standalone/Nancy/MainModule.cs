@@ -20,6 +20,8 @@ namespace Standalone.Nancy
             Get("/", d => _backend.Schema);
             Head("/entities/{id}", async(p) => await db.Exists(p.id));
             Get("/entities/{id}", async (p) => await db.Get(p.id));
+            Get("/keys", (_) => db.Keys);
+            Get("/entities", async (_) => await db.GetAll());
             Post("/entities", async (_) =>
             {
                 var request = GetRequestBody(SaveRequest.For(backend));

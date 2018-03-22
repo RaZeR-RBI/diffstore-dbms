@@ -97,7 +97,6 @@ describe('Test suite',
 
             // Step 1 - save some entities to database
             var requests = entities.reduce(function (accumulator, entity, index, arr) {
-                console.dir(index);
                 if (index === 1) {
                     accumulator = chakram.post('/entities', Object.assign({}, accumulator));
                 }
