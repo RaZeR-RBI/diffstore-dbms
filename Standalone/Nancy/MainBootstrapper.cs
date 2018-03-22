@@ -6,6 +6,7 @@ using Nancy.Responses;
 using Nancy.TinyIoc;
 using Standalone;
 using Standalone.Core;
+using static Standalone.Nancy.Util;
 
 namespace Standalone.Nancy
 {
@@ -29,8 +30,9 @@ namespace Standalone.Nancy
         {
             base.RequestStartup(container, pipelines, context);
             pipelines.OnError.AddItemToEndOfPipeline((ctx, ex) => {
-                var response = ResponseMayHaveBody(ctx.Request.Method) ? 
+                var response = ResponseMayHaveBody(ctx.Request.Method) ?
                     (Response)ex.Message : new Response();
+
                 switch (ex) {
                     case EntityNotFoundException e:
                         response.WithStatusCode(HttpStatusCode.NotFound);
@@ -43,16 +45,5 @@ namespace Standalone.Nancy
             });
         }
 
-        private bool ResponseMayHaveBody(string method)
-        {
-            switch (method)
-            {
-                case "HEAD":
-                case "PATCH":
-                case "PUT":
-                    return false;
-                default: return true;
-            }
-        }
     }
 }

@@ -79,7 +79,6 @@ describe('Test suite',
                 })
                 .then(function (response) {
                     // Step 4 - check if the entity has disappeared
-                    console.dir(response);
                     expect(response).to.have.status(404);
                 });
         });
