@@ -143,9 +143,17 @@ describe('Test suite',
             // Step 1 - put some snapshots with the specified time
             var requests = snapshots.reduce(function (accumulator, cur, index, arr) {
                 if (index === 1) {
-                    accumulator = chakram.put('/snapshots', Object.assign({}, accumulator));
+                    // Create an entity and put first snapshot for it
+                    var first = Object.assign({}, accumulator);
+                    accumulator = chakram.post('/entities',
+                        Object.assign({}, first.state))
+                        .then(function (response) {
+                            expect(response).to.have.status(200);
+                            return chakram.put('/snapshots', Object.assign({}, first));
+                        });
                 }
 
+                // put remaining snapshots
                 return accumulator.then(function (response) {
                     expect(response).to.have.status(200);
                     return chakram.put('/snapshots', Object.assign({}, cur));

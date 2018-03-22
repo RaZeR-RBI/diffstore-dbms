@@ -18,7 +18,10 @@ namespace Standalone.Nancy
             _backend = backend;
             var db = backend.Storage;
             Get("/", d => _backend.Schema);
-            Head("/entities/{id}", async(p) => await db.Exists(p.id));
+            Head("/entities/{id}", async (p) => {
+                await db.Exists(p.id);
+                return null;
+            });
             Get("/entities/{id}", async (p) => await db.Get(p.id));
             Get("/keys", (_) => db.Keys);
             Get("/entities", async (_) => await db.GetAll());
@@ -30,9 +33,11 @@ namespace Standalone.Nancy
             });
             Delete("/entities/{id}", async (p) => {
                 await db.Delete(p.id);
+                return null;
             });
 
-            Get("/snapshots/{id}", async (p) => {
+            Get("/snapshots/{id}", async (p) =>
+            {
                 var query = this.Request.Query;
                 if (query.from.HasValue && query.count.HasValue)
                     return await db.GetSnapshots(p.id, query.from, query.count);
@@ -40,7 +45,16 @@ namespace Standalone.Nancy
                     return await db.GetSnapshotsBetween(p.id, query.timeStart, query.timeEnd);
                 return await db.GetSnapshots(p.id);
             });
-            // TODO Routes for every action
+            Get("/snapshots/{id}/firstTime", async (p) => await db.GetFirstTime(p.id));
+            Get("/snapshots/{id}/first", async (p) => await db.GetFirst(p.id));
+            Get("/snapshots/{id}/lastTime", async (p) => await db.GetLastTime(p.id));
+            Get("/snapshots/{id}/last", async (p) => await db.GetLast(p.id));
+            Put("/snapshots", async (_) =>
+            {
+                var request = GetRequestBody(PutSnapshotRequest.For(backend));
+                await db.PutSnapshot(request.State.AsEntity(), request.Time);
+                return null;
+            });
         }
 
         private dynamic GetRequestBody(Type type) =>
