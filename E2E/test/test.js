@@ -46,7 +46,7 @@ describe('Test suite',
                 .then(function (response) {
                     // Step 3 - check if a snapshot of an entity was created
                     expect(response).to.have.status(200);
-                    expect(response).to.comprise.of.json([{state: expectedEntity}]);
+                    expect(response).to.comprise.of.json([{ state: expectedEntity }]);
                 });
         });
 
@@ -80,6 +80,48 @@ describe('Test suite',
                 .then(function (response) {
                     // Step 4 - check if the entity has disappeared
                     expect(response).to.have.status(404);
+                });
+        });
+
+        it('should return all keys and entities if requested', function () {
+            var keys = [3, 4, 5];
+            var entities = keys.map(function (item, index, array) {
+                return {
+                    key: item,
+                    value: {
+                        foo: item,
+                        bar: 'test'
+                    }
+                }
+            });
+
+            // Step 1 - save some entities to database
+            var requests = entities.reduce(function (accumulator, entity, index, arr) {
+                console.dir(index);
+                if (index === 1) {
+                    accumulator = chakram.post('/entities', Object.assign({}, accumulator));
+                }
+                return accumulator.then(function (response) {
+                    expect(response).to.have.status(200);
+                    return chakram.post('/entities', Object.assign({}, entity));
+                });
+            });
+
+            return requests
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    // Step 2 - get the keys list
+                    return chakram.get('/keys');
+                })
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    expect(response).to.comprise.of.json(keys);
+                    // Step 3 - get all entities
+                    return chakram.get('/entities');
+                })
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    expect(response).to.comprise.of.json(entities);
                 });
         });
 
