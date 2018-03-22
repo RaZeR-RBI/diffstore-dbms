@@ -124,7 +124,69 @@ describe('Test suite',
                 });
         });
 
+        it('should put snapshots and get the first and last ones', function () {
+            var key = 6;
+            var time = [1, 2, 3];
+            var snapshots = time.map(function (item, index, arr) {
+                return {
+                    time: item,
+                    state: {
+                        key: key,
+                        value: {
+                            foo: item, // we'll place time here
+                            bar: 'test'
+                        }
+                    }
+                }
+            });
 
+            // Step 1 - put some snapshots with the specified time
+            var requests = snapshots.reduce(function (accumulator, cur, index, arr) {
+                if (index === 1) {
+                    accumulator = chakram.put('/snapshots', Object.assign({}, accumulator));
+                }
+
+                return accumulator.then(function (response) {
+                    expect(response).to.have.status(200);
+                    return chakram.put('/snapshots', Object.assign({}, cur));
+                });
+            });
+
+            return requests
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    // Step 2 - check if all snapshots were saved
+                    return chakram.get('/snapshots/' + key);
+                })
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    expect(response).to.comprise.of.json(snapshots);
+                    // Step 3.1 - get time of the first snapshot
+                    return chakram.get('/snapshots/' + key + '/firstTime');
+                })
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    expect(response).to.comprise.of.json(time[0]);
+                    // Step 3.2 - get the first snapshot
+                    return chakram.get('/snapshots/' + key + '/first');
+                })
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    expect(response).to.comprise.of.json(snapshots[0]);
+                    // Step 4.1 - get time of the last snapshot
+                    return chakram.get('/snapshots/' + key + '/lastTime');
+                })
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    expect(response).to.comprise.of.json(time[time.length - 1]);
+                    // Step 4.2 - get the last snapshot
+                    return chakram.get('/snapshots/' + key + '/last');
+                })
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    expect(response).to.comprise.of.json(snapshots[snapshots.length - 1]);
+                });
+        });
 
         /* Setup and teardown */
         var dbms = null;
