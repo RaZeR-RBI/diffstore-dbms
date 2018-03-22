@@ -24,7 +24,7 @@ namespace Diffstore.DBMS
         Task<long> GetLastTime(TKey key);
         Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key);
         Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key, int from, int count);
-        Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key, long timeStart, long timeEnd);
+        Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshotsBetween(TKey key, long timeStart, long timeEnd);
         Task PutSnapshot(Entity<TKey, TValue> entity, long time);
         Task Save(Entity<TKey, TValue> entity, bool makeSnapshot = true);
         Task Save(TKey key, TValue value, bool makeSnapshot = true);

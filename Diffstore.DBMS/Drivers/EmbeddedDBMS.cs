@@ -140,7 +140,7 @@ namespace Diffstore.DBMS.Drivers
             await ReadTransaction(key, () => db.GetSnapshots(key, from, count).ToList(),
                 checkSnapshotExistence: true);
 
-        public async Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key, long timeStart, long timeEnd) =>
+        public async Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshotsBetween(TKey key, long timeStart, long timeEnd) =>
             await ReadTransaction(key, () =>
                 db.GetSnapshotsBetween(key, timeStart, timeEnd).ToList(),
                 checkSnapshotExistence: true);

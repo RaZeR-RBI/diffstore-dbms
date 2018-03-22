@@ -124,7 +124,7 @@ describe('Test suite',
                 });
         });
 
-        it('should put snapshots and get the first and last ones', function () {
+        it('should put snapshots and allow filtering', function () {
             var key = 6;
             var time = [1, 2, 3];
             var snapshots = time.map(function (item, index, arr) {
@@ -193,6 +193,22 @@ describe('Test suite',
                 .then(function (response) {
                     expect(response).to.have.status(200);
                     expect(response).to.comprise.of.json(snapshots[snapshots.length - 1]);
+
+                    // Step 5.1 - get snapshots between specified time
+                    return chakram.get('/snapshots/' + key + 
+                        '?timeStart=' + time[0] + '&timeEnd=' + time[2]); // [start, end)
+                })
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    expect(response).to.comprise.of.json([snapshots[0], snapshots[1]]);
+
+                    // Step 5.2 - get snapshots page
+                    return chakram.get('/snapshots/' + key + '?from=1&count=2');
+                })
+                .then(function (response) {
+                    expect(response).to.have.status(200);
+                    // they come newest first
+                    expect(response).to.comprise.of.json([snapshots[1], snapshots[0]]);
                 });
         });
 
