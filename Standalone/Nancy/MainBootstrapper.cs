@@ -35,6 +35,7 @@ namespace Standalone.Nancy
 
                 switch (ex) {
                     case EntityNotFoundException e:
+                    case SnapshotNotFoundException ee:
                         response.WithStatusCode(HttpStatusCode.NotFound);
                         break;
                     default:

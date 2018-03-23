@@ -168,5 +168,10 @@ namespace Diffstore.DBMS.Drivers
 
         public async Task<IEnumerable<Entity<TKey, TValue>>> GetAll() =>
             await Task.WhenAll(Keys.Select(Get));
+
+        public void Dispose()
+        {
+            // do nothing
+        }
     }
 }

@@ -8,7 +8,7 @@ using Diffstore.Snapshots;
 
 namespace Diffstore.DBMS
 {
-    public interface IDiffstoreDBMS<TKey, TValue>
+    public interface IDiffstoreDBMS<TKey, TValue> : IDisposable
         where TKey : IComparable
         where TValue : class, new()
     {
@@ -32,10 +32,17 @@ namespace Diffstore.DBMS
 
     public static class DiffstoreDBMS
     {
-        public static IDiffstoreDBMS<TKey, TValue> Embedded<TKey, TValue>(IDiffstore<TKey, TValue> db,
+        public static IDiffstoreDBMS<TKey, TValue> Embedded<TKey, TValue>(
+            IDiffstore<TKey, TValue> db,
             ITransactionProvider<TKey> provider, TransactionPolicyInfo policy)
             where TKey : IComparable
             where TValue : class, new() =>
                 new EmbeddedDBMS<TKey, TValue>(db, policy, provider);
+
+        public static IDiffstoreDBMS<TKey, TValue> Remote<TKey, TValue>(
+            Uri connectionUri)
+        where TKey : IComparable
+        where TValue : class, new() =>
+           new RemoteDBMS<TKey, TValue>(connectionUri);
     }
 }
