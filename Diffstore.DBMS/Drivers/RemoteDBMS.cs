@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Diffstore.Entities;
 using Diffstore.Snapshots;
+using Jil;
 
 namespace Diffstore.DBMS.Drivers
 {
@@ -17,10 +20,14 @@ namespace Diffstore.DBMS.Drivers
 
         public RemoteDBMS(Uri connectionUri)
         {
-            client = new HttpClient {
+            client = new HttpClient
+            {
                 BaseAddress = connectionUri
             };
             client.DefaultRequestHeaders.ConnectionClose = false;
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+            );
             // TODO Add timeouts
         }
 
@@ -89,16 +96,47 @@ namespace Diffstore.DBMS.Drivers
             throw new NotImplementedException();
         }
 
-        public Task Save(Entity<TKey, TValue> entity, bool makeSnapshot = true)
+        public async Task Save(Entity<TKey, TValue> entity, bool makeSnapshot = true) =>
+            await client.PostAsync("entities",
+                ToJson(new SaveRequest(entity, makeSnapshot)))
+                .ContinueWith(Handle);
+
+        public Task Save(TKey key, TValue value, bool makeSnapshot = true) =>
+            Save(Entity.Create(key, value), makeSnapshot);
+
+        public void Dispose() => client.Dispose();
+
+        private HttpContent ToJson<T>(T value) => new StringContent(JSON.Serialize(value));
+
+        private void Handle(Task<HttpResponseMessage> task)
         {
-            throw new NotImplementedException();
+            if (task.IsCompleted && !task.IsFaulted)
+            {
+                var response = task.Result;
+                if (response.IsSuccessStatusCode) return;
+
+                // TODO Handle specific errors
+                throw new Exception(response.Content.ToString());
+            }
+            else
+            {
+                if (task.Exception.InnerExceptions.Count == 1)
+                    throw task.Exception.InnerException;
+                else
+                    throw task.Exception;
+            }
         }
 
-        public Task Save(TKey key, TValue value, bool makeSnapshot = true)
+        public class SaveRequest
         {
-            throw new NotImplementedException();
-        }
+            public TKey Key { get; set; }
+            public TValue Value { get; set; }
+            public bool MakeSnapshot { get; set; }
 
-        public void Dispose() => client.Dispose(); 
+            public SaveRequest() { }
+
+            public SaveRequest(Entity<TKey, TValue> entity, bool makeSnapshot) =>
+                (Key, Value, MakeSnapshot) = (entity.Key, entity.Value, makeSnapshot);
+        }
     }
 }

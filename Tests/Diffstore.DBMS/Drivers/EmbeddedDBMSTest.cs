@@ -29,7 +29,7 @@ namespace Tests.Diffstore.DBMS.Drivers
 
 
         [Fact]
-        public async void ShouldReturnWhatHasBeenSaved()
+        public async Task ShouldReturnWhatHasBeenSavedAsync()
         {
             var transactionProvider = TransactionProvider.OfType<int>();
             var backend = DiffstoreDBMS.Embedded(db, transactionProvider, policy);
@@ -37,7 +37,7 @@ namespace Tests.Diffstore.DBMS.Drivers
             var keys = data.Select(e => e.Key);
 
             Assert.Empty(backend.Keys);
-            await SaveData(data, backend);
+            await SaveDataAsync(data, backend);
 
             Assert.Equal(keys, backend.Keys);
             var savedData = await backend.GetAll();
@@ -45,7 +45,7 @@ namespace Tests.Diffstore.DBMS.Drivers
         }
 
         [Fact]
-        public async Task ShouldAllowMultipleReadsAndThrowOnWriteAttempt()
+        public async Task ShouldAllowMultipleReadsAndThrowOnWriteAttemptAsync()
         {
             var transactionProvider = SimulatedReadLock<int>();
             var backend = DiffstoreDBMS.Embedded(db, transactionProvider, policy);
@@ -53,7 +53,7 @@ namespace Tests.Diffstore.DBMS.Drivers
             var firstKey = data.First().Key;
             var lastKey = data.Last().Key;
             var readLockedKeys = new[] { firstKey, lastKey };
-            await SaveData(data, backend);
+            await SaveDataAsync(data, backend);
 
             var firstEntity = await backend.Get(firstKey);
             var firstEntityToo = await backend.Get(firstKey);
@@ -66,12 +66,12 @@ namespace Tests.Diffstore.DBMS.Drivers
         }
 
         [Fact]
-        public async Task ShouldAllowSingleWriteAndThrowOnAnyAccessAttempt()
+        public async Task ShouldAllowSingleWriteAndThrowOnAnyAccessAttemptAsync()
         {
             var transactionProvider = SimulatedWriteLock<int>();
             var backend = DiffstoreDBMS.Embedded(db, transactionProvider, policy);
             var data = CreateSampleData();
-            await SaveData(data, backend);
+            await SaveDataAsync(data, backend);
 
             await Assert.ThrowsAsync<ResourceIsBusyException>(
                 () => backend.Get(data.First().Key)
@@ -105,7 +105,7 @@ namespace Tests.Diffstore.DBMS.Drivers
                 .Select(i => Entity.Create(i, new SampleData($"{i}")))
                 .ToList();
 
-        private async Task SaveData(IEnumerable<Entity<int, SampleData>> data,
+        private async Task SaveDataAsync(IEnumerable<Entity<int, SampleData>> data,
             IDiffstoreDBMS<int, SampleData> backend) =>
             await Task.WhenAll(data.Select(e => backend.Save(e)).ToArray());
     }

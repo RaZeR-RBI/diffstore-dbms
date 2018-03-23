@@ -70,35 +70,61 @@ namespace Tests.Diffstore.DBMS.Drivers
 
         private Process StartDBMS()
         {
-            var workingDir = Path.Combine(
+            var workingDir = LocateDirectory(
                 Directory.GetParent(Directory.GetCurrentDirectory()).FullName,
-                "Standalone"
+                "E2E"
+            );
+
+            // Note: there was an attempt to remove this hardcoded path
+            // using 'dotnet run' - but it's child 'dotnet exec' process
+            // cannot be killed without platform-specific hacks
+            var dll = Path.Combine(
+                Directory.GetParent(workingDir).FullName,
+                "Standalone",
+                "bin",
+                "Debug",
+                "netcoreapp2.0",
+                "diffstore-dbms.dll"
             );
 
             var processStart = new ProcessStartInfo("dotnet", string.Join(" ",
-                "run",
-                "--no-build",
-                "--",
+                $"\"{dll}\"",
                 "--store",
                 "InMemory"
             ))
             {
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 WorkingDirectory = workingDir
             };
 
             var process = Process.Start(processStart);
 
             // Wait for it to start
-            Console.WriteLine(process.StandardOutput.ReadLine());
+            process.StandardOutput.ReadLine();
             return process;
+        }
+
+        private string LocateDirectory(string basePath, string dirName)
+        {
+            var result = Directory.GetDirectories(basePath)
+                .Select(Path.GetFileName)
+                .Any(d => d == dirName);
+
+            if (!result)
+                return LocateDirectory(
+                    Directory.GetParent(basePath).FullName,
+                    dirName);
+
+            return Path.Combine(basePath, dirName);
         }
 
         public void Dispose()
         {
             Driver.Dispose();
             backend.Kill();
+            
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Diffstore;
 using Diffstore.Entities;
 using Standalone;
@@ -11,7 +12,7 @@ namespace Tests.Standalone.Core
     public class DynamicDiffstoreBuilderTest
     {
         [Fact]
-        public async void ShouldCreateValidInstance()
+        public async Task ShouldCreateValidInstanceAsync()
         {
             var options = new Options()
             {
