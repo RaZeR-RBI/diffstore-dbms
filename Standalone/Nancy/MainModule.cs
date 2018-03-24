@@ -23,7 +23,7 @@ namespace Standalone.Nancy
                 return null;
             });
             Get("/entities/{id}", async (p) => await db.Get(p.id));
-            Get("/keys", (_) => db.Keys);
+            Get("/keys", async (_) => await db.Keys());
             Get("/entities", async (_) => await db.GetAll());
             Post("/entities", async (_) =>
             {

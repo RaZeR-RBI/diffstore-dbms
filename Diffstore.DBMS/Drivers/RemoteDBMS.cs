@@ -22,7 +22,6 @@ namespace Diffstore.DBMS.Drivers
             serializationNameFormat: SerializationNameFormat.CamelCase
         );
 
-        public IEnumerable<TKey> Keys => throw new NotImplementedException();
         private HttpClient client;
 
         public RemoteDBMS(Uri connectionUri)
@@ -60,9 +59,11 @@ namespace Diffstore.DBMS.Drivers
             return entity.Create();
         }
 
-        public Task<IEnumerable<Entity<TKey, TValue>>> GetAll()
+        public async Task<IEnumerable<Entity<TKey, TValue>>> GetAll()
         {
-            throw new NotImplementedException();
+            var response = await client.GetAsync("entities");
+            var entities = await ParseResponse<IList<EntityExt<TKey, TValue>>>(response);
+            return entities.Select(e => e.Create());
         }
 
         public Task<Snapshot<TKey, TValue>> GetFirst(TKey key)
@@ -116,6 +117,12 @@ namespace Diffstore.DBMS.Drivers
         public async Task Save(TKey key, TValue value, bool makeSnapshot = true) =>
             await Save(Entity.Create(key, value), makeSnapshot);
 
+        public async Task<IEnumerable<TKey>> Keys()
+        {
+            var response = await client.GetAsync("keys");
+            var keys = await ParseResponse<IList<TKey>>(response);
+            return keys;
+        }
 
 
 

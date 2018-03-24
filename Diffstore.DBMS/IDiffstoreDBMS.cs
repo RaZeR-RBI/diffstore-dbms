@@ -12,7 +12,7 @@ namespace Diffstore.DBMS
         where TKey : IComparable
         where TValue : class, new()
     {
-        IEnumerable<TKey> Keys { get; }
+        Task<IEnumerable<TKey>> Keys();
         Task Delete(TKey key);
         Task Delete(Entity<TKey, TValue> entity);
         Task<bool> Exists(TKey key);

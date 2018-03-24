@@ -54,7 +54,7 @@ namespace Diffstore.DBMS.Drivers
         // Entity and snapshot existence map. If a key is present, then the entity exists.
         // If the value is true, the corresponding entity has at least one snapshot.
         private ConcurrentDictionary<TKey, bool> existence = new ConcurrentDictionary<TKey, bool>();
-        public IEnumerable<TKey> Keys => existence.Keys;
+        private IEnumerable<TKey> cachedKeys => existence.Keys;
 
         private async Task<T> WriteTransaction<T>(TKey key, Func<T> fn, 
             bool checkEntityExistence = false)
@@ -167,11 +167,13 @@ namespace Diffstore.DBMS.Drivers
             await Save(Entity.Create(key, value), makeSnapshot);
 
         public async Task<IEnumerable<Entity<TKey, TValue>>> GetAll() =>
-            await Task.WhenAll(Keys.Select(Get));
+            await Task.WhenAll(cachedKeys.Select(Get));
 
         public void Dispose()
         {
             // do nothing
         }
+
+        public Task<IEnumerable<TKey>> Keys() => Task.FromResult(cachedKeys);
     }
 }

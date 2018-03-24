@@ -29,11 +29,11 @@ namespace Tests.Standalone.Core
             var instance = DynamicDiffstoreBuilder.Create(options, schema);
             var db = instance.Storage;
 
-            Assert.Empty(db.Keys);
+            Assert.Empty(await db.Keys());
             var sampleEntity = CreateEntity(instance.KeyType, instance.ValueType,
                 1L, "test", 1337);
             await db.Save(sampleEntity, true);
-            Assert.Single(db.Keys);
+            Assert.Single(await db.Keys());
         }
 
         private static dynamic CreateEntity(Type keyType, Type valueType, object key,

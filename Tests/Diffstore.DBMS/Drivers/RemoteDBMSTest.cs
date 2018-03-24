@@ -27,7 +27,7 @@ namespace Tests.Diffstore.DBMS.Drivers
     }
 
 
-
+    // This test is identical to the end-to-end test in test.js
     public class RemoteDBMSTest : IClassFixture<RemoteDBMSFixture>
     {
         private IDiffstoreDBMS<long, SampleSchema> db;
@@ -67,6 +67,28 @@ namespace Tests.Diffstore.DBMS.Drivers
             await db.Delete(key);
             Assert.False(await db.Exists(key));
         }
+
+        [Fact]
+        public async Task ShouldReturnAllKeysAndEntitiesIfRequestedAsync()
+        {
+            var keys = new[] { 3L, 4L, 5L };
+            var entities = keys.Select(key => Entity.Create(
+                key,
+                new SampleSchema
+                {
+                    Foo = (int)key,
+                    Bar = "test"
+                }));
+            await Task.WhenAll(
+                entities.Select(async entity => await db.Save(entity))
+            );
+
+            var actualKeys = await db.Keys();
+            var actualEntities = await db.GetAll();
+
+            Assert.Equal(keys, actualKeys);
+            Assert.All(entities, e => actualEntities.Contains(e));
+        }
     }
 
 
@@ -93,7 +115,7 @@ namespace Tests.Diffstore.DBMS.Drivers
 
             // Note: there was an attempt to remove this hardcoded path
             // using 'dotnet run' - but it's child 'dotnet exec' process
-            // cannot be killed without platform-specific hacks
+            // cannot be terminated without platform-specific hacks
             var dll = Path.Combine(
                 Directory.GetParent(workingDir).FullName,
                 "Standalone",

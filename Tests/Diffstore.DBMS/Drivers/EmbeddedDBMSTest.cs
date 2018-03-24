@@ -36,10 +36,10 @@ namespace Tests.Diffstore.DBMS.Drivers
             var data = CreateSampleData();
             var keys = data.Select(e => e.Key);
 
-            Assert.Empty(backend.Keys);
+            Assert.Empty(await backend.Keys());
             await SaveDataAsync(data, backend);
 
-            Assert.Equal(keys, backend.Keys);
+            Assert.Equal(keys, await backend.Keys());
             var savedData = await backend.GetAll();
             Assert.Equal(data, savedData);
         }
