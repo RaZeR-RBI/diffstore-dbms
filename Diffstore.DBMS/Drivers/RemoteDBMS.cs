@@ -38,19 +38,19 @@ namespace Diffstore.DBMS.Drivers
             // TODO Add timeouts
         }
 
-        public Task Delete(TKey key)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task Delete(TKey key) => 
+            CheckResponse(await client.DeleteAsync($"entities/{key}"));
 
-        public Task Delete(Entity<TKey, TValue> entity)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task Delete(Entity<TKey, TValue> entity) => 
+            await Delete(entity.Key);
 
-        public Task<bool> Exists(TKey key)
+        public async Task<bool> Exists(TKey key)
         {
-            throw new NotImplementedException();
+            var message = new HttpRequestMessage(HttpMethod.Head, $"entities/{key}");
+            var response = await client.SendAsync(message);
+            if (response.IsSuccessStatusCode) return true;
+            if (response.StatusCode == HttpStatusCode.NotFound) return false;
+            throw ResponseException(response);
         }
 
         public async Task<Entity<TKey, TValue>> Get(TKey key)

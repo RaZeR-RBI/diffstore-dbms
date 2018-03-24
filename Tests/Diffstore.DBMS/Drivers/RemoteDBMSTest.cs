@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Diffstore.DBMS;
 using Diffstore.Entities;
 using Xunit;
@@ -19,26 +20,21 @@ namespace Tests.Diffstore.DBMS.Drivers
         private bool Equals(SampleSchema other) =>
             (other != null) && (Foo == other.Foo) && (Bar == other.Bar);
 
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return (Foo * 397) ^ (Bar != null ? Bar.GetHashCode() : 0);
-            }
-        }
+        public override int GetHashCode() =>
+            unchecked((Foo * 397) ^ (Bar != null ? Bar.GetHashCode() : 0));
 
         public override string ToString() => $"<Foo: {Foo}, Bar: {Bar}>";
     }
 
+
+
     public class RemoteDBMSTest : IClassFixture<RemoteDBMSFixture>
     {
         private IDiffstoreDBMS<long, SampleSchema> db;
-
-        public RemoteDBMSTest(RemoteDBMSFixture fixture) =>
-            db = fixture.Driver;
+        public RemoteDBMSTest(RemoteDBMSFixture fixture) => db = fixture.Driver;
 
         [Fact]
-        public async void ShouldSaveEntitiesAndMakeSnapshots()
+        public async Task ShouldSaveEntitiesAndMakeSnapshotsAsync()
         {
             var key = 1L;
             var value = new SampleSchema
@@ -55,7 +51,25 @@ namespace Tests.Diffstore.DBMS.Drivers
             Assert.Single(snapshots);
             Assert.Equal(expected, snapshots.First().State);
         }
+
+        [Fact]
+        public async Task ShouldCheckForExistenceAndAllowDeletionAsync()
+        {
+            var key = 2L;
+            var value = new SampleSchema
+            {
+                Foo = 0,
+                Bar = "delete me"
+            };
+
+            await db.Save(key, value);
+            Assert.True(await db.Exists(key));
+            await db.Delete(key);
+            Assert.False(await db.Exists(key));
+        }
     }
+
+
 
     public class RemoteDBMSFixture : IDisposable
     {
@@ -126,7 +140,7 @@ namespace Tests.Diffstore.DBMS.Drivers
         {
             Driver.Dispose();
             backend.Kill();
-            
+
         }
     }
 }
