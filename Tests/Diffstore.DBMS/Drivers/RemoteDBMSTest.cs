@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Diffstore.DBMS;
 using Diffstore.Entities;
+using Diffstore.Snapshots;
 using Xunit;
 
 namespace Tests.Diffstore.DBMS.Drivers
@@ -89,9 +90,46 @@ namespace Tests.Diffstore.DBMS.Drivers
             Assert.Equal(keys, actualKeys);
             Assert.All(entities, e => actualEntities.Contains(e));
         }
+
+        [Fact]
+        public async Task ShouldPutSnapshotsAndAllowFilteringAsync()
+        {
+            var key = 6L;
+            var time = new[] { 1L, 2L, 3L };
+            var snapshots = time.Select(t => Snapshot.Create(
+                t,
+                Entity.Create(
+                    key,
+                new SampleSchema
+                {
+                    Foo = (int)t,
+                    Bar = "test"
+                })));
+
+            await db.Save(snapshots.First().State, makeSnapshot: false);
+            await Task.WhenAll(snapshots.Select(
+                async s => await db.PutSnapshot(s.State, s.Time))
+            );
+            var firstTime = await db.GetFirstTime(key);
+            var first = await db.GetFirst(key);
+            var lastTime = await db.GetLastTime(key);
+            var last = await db.GetLast(key);
+            var timeFiltered = await db.GetSnapshotsBetween(key, 
+                time.First(), time.Last());
+            var pageFiltered = await db.GetSnapshots(key, 1, 2);
+            var actualSnapshots = await db.GetSnapshots(key);
+
+            Assert.Equal(snapshots, actualSnapshots);
+            Assert.Equal(time.First(), firstTime);
+            Assert.Equal(snapshots.First(), first);
+            Assert.Equal(time.Last(), lastTime);
+            Assert.Equal(snapshots.Last(), last);
+            Assert.Equal(snapshots.Where(
+                s => (s.Time >= time.First()) && (s.Time < time.Last())),
+                timeFiltered);
+            Assert.Equal(snapshots.Skip(1).Take(2), pageFiltered);
+        }
     }
-
-
 
     public class RemoteDBMSFixture : IDisposable
     {

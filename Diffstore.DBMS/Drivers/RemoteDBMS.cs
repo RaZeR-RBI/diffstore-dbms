@@ -37,10 +37,10 @@ namespace Diffstore.DBMS.Drivers
             // TODO Add timeouts
         }
 
-        public async Task Delete(TKey key) => 
+        public async Task Delete(TKey key) =>
             CheckResponse(await client.DeleteAsync($"entities/{key}"));
 
-        public async Task Delete(Entity<TKey, TValue> entity) => 
+        public async Task Delete(Entity<TKey, TValue> entity) =>
             await Delete(entity.Key);
 
         public async Task<bool> Exists(TKey key)
@@ -66,25 +66,25 @@ namespace Diffstore.DBMS.Drivers
             return entities.Select(e => e.Create());
         }
 
-        public Task<Snapshot<TKey, TValue>> GetFirst(TKey key)
+        public async Task<Snapshot<TKey, TValue>> GetFirst(TKey key)
         {
-            throw new NotImplementedException();
+            var response = await client.GetAsync($"snapshots/{key}/first");
+            var snapshot = await ParseResponse<SnapshotExt<TKey, TValue>>(response);
+            return snapshot.Create();
         }
 
-        public Task<long> GetFirstTime(TKey key)
+        public async Task<long> GetFirstTime(TKey key) =>
+            await ParseResponse<long>(await client.GetAsync($"snapshots/{key}/firstTime"));
+
+        public async Task<Snapshot<TKey, TValue>> GetLast(TKey key)
         {
-            throw new NotImplementedException();
+            var response = await client.GetAsync($"snapshots/{key}/last");
+            var snapshot = await ParseResponse<SnapshotExt<TKey, TValue>>(response);
+            return snapshot.Create();
         }
 
-        public Task<Snapshot<TKey, TValue>> GetLast(TKey key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<long> GetLastTime(TKey key)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<long> GetLastTime(TKey key) =>
+            await ParseResponse<long>(await client.GetAsync($"snapshots/{key}/lastTime"));
 
         public async Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key)
         {
@@ -93,20 +93,29 @@ namespace Diffstore.DBMS.Drivers
             return result.Select(s => s.Create());
         }
 
-        public Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key, int from, int count)
+        public async Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key, int from, int count)
         {
-            throw new NotImplementedException();
+            var response = await client.GetAsync(
+                $"snapshots/{key}?from={from}&count={count}"
+            );
+            var result = await ParseResponse<IList<SnapshotExt<TKey, TValue>>>(response);
+            return result.Select(s => s.Create());
         }
 
-        public Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshotsBetween(TKey key, long timeStart, long timeEnd)
+        public async Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshotsBetween(TKey key, long timeStart, long timeEnd)
         {
-            throw new NotImplementedException();
+            var response = await client.GetAsync(
+                $"snapshots/{key}?timeStart={timeStart}&timeEnd={timeEnd}"
+            );
+            var result = await ParseResponse<IList<SnapshotExt<TKey, TValue>>>(response);
+            return result.Select(s => s.Create());
         }
 
-        public Task PutSnapshot(Entity<TKey, TValue> entity, long time)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task PutSnapshot(Entity<TKey, TValue> entity, long time) =>
+            CheckResponse(await client.PutAsync(
+                "snapshots",
+                ToJson(Snapshot.Create(time, entity))
+            ));
 
         public async Task Save(Entity<TKey, TValue> entity, bool makeSnapshot = true) =>
             CheckResponse(await client.PostAsync(
