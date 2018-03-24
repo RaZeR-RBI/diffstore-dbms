@@ -26,6 +26,8 @@ namespace Tests.Diffstore.DBMS.Drivers
                 return (Foo * 397) ^ (Bar != null ? Bar.GetHashCode() : 0);
             }
         }
+
+        public override string ToString() => $"<Foo: {Foo}, Bar: {Bar}>";
     }
 
     public class RemoteDBMSTest : IClassFixture<RemoteDBMSFixture>

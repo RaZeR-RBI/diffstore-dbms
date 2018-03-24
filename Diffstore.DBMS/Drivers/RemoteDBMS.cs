@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
+using Diffstore.DBMS.Core;
 using Diffstore.Entities;
 using Diffstore.Snapshots;
 using Jil;
@@ -15,6 +17,11 @@ namespace Diffstore.DBMS.Drivers
         where TKey : IComparable
         where TValue : class, new()
     {
+        private static Jil.Options options = new Jil.Options(
+            includeInherited: true,
+            serializationNameFormat: SerializationNameFormat.CamelCase
+        );
+
         public IEnumerable<TKey> Keys => throw new NotImplementedException();
         private HttpClient client;
 
@@ -46,9 +53,11 @@ namespace Diffstore.DBMS.Drivers
             throw new NotImplementedException();
         }
 
-        public Task<Entity<TKey, TValue>> Get(TKey key)
+        public async Task<Entity<TKey, TValue>> Get(TKey key)
         {
-            throw new NotImplementedException();
+            var response = await client.GetAsync($"entities/{key}");
+            var entity = await ParseResponse<EntityExt<TKey, TValue>>(response);
+            return entity.Create();
         }
 
         public Task<IEnumerable<Entity<TKey, TValue>>> GetAll()
@@ -76,9 +85,11 @@ namespace Diffstore.DBMS.Drivers
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key)
+        public async Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key)
         {
-            throw new NotImplementedException();
+            var response = await client.GetAsync($"snapshots/{key}");
+            var result = await ParseResponse<IList<SnapshotExt<TKey, TValue>>>(response);
+            return result.Select(s => s.Create());
         }
 
         public Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshots(TKey key, int from, int count)
@@ -97,35 +108,48 @@ namespace Diffstore.DBMS.Drivers
         }
 
         public async Task Save(Entity<TKey, TValue> entity, bool makeSnapshot = true) =>
-            await client.PostAsync("entities",
-                ToJson(new SaveRequest(entity, makeSnapshot)))
-                .ContinueWith(Handle);
+            CheckResponse(await client.PostAsync(
+                "entities",
+                ToJson(new SaveRequest(entity, makeSnapshot))
+            ));
 
-        public Task Save(TKey key, TValue value, bool makeSnapshot = true) =>
-            Save(Entity.Create(key, value), makeSnapshot);
+        public async Task Save(TKey key, TValue value, bool makeSnapshot = true) =>
+            await Save(Entity.Create(key, value), makeSnapshot);
+
+
+
 
         public void Dispose() => client.Dispose();
 
-        private HttpContent ToJson<T>(T value) => new StringContent(JSON.Serialize(value));
+        private HttpContent ToJson<T>(T value) => new StringContent(
+            JSON.Serialize(value, options),
+            Encoding.UTF8,
+            "application/json"
+            );
 
-        private void Handle(Task<HttpResponseMessage> task)
+        private async Task<T> FromJson<T>(HttpContent content) =>
+            JSON.Deserialize<T>(await content.ReadAsStringAsync(), options);
+
+        private void CheckResponse(HttpResponseMessage response)
         {
-            if (task.IsCompleted && !task.IsFaulted)
-            {
-                var response = task.Result;
-                if (response.IsSuccessStatusCode) return;
-
-                // TODO Handle specific errors
-                throw new Exception(response.Content.ToString());
-            }
-            else
-            {
-                if (task.Exception.InnerExceptions.Count == 1)
-                    throw task.Exception.InnerException;
-                else
-                    throw task.Exception;
-            }
+            if (response.IsSuccessStatusCode) return;
+            else throw ResponseException(response);
         }
+
+        private async Task<T> ParseResponse<T>(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode)
+                return await FromJson<T>(response.Content);
+            else throw ResponseException(response);
+        }
+
+        private Exception ResponseException(HttpResponseMessage response)
+        {
+            // TODO Handle specific error messages
+            var message = response.Content.ReadAsStringAsync().Result;
+            return new Exception($"{response.StatusCode}: {message}");
+        }
+
 
         public class SaveRequest
         {
