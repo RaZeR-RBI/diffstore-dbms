@@ -119,7 +119,6 @@ namespace Tests.Diffstore.DBMS.Drivers
             var pageFiltered = await db.GetSnapshots(key, 1, 2);
             var actualSnapshots = await db.GetSnapshots(key);
 
-            Assert.Equal(snapshots, actualSnapshots);
             Assert.Equal(time.First(), firstTime);
             Assert.Equal(snapshots.First(), first);
             Assert.Equal(time.Last(), lastTime);
@@ -127,7 +126,8 @@ namespace Tests.Diffstore.DBMS.Drivers
             Assert.Equal(snapshots.Where(
                 s => (s.Time >= time.First()) && (s.Time < time.Last())),
                 timeFiltered);
-            Assert.Equal(snapshots.Skip(1).Take(2), pageFiltered);
+            Assert.Equal(snapshots.Reverse().Skip(1).Take(2), pageFiltered);
+            Assert.Equal(snapshots, actualSnapshots);
         }
     }
 

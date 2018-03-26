@@ -18,11 +18,12 @@ namespace Diffstore.DBMS.Core
         where TKey : IComparable
         where TValue : class, new()
     {
+        public new long Time { get; set; }
         public new EntityExt<TKey, TValue> State { get; set; }
 
         public SnapshotExt() : base(default(long), default(Entity<TKey, TValue>)) { }
 
         public Snapshot<TKey, TValue> Create() =>
-            Snapshot.Create(base.Time, this.State.Create());
+            Snapshot.Create(this.Time, this.State.Create());
     }
 }
