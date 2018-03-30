@@ -238,7 +238,7 @@ describe('Test suite',
                 var line = String.fromCharCode.apply(String, data);
                 // Extract server listening URI if available
                 var URIs = line.match(/(https?:\/\/[^\s]+[\/\d])/);
-                if (URIs.length !== 0) {
+                if (!!URIs && URIs.length !== 0) {
                     chakram.setRequestDefaults({ baseUrl: URIs[0] });
                     done();
                 }

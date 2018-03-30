@@ -44,7 +44,7 @@ namespace Standalone
             p.Setup(x => x.Snapshots)
                 .As("snapshots")
                 .WithDescription(
-                    "Snapshot storage mechanism. Values: SingleFile, LastFirstOptimized. " +
+                    "Snapshot storage mechanism. Values: SingleFile, LastFirst. " +
                     "Default: SingleFile"
                 )
                 .SetDefault(SnapshotStorage.SingleFile);
@@ -65,7 +65,7 @@ namespace Standalone
                 .SetDefault("long");
 
             p.Setup(x => x.Listeners)
-                .As("port")
+                .As("listen")
                 .WithDescription(
                     "One or several URIs to listen on. Default: http://localhost:8008"
                 )

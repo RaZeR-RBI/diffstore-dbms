@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Diffstore.DBMS.Core.Exceptions;
 using Jil;
 using Nancy;
@@ -20,6 +22,7 @@ namespace Standalone.Nancy
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
+            Console.WriteLine("Configuring application container");
             container.Register(
                 typeof(DynamicDiffstore), 
                 DynamicDiffstoreBuilder.Create(_options, _schema)
@@ -46,5 +49,9 @@ namespace Standalone.Nancy
             });
         }
 
+        protected override IEnumerable<ModuleRegistration> Modules
+        {
+            get => new [] { new ModuleRegistration(typeof(MainModule)) };
+        }
     }
 }

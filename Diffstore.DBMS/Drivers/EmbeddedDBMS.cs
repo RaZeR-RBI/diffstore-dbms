@@ -35,7 +35,19 @@ namespace Diffstore.DBMS.Drivers
             this.lockPolicy = fallbackPolicy.WrapAsync(retryPolicy);
 
             this.existence = new ConcurrentDictionary<TKey, bool>(
-                db.Keys.ToDictionary(k => k, k => db.GetSnapshots(k).Any())
+                db.Keys.ToDictionary(k => k, k =>
+                {
+                    try
+                    {
+                        return db.GetSnapshots(k).Any();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[ERROR] Entity {k} is corrupt. Deleting.", ex);
+                        db.Delete(k);
+                        return false;
+                    }
+                })
             );
         }
 
@@ -56,12 +68,12 @@ namespace Diffstore.DBMS.Drivers
         private ConcurrentDictionary<TKey, bool> existence = new ConcurrentDictionary<TKey, bool>();
         private IEnumerable<TKey> cachedKeys => existence.Keys;
 
-        private async Task<T> WriteTransaction<T>(TKey key, Func<T> fn, 
+        private async Task<T> WriteTransaction<T>(TKey key, Func<T> fn,
             bool checkEntityExistence = false)
         {
             if (checkEntityExistence && !existence.ContainsKey(key))
                 throw new EntityNotFoundException(key);
-            
+
             await AcquireForWrite(key);
             try
             {
@@ -72,12 +84,12 @@ namespace Diffstore.DBMS.Drivers
             finally { await ReleaseFromWrite(key); }
         }
 
-        private async Task WriteTransaction(TKey key, Action action, 
+        private async Task WriteTransaction(TKey key, Action action,
             bool checkEntityExistence = false)
         {
             if (checkEntityExistence && !existence.ContainsKey(key))
                 throw new EntityNotFoundException(key);
-            
+
             await AcquireForWrite(key);
             try
             {
@@ -93,7 +105,7 @@ namespace Diffstore.DBMS.Drivers
             if (!existence.ContainsKey(key)) throw new EntityNotFoundException(key);
             if (checkSnapshotExistence && !existence[key])
                 throw new SnapshotNotFoundException(key);
-            
+
             await AcquireForRead(key);
             try
             {
