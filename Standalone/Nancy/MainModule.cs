@@ -15,7 +15,6 @@ namespace Standalone.Nancy
         private DynamicDiffstore _backend;
         public MainModule(DynamicDiffstore backend)
         {
-            Console.WriteLine("Initializing main module");
             _backend = backend;
             var db = backend.Storage;
             Get("/", d => _backend.Schema);
