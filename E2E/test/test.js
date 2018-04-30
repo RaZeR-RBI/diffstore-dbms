@@ -7,6 +7,7 @@ var schemaFile = 'schema.json';
 
 describe('Test suite',
     function () {
+        this.timeout(30000);
         const schema = JSON.parse(fs.readFileSync(schemaFile));
         it('should return the schema JSON on index page', function () {
             return chakram.get('/')
@@ -215,6 +216,7 @@ describe('Test suite',
         /* Setup and teardown */
         var dbms = null;
         var fd = -1;
+        var started = false;
 
         before(function (done) {
             fd = fs.openSync(schemaFile, 'r');
@@ -238,8 +240,9 @@ describe('Test suite',
                 var line = String.fromCharCode.apply(String, data);
                 // Extract server listening URI if available
                 var URIs = line.match(/(https?:\/\/[^\s]+[\/\d])/);
-                if (!!URIs && URIs.length !== 0) {
+                if (!!URIs && URIs.length !== 0 && !started) {
                     chakram.setRequestDefaults({ baseUrl: URIs[0] });
+                    started = true;
                     done();
                 }
             });

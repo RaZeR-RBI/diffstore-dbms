@@ -7,10 +7,12 @@ using System.Threading;
 using Diffstore;
 using Fclp;
 using Jil;
-using Nancy;
-using Nancy.Hosting.Self;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Standalone.Core;
-using Standalone.Nancy;
+using Standalone.Util;
 
 namespace Standalone
 {
@@ -105,35 +107,39 @@ namespace Standalone
         static void Run(Options options)
         {
             var jsonOptions = new Jil.Options(
-                serializationNameFormat: SerializationNameFormat.CamelCase
+                serializationNameFormat: SerializationNameFormat.CamelCase,
+                includeInherited: true
             );
             JSON.SetDefaultOptions(jsonOptions);
 
-            var URIs = options.Listeners.Select(s => new Uri(s)).ToArray();
+            var URIs = options.Listeners.ToArray();
             var schema = LoadSchema(options.LoadSchemaFromStdIn);
-            var bootstrapper = new MainBootstrapper(options, schema);
-            var config = new HostConfiguration {
-                AllowChunkedEncoding = false
-            };
-            var host = new NancyHost(bootstrapper, config, URIs);
-            var exitEvent = new ManualResetEvent(false);
-            Console.CancelKeyPress += (s, e) =>
-            {
-                e.Cancel = true; exitEvent.Set();
-            };
 
-            host.Start();
-            Console.WriteLine(
-                $"Listening on {string.Join(", ", options.Listeners)}. "
-            );
+            var host = WebHost.CreateDefaultBuilder()
+                .UseUrls(URIs)
+                .ConfigureServices(services => ConfigureServices(services, options, schema))
+                .Configure(app => Configure(app))
+                .Build();
 
-            exitEvent.WaitOne();
-            Console.WriteLine("Shutdown requested, exiting...");
-            AppDomain.CurrentDomain.ProcessExit += (s, e) =>
+            host.Run();
+        }
+
+        static void ConfigureServices(IServiceCollection services,
+            Options _options, SchemaDefinition _schema)
+        {
+            services.AddMvcCore(options =>
             {
-                host.Stop();
-                Console.WriteLine("Stopped");
-            };
+                options.OutputFormatters.Add(new JilOutputFormatter());
+                options.InputFormatters.Add(new JilInputFormatter());
+            })
+            .AddFormatterMappings();
+            services.AddSingleton<DynamicDiffstore>(s =>
+                DynamicDiffstoreBuilder.Create(_options, _schema));
+        }
+
+        static void Configure(IApplicationBuilder app)
+        {
+            app.UseMvc();
         }
 
         static SchemaDefinition LoadSchema(bool fromStdIn) =>
