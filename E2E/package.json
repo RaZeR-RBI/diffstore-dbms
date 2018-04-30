@@ -11,5 +11,8 @@
   "devDependencies": {
     "chakram": "^1.5.0",
     "mocha": "^5.1.1"
+  },
+  "dependencies": {
+    "hoek": "^4.2.1"
   }
 }
