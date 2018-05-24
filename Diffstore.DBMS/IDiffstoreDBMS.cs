@@ -43,6 +43,11 @@ namespace Diffstore.DBMS
             Uri connectionUri)
         where TKey : IComparable
         where TValue : class, new() =>
-           new RemoteDBMS<TKey, TValue>(connectionUri);
+            new RemoteDBMS<TKey, TValue>(connectionUri);
+
+        public static IDiffstoreDBMS<TKey, TValue> Remote<TKey, TValue>()
+        where TKey : IComparable
+        where TValue : class, new() =>
+            new RemoteDBMS<TKey, TValue>(new Uri("http://localhost:8008/"));
     }
 }
