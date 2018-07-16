@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Jil;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
+using Microsoft.Extensions.Logging;
 
 namespace Standalone.Util
 {
@@ -15,6 +16,7 @@ namespace Standalone.Util
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("application/json"));
         }
 
+#pragma warning disable CS0168
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(
             InputFormatterContext context)
         {
@@ -28,9 +30,9 @@ namespace Standalone.Util
             {
                 return InputFormatterResult.Success(JSON.Deserialize(data, type));
             } catch (Exception ex) {
-                // TODO Log
                 return InputFormatterResult.Failure();
             }
         }
+#pragma warning restore CS0168
     }
 }
