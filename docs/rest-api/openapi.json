@@ -1,0 +1,547 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "This document describes Diffstore DBMS REST API.",
+    "version": "1.0.0",
+    "title": "Diffstore DBMS REST API"
+  },
+  "tags": [
+    {
+      "name": "General",
+      "description": ""
+    },
+    {
+      "name": "Entities",
+      "description": ""
+    },
+    {
+      "name": "Snapshots",
+      "description": ""
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:8008",
+      "description": "Local instance with default port"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "summary": "Returns database schema",
+        "responses": {
+          "200": {
+            "description": "Sample response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keys": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "summary": "Returns an array of all keys",
+        "description": "This data is always cached, so it can be used without any performance penalty.",
+        "responses": {
+          "200": {
+            "description": "Sample response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Key"
+                  },
+                  "example": [
+                    1,
+                    2
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entities": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "summary": "Returns all saved entities",
+        "description": "Note: this call may be slow depending on number of entities.",
+        "responses": {
+          "200": {
+            "description": "Sample response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Entity"
+                  },
+                  "example": [
+                    {
+                      "key": 1,
+                      "value": {
+                        "foo": "one",
+                        "bar": 10
+                      }
+                    },
+                    {
+                      "key": 2,
+                      "value": {
+                        "foo": "two",
+                        "bar": 20
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entities/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/EntityIdParam"
+        }
+      ],
+      "head": {
+        "tags": [
+          "Entities"
+        ],
+        "summary": "Checks for existence of an entity by ID",
+        "responses": {
+          "200": {
+            "description": "Entity exists"
+          },
+          "404": {
+            "$ref": "#/components/responses/EntityNotFound"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "summary": "Returns entity by ID",
+        "responses": {
+          "200": {
+            "description": "Sample response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/EntityNotFound"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Entities"
+        ],
+        "summary": "Saves entity data",
+        "responses": {
+          "200": {
+            "description": "Entity has been saved"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "makeSnapshot",
+                  "key",
+                  "value"
+                ],
+                "properties": {
+                  "key": {
+                    "$ref": "#/components/schemas/Key"
+                  },
+                  "value": {
+                    "type": "object",
+                    "example": {
+                      "foo": "new",
+                      "bar": 1337
+                    }
+                  },
+                  "makeSnapshot": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Entities"
+        ],
+        "summary": "Deletes entity by ID",
+        "responses": {
+          "200": {
+            "description": "Successfully deleted"
+          },
+          "404": {
+            "$ref": "#/components/responses/EntityNotFound"
+          }
+        }
+      }
+    },
+    "/snapshots/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/EntityIdParam"
+        }
+      ],
+      "get": {
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Number of snapshots to skip. Use with \"count\" for paging. Order of items is defined by storage implementation.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Number of snapshots to fetch. See \"from\".",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "timeStart",
+            "in": "query",
+            "description": "Lower time bound. Use with \"timeEnd\" for filtering. Order of items is defined by storage implementation.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "timeEnd",
+            "in": "query",
+            "description": "Upper time bound. See \"timeStart\".",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "summary": "Get snapshots with or without filtering",
+        "description": "There are three modes - fetch all (no query parameters), fetch page (from and count) and fetch in time range (timeStart to timeEnd).",
+        "tags": [
+          "Snapshots"
+        ],
+        "responses": {
+          "200": {
+            "description": "Sample response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Snapshot"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/EntityNotFound"
+          }
+        }
+      }
+    },
+    "/snapshots/{id}/firstTime": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/EntityIdParam"
+        }
+      ],
+      "get": {
+        "summary": "Get time of the first snapshot for the specified entity ID",
+        "tags": [
+          "Snapshots"
+        ],
+        "responses": {
+          "200": {
+            "description": "Sample response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "example": 1531753894
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/EntityNotFound"
+          }
+        }
+      }
+    },
+    "/snapshots/{id}/lastTime": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/EntityIdParam"
+        }
+      ],
+      "get": {
+        "summary": "Get time of the last snapshot for the specified entity ID",
+        "tags": [
+          "Snapshots"
+        ],
+        "responses": {
+          "200": {
+            "description": "Sample response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "example": 1531753894
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/EntityNotFound"
+          }
+        }
+      }
+    },
+    "/snapshots/{id}/first": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/EntityIdParam"
+        }
+      ],
+      "get": {
+        "summary": "Get first snapshot for the specified entity ID",
+        "tags": [
+          "Snapshots"
+        ],
+        "responses": {
+          "200": {
+            "description": "Sample response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Snapshot"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/EntityNotFound"
+          }
+        }
+      }
+    },
+    "/snapshots/{id}/last": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/EntityIdParam"
+        }
+      ],
+      "get": {
+        "summary": "Get last snapshot for the specified entity ID",
+        "tags": [
+          "Snapshots"
+        ],
+        "responses": {
+          "200": {
+            "description": "Sample response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Snapshot"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/EntityNotFound"
+          }
+        }
+      }
+    },
+    "/snapshots": {
+      "put": {
+        "summary": "Put the supplied snapshot for the specified entity ID",
+        "tags": [
+          "Snapshots"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "time",
+                  "state"
+                ],
+                "properties": {
+                  "time": {
+                    "type": "number",
+                    "example": 1531753894
+                  },
+                  "state": {
+                    "type": "object",
+                    "example": {
+                      "foo": "test",
+                      "bar": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sample response"
+          },
+          "404": {
+            "$ref": "#/components/responses/EntityNotFound"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "EntityIdParam": {
+        "in": "path",
+        "schema": {
+          "$ref": "#/components/schemas/Key"
+        },
+        "name": "id",
+        "required": true,
+        "description": "ID of the entity (default type - integer)"
+      }
+    },
+    "responses": {
+      "EntityNotFound": {
+        "description": "Entity does not exist"
+      }
+    },
+    "schemas": {
+      "Schema": {
+        "required": [
+          "fields"
+        ],
+        "properties": {
+          "fields": {
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "ignoreChanges": {
+                  "type": "boolean"
+                },
+                "doNotPersist": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "fields": [
+            {
+              "name": "foo",
+              "type": "string"
+            },
+            {
+              "name": "bar",
+              "type": "int"
+            }
+          ]
+        }
+      },
+      "Key": {
+        "example": 123,
+        "anyOf": [
+          {
+            "type": "number",
+            "example": 123
+          },
+          {
+            "type": "string",
+            "example": "johndoe"
+          }
+        ]
+      },
+      "Entity": {
+        "required": [
+          "key",
+          "value"
+        ],
+        "properties": {
+          "key": {
+            "$ref": "#/components/schemas/Key"
+          },
+          "value": {
+            "type": "object",
+            "example": {
+              "foo": "test",
+              "bar": 1
+            }
+          }
+        }
+      },
+      "Snapshot": {
+        "required": [
+          "time",
+          "state"
+        ],
+        "properties": {
+          "time": {
+            "type": "integer",
+            "example": 1531753894
+          },
+          "state": {
+            "$ref": "#/components/schemas/Entity"
+          }
+        }
+      }
+    }
+  }
+}

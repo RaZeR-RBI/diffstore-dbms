@@ -1,0 +1,756 @@
+{
+  "name": "",
+  "fullName": "",
+  "type": "Root",
+  "link": "",
+  "children": [
+    {
+      "name": "Diffstore.DBMS",
+      "fullName": "Diffstore.DBMS",
+      "type": "Namespace",
+      "link": "Diffstore.DBMS",
+      "children": [
+        {
+          "name": "DiffstoreDBMS",
+          "fullName": "Diffstore.DBMS.DiffstoreDBMS",
+          "type": "Class",
+          "link": "Diffstore.DBMS.DiffstoreDBMS",
+          "children": [
+            {
+              "name": "Embedded<TKey, TValue>(IDiffstore<TKey, TValue>, ITransactionProvider<TKey>, TransactionPolicyInfo)",
+              "fullName": "Diffstore.DBMS.DiffstoreDBMS.Embedded<TKey, TValue>(IDiffstore<TKey, TValue>, ITransactionProvider<TKey>, TransactionPolicyInfo)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.DiffstoreDBMS.Embedded{TKey,TValue}(IDiffstore{TKey,TValue},ITransactionProvider{TKey},TransactionPolicyInfo)"
+            },
+            {
+              "name": "Remote<TKey, TValue>()",
+              "fullName": "Diffstore.DBMS.DiffstoreDBMS.Remote<TKey, TValue>()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.DiffstoreDBMS.Remote{TKey,TValue}()"
+            },
+            {
+              "name": "Remote<TKey, TValue>(Uri)",
+              "fullName": "Diffstore.DBMS.DiffstoreDBMS.Remote<TKey, TValue>(Uri)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.DiffstoreDBMS.Remote{TKey,TValue}(Uri)"
+            }
+          ]
+        },
+        {
+          "name": "IDiffstoreDBMS<TKey, TValue>",
+          "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>",
+          "type": "Interface",
+          "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}",
+          "children": [
+            {
+              "name": "Delete(Entity<TKey, TValue>)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.Delete(Entity<TKey, TValue>)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Delete(Entity{TKey,TValue})"
+            },
+            {
+              "name": "Delete(TKey)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.Delete(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Delete(TKey)"
+            },
+            {
+              "name": "Exists(TKey)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.Exists(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Exists(TKey)"
+            },
+            {
+              "name": "Get(TKey)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.Get(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Get(TKey)"
+            },
+            {
+              "name": "GetAll()",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.GetAll()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.GetAll()"
+            },
+            {
+              "name": "GetFirst(TKey)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.GetFirst(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.GetFirst(TKey)"
+            },
+            {
+              "name": "GetFirstTime(TKey)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.GetFirstTime(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.GetFirstTime(TKey)"
+            },
+            {
+              "name": "GetLast(TKey)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.GetLast(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.GetLast(TKey)"
+            },
+            {
+              "name": "GetLastTime(TKey)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.GetLastTime(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.GetLastTime(TKey)"
+            },
+            {
+              "name": "GetSnapshots(TKey, int, int)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.GetSnapshots(TKey, int, int)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.GetSnapshots(TKey,int,int)"
+            },
+            {
+              "name": "GetSnapshots(TKey)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.GetSnapshots(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.GetSnapshots(TKey)"
+            },
+            {
+              "name": "GetSnapshotsBetween(TKey, long, long)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.GetSnapshotsBetween(TKey, long, long)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.GetSnapshotsBetween(TKey,long,long)"
+            },
+            {
+              "name": "Keys()",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.Keys()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Keys()"
+            },
+            {
+              "name": "PutSnapshot(Entity<TKey, TValue>, long)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.PutSnapshot(Entity<TKey, TValue>, long)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long)"
+            },
+            {
+              "name": "Save(Entity<TKey, TValue>, bool)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.Save(Entity<TKey, TValue>, bool)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool)"
+            },
+            {
+              "name": "Save(TKey, TValue, bool)",
+              "fullName": "Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>.Save(TKey, TValue, bool)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Save(TKey,TValue,bool)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Diffstore.DBMS.Core",
+      "fullName": "Diffstore.DBMS.Core",
+      "type": "Namespace",
+      "link": "Diffstore.DBMS.Core",
+      "children": [
+        {
+          "name": "ConcurrentTransactionProvider<TKey>",
+          "fullName": "Diffstore.DBMS.Core.ConcurrentTransactionProvider<TKey>",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}",
+          "children": [
+            {
+              "name": "InRead",
+              "fullName": "Diffstore.DBMS.Core.ConcurrentTransactionProvider<TKey>.InRead",
+              "type": "Property",
+              "link": "Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.InRead"
+            },
+            {
+              "name": "InWrite",
+              "fullName": "Diffstore.DBMS.Core.ConcurrentTransactionProvider<TKey>.InWrite",
+              "type": "Property",
+              "link": "Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.InWrite"
+            },
+            {
+              "name": "BeginRead(TKey)",
+              "fullName": "Diffstore.DBMS.Core.ConcurrentTransactionProvider<TKey>.BeginRead(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.BeginRead(TKey)"
+            },
+            {
+              "name": "BeginWrite(TKey)",
+              "fullName": "Diffstore.DBMS.Core.ConcurrentTransactionProvider<TKey>.BeginWrite(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.BeginWrite(TKey)"
+            },
+            {
+              "name": "EndRead(TKey)",
+              "fullName": "Diffstore.DBMS.Core.ConcurrentTransactionProvider<TKey>.EndRead(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.EndRead(TKey)"
+            },
+            {
+              "name": "EndWrite(TKey)",
+              "fullName": "Diffstore.DBMS.Core.ConcurrentTransactionProvider<TKey>.EndWrite(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.EndWrite(TKey)"
+            }
+          ]
+        },
+        {
+          "name": "EntityExt<TKey, TValue>",
+          "fullName": "Diffstore.DBMS.Core.EntityExt<TKey, TValue>",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Core.EntityExt{TKey,TValue}",
+          "children": [
+            {
+              "name": "EntityExt()",
+              "fullName": "Diffstore.DBMS.Core.EntityExt<TKey, TValue>.EntityExt()",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.EntityExt{TKey,TValue}.EntityExt()"
+            },
+            {
+              "name": "Create()",
+              "fullName": "Diffstore.DBMS.Core.EntityExt<TKey, TValue>.Create()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.EntityExt{TKey,TValue}.Create()"
+            }
+          ]
+        },
+        {
+          "name": "SnapshotExt<TKey, TValue>",
+          "fullName": "Diffstore.DBMS.Core.SnapshotExt<TKey, TValue>",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Core.SnapshotExt{TKey,TValue}",
+          "children": [
+            {
+              "name": "Time",
+              "fullName": "Diffstore.DBMS.Core.SnapshotExt<TKey, TValue>.Time",
+              "type": "Property",
+              "link": "Diffstore.DBMS.Core.SnapshotExt{TKey,TValue}.Time"
+            },
+            {
+              "name": "State",
+              "fullName": "Diffstore.DBMS.Core.SnapshotExt<TKey, TValue>.State",
+              "type": "Property",
+              "link": "Diffstore.DBMS.Core.SnapshotExt{TKey,TValue}.State"
+            },
+            {
+              "name": "SnapshotExt()",
+              "fullName": "Diffstore.DBMS.Core.SnapshotExt<TKey, TValue>.SnapshotExt()",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.SnapshotExt{TKey,TValue}.SnapshotExt()"
+            },
+            {
+              "name": "Create()",
+              "fullName": "Diffstore.DBMS.Core.SnapshotExt<TKey, TValue>.Create()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.SnapshotExt{TKey,TValue}.Create()"
+            }
+          ]
+        },
+        {
+          "name": "TransactionPolicy",
+          "fullName": "Diffstore.DBMS.Core.TransactionPolicy",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Core.TransactionPolicy",
+          "children": [
+            {
+              "name": "FixedRetries(int, TimeSpan)",
+              "fullName": "Diffstore.DBMS.Core.TransactionPolicy.FixedRetries(int, TimeSpan)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.TransactionPolicy.FixedRetries(int,TimeSpan)"
+            },
+            {
+              "name": "FixedRetries(TransactionPolicyInfo, int, TimeSpan)",
+              "fullName": "Diffstore.DBMS.Core.TransactionPolicy.FixedRetries(TransactionPolicyInfo, int, TimeSpan)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.TransactionPolicy.FixedRetries(TransactionPolicyInfo,int,TimeSpan)"
+            },
+            {
+              "name": "SingleRetry(TimeSpan)",
+              "fullName": "Diffstore.DBMS.Core.TransactionPolicy.SingleRetry(TimeSpan)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.TransactionPolicy.SingleRetry(TimeSpan)"
+            },
+            {
+              "name": "SingleRetry(TransactionPolicyInfo, TimeSpan)",
+              "fullName": "Diffstore.DBMS.Core.TransactionPolicy.SingleRetry(TransactionPolicyInfo, TimeSpan)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.TransactionPolicy.SingleRetry(TransactionPolicyInfo,TimeSpan)"
+            },
+            {
+              "name": "WithRetries(TimeSpan[])",
+              "fullName": "Diffstore.DBMS.Core.TransactionPolicy.WithRetries(TimeSpan[])",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.TransactionPolicy.WithRetries(TimeSpan[])"
+            },
+            {
+              "name": "WithRetries(TransactionPolicyInfo, TimeSpan[])",
+              "fullName": "Diffstore.DBMS.Core.TransactionPolicy.WithRetries(TransactionPolicyInfo, TimeSpan[])",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.TransactionPolicy.WithRetries(TransactionPolicyInfo,TimeSpan[])"
+            }
+          ]
+        },
+        {
+          "name": "TransactionPolicyInfo",
+          "fullName": "Diffstore.DBMS.Core.TransactionPolicyInfo",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Core.TransactionPolicyInfo",
+          "children": [
+            {
+              "name": "RetryTimeouts",
+              "fullName": "Diffstore.DBMS.Core.TransactionPolicyInfo.RetryTimeouts",
+              "type": "Property",
+              "link": "Diffstore.DBMS.Core.TransactionPolicyInfo.RetryTimeouts"
+            }
+          ]
+        },
+        {
+          "name": "TransactionProvider",
+          "fullName": "Diffstore.DBMS.Core.TransactionProvider",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Core.TransactionProvider",
+          "children": [
+            {
+              "name": "OfType<TKey>()",
+              "fullName": "Diffstore.DBMS.Core.TransactionProvider.OfType<TKey>()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.TransactionProvider.OfType{TKey}()"
+            }
+          ]
+        },
+        {
+          "name": "ITransactionProvider<TKey>",
+          "fullName": "Diffstore.DBMS.Core.ITransactionProvider<TKey>",
+          "type": "Interface",
+          "link": "Diffstore.DBMS.Core.ITransactionProvider{TKey}",
+          "children": [
+            {
+              "name": "InRead",
+              "fullName": "Diffstore.DBMS.Core.ITransactionProvider<TKey>.InRead",
+              "type": "Property",
+              "link": "Diffstore.DBMS.Core.ITransactionProvider{TKey}.InRead"
+            },
+            {
+              "name": "InWrite",
+              "fullName": "Diffstore.DBMS.Core.ITransactionProvider<TKey>.InWrite",
+              "type": "Property",
+              "link": "Diffstore.DBMS.Core.ITransactionProvider{TKey}.InWrite"
+            },
+            {
+              "name": "BeginRead(TKey)",
+              "fullName": "Diffstore.DBMS.Core.ITransactionProvider<TKey>.BeginRead(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.ITransactionProvider{TKey}.BeginRead(TKey)"
+            },
+            {
+              "name": "BeginWrite(TKey)",
+              "fullName": "Diffstore.DBMS.Core.ITransactionProvider<TKey>.BeginWrite(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.ITransactionProvider{TKey}.BeginWrite(TKey)"
+            },
+            {
+              "name": "EndRead(TKey)",
+              "fullName": "Diffstore.DBMS.Core.ITransactionProvider<TKey>.EndRead(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.ITransactionProvider{TKey}.EndRead(TKey)"
+            },
+            {
+              "name": "EndWrite(TKey)",
+              "fullName": "Diffstore.DBMS.Core.ITransactionProvider<TKey>.EndWrite(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Core.ITransactionProvider{TKey}.EndWrite(TKey)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Diffstore.DBMS.Core.Exceptions",
+      "fullName": "Diffstore.DBMS.Core.Exceptions",
+      "type": "Namespace",
+      "link": "Diffstore.DBMS.Core.Exceptions",
+      "children": [
+        {
+          "name": "EntityNotFoundException",
+          "fullName": "Diffstore.DBMS.Core.Exceptions.EntityNotFoundException",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Core.Exceptions.EntityNotFoundException",
+          "children": [
+            {
+              "name": "EntityNotFoundException()",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.EntityNotFoundException.EntityNotFoundException()",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.EntityNotFoundException.EntityNotFoundException()"
+            },
+            {
+              "name": "EntityNotFoundException(object)",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.EntityNotFoundException.EntityNotFoundException(object)",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.EntityNotFoundException.EntityNotFoundException(object)"
+            },
+            {
+              "name": "EntityNotFoundException(object, Exception)",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.EntityNotFoundException.EntityNotFoundException(object, Exception)",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.EntityNotFoundException.EntityNotFoundException(object,Exception)"
+            }
+          ]
+        },
+        {
+          "name": "ResourceIsBusyException",
+          "fullName": "Diffstore.DBMS.Core.Exceptions.ResourceIsBusyException",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Core.Exceptions.ResourceIsBusyException",
+          "children": [
+            {
+              "name": "ResourceIsBusyException()",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.ResourceIsBusyException.ResourceIsBusyException()",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.ResourceIsBusyException.ResourceIsBusyException()"
+            },
+            {
+              "name": "ResourceIsBusyException(string)",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.ResourceIsBusyException.ResourceIsBusyException(string)",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.ResourceIsBusyException.ResourceIsBusyException(string)"
+            },
+            {
+              "name": "ResourceIsBusyException(string, Exception)",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.ResourceIsBusyException.ResourceIsBusyException(string, Exception)",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.ResourceIsBusyException.ResourceIsBusyException(string,Exception)"
+            }
+          ]
+        },
+        {
+          "name": "SnapshotNotFoundException",
+          "fullName": "Diffstore.DBMS.Core.Exceptions.SnapshotNotFoundException",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Core.Exceptions.SnapshotNotFoundException",
+          "children": [
+            {
+              "name": "SnapshotNotFoundException()",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.SnapshotNotFoundException.SnapshotNotFoundException()",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.SnapshotNotFoundException.SnapshotNotFoundException()"
+            },
+            {
+              "name": "SnapshotNotFoundException(object)",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.SnapshotNotFoundException.SnapshotNotFoundException(object)",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.SnapshotNotFoundException.SnapshotNotFoundException(object)"
+            },
+            {
+              "name": "SnapshotNotFoundException(object, Exception)",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.SnapshotNotFoundException.SnapshotNotFoundException(object, Exception)",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.SnapshotNotFoundException.SnapshotNotFoundException(object,Exception)"
+            }
+          ]
+        },
+        {
+          "name": "TransactionRolledBackException",
+          "fullName": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException",
+          "children": [
+            {
+              "name": "TransactionRolledBackException()",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException()",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException()"
+            },
+            {
+              "name": "TransactionRolledBackException(object)",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException(object)",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException(object)"
+            },
+            {
+              "name": "TransactionRolledBackException(object, Exception)",
+              "fullName": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException(object, Exception)",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException(object,Exception)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Diffstore.DBMS.Drivers",
+      "fullName": "Diffstore.DBMS.Drivers",
+      "type": "Namespace",
+      "link": "Diffstore.DBMS.Drivers",
+      "children": [
+        {
+          "name": "EmbeddedDBMS<TKey, TValue>",
+          "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}",
+          "children": [
+            {
+              "name": "EmbeddedDBMS(IDiffstore<TKey, TValue>, TransactionPolicyInfo, ITransactionProvider<TKey>)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.EmbeddedDBMS(IDiffstore<TKey, TValue>, TransactionPolicyInfo, ITransactionProvider<TKey>)",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.EmbeddedDBMS(IDiffstore{TKey,TValue},TransactionPolicyInfo,ITransactionProvider{TKey})"
+            },
+            {
+              "name": "Delete(Entity<TKey, TValue>)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.Delete(Entity<TKey, TValue>)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Delete(Entity{TKey,TValue})"
+            },
+            {
+              "name": "Delete(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.Delete(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Delete(TKey)"
+            },
+            {
+              "name": "Dispose()",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.Dispose()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Dispose()"
+            },
+            {
+              "name": "Exists(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.Exists(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Exists(TKey)"
+            },
+            {
+              "name": "Get(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.Get(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Get(TKey)"
+            },
+            {
+              "name": "GetAll()",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.GetAll()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.GetAll()"
+            },
+            {
+              "name": "GetFirst(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.GetFirst(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.GetFirst(TKey)"
+            },
+            {
+              "name": "GetFirstTime(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.GetFirstTime(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.GetFirstTime(TKey)"
+            },
+            {
+              "name": "GetLast(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.GetLast(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.GetLast(TKey)"
+            },
+            {
+              "name": "GetLastTime(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.GetLastTime(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.GetLastTime(TKey)"
+            },
+            {
+              "name": "GetSnapshots(TKey, int, int)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.GetSnapshots(TKey, int, int)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.GetSnapshots(TKey,int,int)"
+            },
+            {
+              "name": "GetSnapshots(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.GetSnapshots(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.GetSnapshots(TKey)"
+            },
+            {
+              "name": "GetSnapshotsBetween(TKey, long, long)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.GetSnapshotsBetween(TKey, long, long)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.GetSnapshotsBetween(TKey,long,long)"
+            },
+            {
+              "name": "Keys()",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.Keys()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Keys()"
+            },
+            {
+              "name": "PutSnapshot(Entity<TKey, TValue>, long)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.PutSnapshot(Entity<TKey, TValue>, long)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long)"
+            },
+            {
+              "name": "Save(Entity<TKey, TValue>, bool)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.Save(Entity<TKey, TValue>, bool)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool)"
+            },
+            {
+              "name": "Save(TKey, TValue, bool)",
+              "fullName": "Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>.Save(TKey, TValue, bool)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Save(TKey,TValue,bool)"
+            }
+          ]
+        },
+        {
+          "name": "RemoteDBMS<TKey, TValue>",
+          "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>",
+          "type": "Class",
+          "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}",
+          "children": [
+            {
+              "name": "SaveRequest",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest",
+              "type": "Class",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest",
+              "children": [
+                {
+                  "name": "Key",
+                  "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest.Key",
+                  "type": "Property",
+                  "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.Key"
+                },
+                {
+                  "name": "Value",
+                  "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest.Value",
+                  "type": "Property",
+                  "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.Value"
+                },
+                {
+                  "name": "MakeSnapshot",
+                  "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest.MakeSnapshot",
+                  "type": "Property",
+                  "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.MakeSnapshot"
+                },
+                {
+                  "name": "SaveRequest()",
+                  "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest.SaveRequest()",
+                  "type": "Constructor",
+                  "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.SaveRequest()"
+                },
+                {
+                  "name": "SaveRequest(Entity<TKey, TValue>, bool)",
+                  "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest.SaveRequest(Entity<TKey, TValue>, bool)",
+                  "type": "Constructor",
+                  "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.SaveRequest(Entity{TKey,TValue},bool)"
+                }
+              ]
+            },
+            {
+              "name": "RemoteDBMS(Uri)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.RemoteDBMS(Uri)",
+              "type": "Constructor",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.RemoteDBMS(Uri)"
+            },
+            {
+              "name": "Delete(Entity<TKey, TValue>)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.Delete(Entity<TKey, TValue>)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Delete(Entity{TKey,TValue})"
+            },
+            {
+              "name": "Delete(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.Delete(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Delete(TKey)"
+            },
+            {
+              "name": "Dispose()",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.Dispose()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Dispose()"
+            },
+            {
+              "name": "Exists(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.Exists(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Exists(TKey)"
+            },
+            {
+              "name": "Get(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.Get(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Get(TKey)"
+            },
+            {
+              "name": "GetAll()",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.GetAll()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetAll()"
+            },
+            {
+              "name": "GetFirst(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.GetFirst(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetFirst(TKey)"
+            },
+            {
+              "name": "GetFirstTime(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.GetFirstTime(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetFirstTime(TKey)"
+            },
+            {
+              "name": "GetLast(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.GetLast(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetLast(TKey)"
+            },
+            {
+              "name": "GetLastTime(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.GetLastTime(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetLastTime(TKey)"
+            },
+            {
+              "name": "GetSnapshots(TKey, int, int)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.GetSnapshots(TKey, int, int)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetSnapshots(TKey,int,int)"
+            },
+            {
+              "name": "GetSnapshots(TKey)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.GetSnapshots(TKey)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetSnapshots(TKey)"
+            },
+            {
+              "name": "GetSnapshotsBetween(TKey, long, long)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.GetSnapshotsBetween(TKey, long, long)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetSnapshotsBetween(TKey,long,long)"
+            },
+            {
+              "name": "Keys()",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.Keys()",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Keys()"
+            },
+            {
+              "name": "PutSnapshot(Entity<TKey, TValue>, long)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.PutSnapshot(Entity<TKey, TValue>, long)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long)"
+            },
+            {
+              "name": "Save(Entity<TKey, TValue>, bool)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.Save(Entity<TKey, TValue>, bool)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool)"
+            },
+            {
+              "name": "Save(TKey, TValue, bool)",
+              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.Save(TKey, TValue, bool)",
+              "type": "Method",
+              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Save(TKey,TValue,bool)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
