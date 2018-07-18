@@ -35,6 +35,10 @@ build:
 #     dotnet test
 # 
 #     cd ../
+test: off
+test_script:
+  - echo "Tests are disabled"
+
 artifacts:
 - path: '**\*.nupkg'
 deploy:
