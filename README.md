@@ -40,8 +40,8 @@ Sample schema can be found in REST API documentation (index path), or in the **E
 
 # API Documentation
 ## REST API
-[Server REST API Definition](rest-api/index.html)
+[Server REST API Definition](https://razer-rbi.github.io/diffstore-dbms/rest-api/)
 
 ## Client implementations
-[C# Client API](net-client-api/index.md)
+[C# Client API](docs/net-client-api/index.md)
 
