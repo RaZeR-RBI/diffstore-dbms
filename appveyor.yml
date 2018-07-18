@@ -25,6 +25,8 @@ before_build:
 build:
   project: diffstore-dbms.sln
   verbosity: minimal
+after_build:
+- cmd: dotnet pack --output ./
 # TODO: Fix test running on CI
 # test_script:
 # - cmd: >-
