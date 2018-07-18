@@ -27,6 +27,8 @@ build:
   verbosity: minimal
 test_script:
 - cmd: >-
+    netsh advfirewall set allprofiles state off
+
     cd Tests
 
     dotnet test
