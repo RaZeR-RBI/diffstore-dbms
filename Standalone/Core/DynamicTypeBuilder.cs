@@ -19,7 +19,6 @@ namespace Standalone.Core
     {
         public static Type CreateFrom(SchemaDefinition schema)
         {
-            Console.WriteLine("Creating data type");
             var references = CollectReferences(
                 typeof(object), typeof(Attribute), typeof(IDiffstore<,>)
             );

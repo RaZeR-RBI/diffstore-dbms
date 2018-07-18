@@ -87,7 +87,7 @@ namespace Tests.Diffstore.DBMS.Drivers
             var actualKeys = await db.Keys();
             var actualEntities = await db.GetAll();
 
-            Assert.Equal(keys, actualKeys);
+            Assert.Contains(keys, key => actualKeys.Contains(key));
             Assert.All(entities, e => actualEntities.Contains(e));
         }
 

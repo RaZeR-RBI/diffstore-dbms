@@ -1,5 +1,7 @@
 # Home
-``` THIS PAGE IS WORK IN PROGRESS!```
+This project is a DMBS-like REST interface for the [Diffstore](https://github.com/razer-rbi/diffstore) storage engine.
+
+Visit the GitHub repository for more info.
 
 # API Documentation
 ## REST API

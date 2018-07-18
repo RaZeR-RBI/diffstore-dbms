@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Diffstore.DBMS.Client</AssemblyName>
+    <PackageVersion>1.0.0-dev</PackageVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ConcurrentHashSet" Version="1.0.2" />
+    <PackageReference Include="Diffstore" Version="1.0.2" />
+    <PackageReference Include="Jil" Version="2.15.4" />
+    <PackageReference Include="Polly" Version="5.7.0" />
+  </ItemGroup>
+  <PropertyGroup>
+    <PackageId>Diffstore.DBMS.Client</PackageId>
+    <Title>Diffstore DBMS Client</Title>
+    <Authors>Adel Vilkov</Authors>
+    <Copyright>Copyright 2018</Copyright>
+    <PackageLicenseUrl>https://github.com/RaZeR-RBI/diffstore-dbms/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/RaZeR-RBI/diffstore-dbms</PackageProjectUrl>
+    <PackageTags>net netcore storage database statistics time data entity dbms rest</PackageTags>
+    <RepositoryUrl>https://github.com/RaZeR-RBI/diffstore-dbms</RepositoryUrl>
+  </PropertyGroup>
+</Project>

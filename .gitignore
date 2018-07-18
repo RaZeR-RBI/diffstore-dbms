@@ -298,3 +298,8 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# GitHub Pages-related
+**/Gemfile
+**/Gemfile.lock
+**/_site/**
