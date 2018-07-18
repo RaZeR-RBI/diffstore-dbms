@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Helper class for [TransactionProvider](Diffstore.DBMS.Core.TransactionProvider.md) creation.
+
 
 ## Members
 

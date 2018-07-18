@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Locks the specified entity key for writing.
+
 
 ## Syntax
 
@@ -18,6 +20,10 @@ public bool BeginWrite(
 	TKey key
 )
 ```
+
+### Returns
+
+True if locking was successful
 
 ------
 

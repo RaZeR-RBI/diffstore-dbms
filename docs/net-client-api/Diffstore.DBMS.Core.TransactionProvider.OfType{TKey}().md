@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Creates a default transaction provider for the specified key type.
+
 
 ## Syntax
 

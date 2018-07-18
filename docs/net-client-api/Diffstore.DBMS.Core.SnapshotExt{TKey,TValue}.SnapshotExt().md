@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Used for deserialization by driver implementations.
+
 
 ## Syntax
 

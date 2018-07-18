@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Default constructor.
+
 
 ## Syntax
 

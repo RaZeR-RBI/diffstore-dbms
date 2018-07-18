@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Returns all saved entities.
+
 
 ## Syntax
 
@@ -17,6 +19,8 @@
 public async Task<IEnumerable<Entity<TKey, TValue>>> GetAll()
 ```
 
+## Remarks
+This call may be slow depending on number of entities
 ------
 
 [Back to index](index.md)

@@ -7,7 +7,9 @@
 ------
 
 
-*No description provided*
+
+This namespace contains core classes needed for driver functionality.
+
 
 ## Nested types
 

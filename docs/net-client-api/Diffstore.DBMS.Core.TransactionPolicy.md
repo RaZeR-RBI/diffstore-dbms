@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Helper class for creating [TransactionPolicyInfo](Diffstore.DBMS.Core.TransactionPolicyInfo.md).
+
 
 ## Members
 

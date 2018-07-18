@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Returns true if an entity with the specified key exists.
+
 
 ## Syntax
 

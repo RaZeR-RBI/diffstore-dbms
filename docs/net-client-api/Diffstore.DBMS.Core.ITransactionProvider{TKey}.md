@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Defines a transactional provider for reading and writing purposes.
+
 
 ## Members
 

@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Returns the last snapshot of the specified entity.
+
 
 ## Syntax
 

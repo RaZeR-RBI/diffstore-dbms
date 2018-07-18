@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Disposes this driver.
+
 
 ## Syntax
 

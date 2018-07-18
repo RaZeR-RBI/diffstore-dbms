@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Defines options related to transactions.
+
 
 ## Members
 

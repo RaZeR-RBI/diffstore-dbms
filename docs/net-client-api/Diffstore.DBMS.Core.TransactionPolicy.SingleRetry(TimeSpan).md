@@ -9,7 +9,10 @@
 ------
 
 
-*No description provided*
+
+Creates a [TransactionPolicyInfo](Diffstore.DBMS.Core.TransactionPolicyInfo.md) with single retry
+attempt and the specified wait time.
+
 
 ## Syntax
 

@@ -9,7 +9,10 @@
 ------
 
 
-*No description provided*
+
+Constructs an exception with the specified key included in the message
+and wrapping existing exception.
+
 
 ## Syntax
 

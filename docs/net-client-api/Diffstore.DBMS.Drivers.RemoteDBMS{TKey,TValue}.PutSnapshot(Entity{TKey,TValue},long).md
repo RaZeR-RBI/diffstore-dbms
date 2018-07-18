@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Saves an entity snapshot with the specified time.
+
 
 ## Syntax
 

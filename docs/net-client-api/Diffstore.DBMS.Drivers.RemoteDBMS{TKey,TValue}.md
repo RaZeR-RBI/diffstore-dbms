@@ -14,7 +14,9 @@
 ------
 
 
-*No description provided*
+
+Implements remote DBMS driver.
+
 
 ## Members
 
@@ -39,11 +41,6 @@
 * [PutSnapshot(Entity<TKey, TValue>, long)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long).md)
 * [Save(Entity<TKey, TValue>, bool)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool).md)
 * [Save(TKey, TValue, bool)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Save(TKey,TValue,bool).md)
-
-## Nested types
-
-### Class
-* [SaveRequest](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.md)
 
 ------
 

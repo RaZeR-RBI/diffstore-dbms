@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Default constructor.
+
 
 ## Syntax
 
@@ -18,6 +20,12 @@ public RemoteDBMS(
 	Uri connectionUri
 )
 ```
+
+### Parameters
+
+`connectionUri`
+
+DBMS connection URI
 
 ------
 

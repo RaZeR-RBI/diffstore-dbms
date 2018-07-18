@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Time to wait between transaction attempts.
+
 
 ## Syntax
 

@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Initializes a remote DBMS driver with the default connection URI.
+
 
 ## Syntax
 

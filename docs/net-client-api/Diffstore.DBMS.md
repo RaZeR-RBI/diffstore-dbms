@@ -7,7 +7,9 @@
 ------
 
 
-*No description provided*
+
+Main namespace which contains the storage interface
+
 
 ## Nested types
 

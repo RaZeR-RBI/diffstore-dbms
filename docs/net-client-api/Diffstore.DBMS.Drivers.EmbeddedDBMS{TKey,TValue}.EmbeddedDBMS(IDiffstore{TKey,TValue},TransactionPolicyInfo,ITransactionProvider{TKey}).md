@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Default constructor.
+
 
 ## Syntax
 
@@ -20,6 +22,20 @@ public EmbeddedDBMS(
 	ITransactionProvider<TKey> transaction
 )
 ```
+
+### Parameters
+
+`db`
+
+Existing Diffstore instance
+
+`policy`
+
+Transaction policy options
+
+`transaction`
+
+Transaction provider instance
 
 ------
 

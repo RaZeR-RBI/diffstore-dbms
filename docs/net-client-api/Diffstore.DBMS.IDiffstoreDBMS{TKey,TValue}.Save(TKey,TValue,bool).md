@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Saves the entity.
+
 
 ## Syntax
 

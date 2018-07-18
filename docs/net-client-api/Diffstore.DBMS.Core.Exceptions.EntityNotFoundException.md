@@ -14,7 +14,9 @@
 ------
 
 
-*No description provided*
+
+Thrown when an entity with the specified key is not found.
+
 
 ## Members
 

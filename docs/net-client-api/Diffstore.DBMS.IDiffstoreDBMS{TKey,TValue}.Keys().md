@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Fetches all existing keys.
+
 
 ## Syntax
 

@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Main class for DBMS driver initialization.
+
 
 ## Members
 

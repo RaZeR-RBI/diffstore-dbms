@@ -14,7 +14,9 @@
 ------
 
 
-*No description provided*
+
+Thrown if the specified entity or snapshot is blocked by other action.
+
 
 ## Members
 

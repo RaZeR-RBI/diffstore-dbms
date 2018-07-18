@@ -445,32 +445,6 @@
               "link": "Diffstore.DBMS.Core.Exceptions.SnapshotNotFoundException.SnapshotNotFoundException(object,Exception)"
             }
           ]
-        },
-        {
-          "name": "TransactionRolledBackException",
-          "fullName": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException",
-          "type": "Class",
-          "link": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException",
-          "children": [
-            {
-              "name": "TransactionRolledBackException()",
-              "fullName": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException()",
-              "type": "Constructor",
-              "link": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException()"
-            },
-            {
-              "name": "TransactionRolledBackException(object)",
-              "fullName": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException(object)",
-              "type": "Constructor",
-              "link": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException(object)"
-            },
-            {
-              "name": "TransactionRolledBackException(object, Exception)",
-              "fullName": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException(object, Exception)",
-              "type": "Constructor",
-              "link": "Diffstore.DBMS.Core.Exceptions.TransactionRolledBackException.TransactionRolledBackException(object,Exception)"
-            }
-          ]
         }
       ]
     },
@@ -602,44 +576,6 @@
           "type": "Class",
           "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}",
           "children": [
-            {
-              "name": "SaveRequest",
-              "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest",
-              "type": "Class",
-              "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest",
-              "children": [
-                {
-                  "name": "Key",
-                  "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest.Key",
-                  "type": "Property",
-                  "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.Key"
-                },
-                {
-                  "name": "Value",
-                  "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest.Value",
-                  "type": "Property",
-                  "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.Value"
-                },
-                {
-                  "name": "MakeSnapshot",
-                  "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest.MakeSnapshot",
-                  "type": "Property",
-                  "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.MakeSnapshot"
-                },
-                {
-                  "name": "SaveRequest()",
-                  "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest.SaveRequest()",
-                  "type": "Constructor",
-                  "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.SaveRequest()"
-                },
-                {
-                  "name": "SaveRequest(Entity<TKey, TValue>, bool)",
-                  "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.SaveRequest.SaveRequest(Entity<TKey, TValue>, bool)",
-                  "type": "Constructor",
-                  "link": "Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.SaveRequest(Entity{TKey,TValue},bool)"
-                }
-              ]
-            },
             {
               "name": "RemoteDBMS(Uri)",
               "fullName": "Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>.RemoteDBMS(Uri)",

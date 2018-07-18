@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Initializes a remote DBMS driver.
+
 
 ## Syntax
 

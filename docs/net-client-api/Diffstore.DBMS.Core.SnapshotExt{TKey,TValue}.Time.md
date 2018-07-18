@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Same as Snapshot.Time.
+
 
 ## Syntax
 

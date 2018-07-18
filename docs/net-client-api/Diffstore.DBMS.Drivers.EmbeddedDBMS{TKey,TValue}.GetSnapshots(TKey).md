@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Fetches snapshots for the specified entity key.
+
 
 ## Syntax
 

@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Removes write lock from the specified entity key.
+
 
 ## Syntax
 
@@ -18,6 +20,10 @@ public bool EndWrite(
 	TKey key
 )
 ```
+
+### Returns
+
+True if unlocking was successful
 
 ------
 

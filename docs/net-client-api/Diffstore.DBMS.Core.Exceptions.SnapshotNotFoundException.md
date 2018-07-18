@@ -14,7 +14,9 @@
 ------
 
 
-*No description provided*
+
+Thrown if the specified entity has no snapshots.
+
 
 ## Members
 

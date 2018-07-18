@@ -19,8 +19,7 @@ namespace Tests.Standalone.Core
             var type = DynamicTypeBuilder.CreateFrom(schema);
             var properties = type.GetProperties();
 
-            Assert.True(type.GetConstructors()
-                .Any(c => !c.GetParameters().Any()));
+            Assert.Contains(type.GetConstructors(), c => !c.GetParameters().Any());
             Assert.Equal(2, properties.Length);
             Assert.Contains(properties, p =>
                 p.Name == "StringField" &&

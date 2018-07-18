@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Helper wrapper around existing function.
+
 
 ## Syntax
 

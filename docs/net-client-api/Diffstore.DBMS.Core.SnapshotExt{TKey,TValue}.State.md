@@ -9,13 +9,19 @@
 ------
 
 
-*No description provided*
+
+Same as Snapshot.State.
+
 
 ## Syntax
 
 ```csharp
 public new EntityExt<TKey, TValue> State { public get; public set; }
 ```
+
+### Returns
+
+
 
 ------
 

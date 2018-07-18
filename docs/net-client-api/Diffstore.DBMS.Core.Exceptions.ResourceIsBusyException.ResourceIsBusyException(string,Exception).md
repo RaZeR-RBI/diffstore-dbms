@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Includes a message and inner exception.
+
 
 ## Syntax
 

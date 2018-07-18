@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Deletes the entity and all associated data by key.
+
 
 ## Syntax
 

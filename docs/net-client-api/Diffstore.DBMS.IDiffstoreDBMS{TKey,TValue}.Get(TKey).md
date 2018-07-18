@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Returns an entity saved with the specified key.
+
 
 ## Syntax
 

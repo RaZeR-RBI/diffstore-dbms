@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Fetches snapshots in time range [timeStart, timeEnd).
+
 
 ## Syntax
 

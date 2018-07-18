@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Creates an embedded (local storage) Diffstore DBMS instance.
+
 
 ## Syntax
 
@@ -20,6 +22,20 @@ public static IDiffstoreDBMS<TKey, TValue> Embedded<TKey, TValue>(
 	TransactionPolicyInfo policy
 )
 ```
+
+### Parameters
+
+`db`
+
+Existing Diffstore instance
+
+`provider`
+
+ITransactionProvider
+
+`policy`
+
+Transaction policy options
 
 ------
 

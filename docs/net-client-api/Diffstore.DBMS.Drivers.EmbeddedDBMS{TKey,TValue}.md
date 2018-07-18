@@ -14,7 +14,9 @@
 ------
 
 
-*No description provided*
+
+Defines all supported operations.
+
 
 ## Members
 

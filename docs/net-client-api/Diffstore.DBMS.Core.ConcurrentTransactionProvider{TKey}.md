@@ -14,7 +14,9 @@
 ------
 
 
-*No description provided*
+
+Defines a concurrent transactional provider for reading and writing purposes.
+
 
 ## Members
 

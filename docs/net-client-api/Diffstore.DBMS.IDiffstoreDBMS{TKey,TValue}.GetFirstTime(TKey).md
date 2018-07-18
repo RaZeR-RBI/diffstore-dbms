@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Returns the time when the first entity snapshot was created.
+
 
 ## Syntax
 

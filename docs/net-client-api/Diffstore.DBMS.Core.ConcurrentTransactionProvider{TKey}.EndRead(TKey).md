@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Removes read lock from the specified entity key.
+
 
 ## Syntax
 
@@ -18,6 +20,10 @@ public bool EndRead(
 	TKey key
 )
 ```
+
+### Returns
+
+True if unlocking was successful
 
 ------
 

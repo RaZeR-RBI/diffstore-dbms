@@ -27,7 +27,7 @@ build:
   verbosity: minimal
 test_script:
 - cmd: >-
-    cd Diffstore.Tests
+    cd Tests
 
     dotnet test
 

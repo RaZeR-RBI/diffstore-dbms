@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Returns the first snapshot of the specified entity.
+
 
 ## Syntax
 

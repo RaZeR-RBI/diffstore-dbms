@@ -9,7 +9,9 @@
 ------
 
 
-*No description provided*
+
+Returns a list of keys which have been locked for reading.
+
 
 ## Syntax
 

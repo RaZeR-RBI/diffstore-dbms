@@ -14,7 +14,9 @@
 ------
 
 
-*No description provided*
+
+This class provides parameterless constructor for deserialization.
+
 
 ## Members
 
