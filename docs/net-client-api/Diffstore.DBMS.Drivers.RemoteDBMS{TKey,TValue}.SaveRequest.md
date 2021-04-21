@@ -4,7 +4,7 @@
 
 **Namespace:** [Diffstore.DBMS.Drivers](Diffstore.DBMS.Drivers.md)
 
-**Declared in:** [Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.md)
+**Declared in:** [Diffstore.DBMS.Drivers.RemoteDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.md)
 
 ------
 
@@ -20,7 +20,7 @@
 
 ### Constructor
 * [SaveRequest()](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.SaveRequest().md)
-* [SaveRequest(Entity<TKey, TValue>, bool)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.SaveRequest(Entity{TKey,TValue},bool).md)
+* [SaveRequest(Entity&lt;TKey, TValue&gt;, bool)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.SaveRequest.SaveRequest(Entity{TKey,TValue},bool).md)
 
 ------
 

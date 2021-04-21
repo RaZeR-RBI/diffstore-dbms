@@ -1,4 +1,4 @@
-# EntityExt<TKey, TValue>
+# EntityExt&lt;TKey, TValue&gt;
 
 **Class**
 
@@ -6,7 +6,7 @@
 
 **Base types:**
 
-* [Entity<TKey, TValue>](#.md)
+* [Entity&lt;TKey, TValue&gt;](#.md)
 
 
 **Declared in:** [Diffstore.DBMS.Core](Diffstore.DBMS.Core.md)

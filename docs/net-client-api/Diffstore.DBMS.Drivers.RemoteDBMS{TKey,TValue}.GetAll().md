@@ -4,7 +4,7 @@
 
 **Namespace:** [Diffstore.DBMS.Drivers](Diffstore.DBMS.Drivers.md)
 
-**Declared in:** [Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.md)
+**Declared in:** [Diffstore.DBMS.Drivers.RemoteDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.md)
 
 ------
 
@@ -16,7 +16,7 @@ Returns all saved entities.
 ## Syntax
 
 ```csharp
-public async Task<IEnumerable<Entity<TKey, TValue>>> GetAll()
+public async Task&lt;IEnumerable&lt;Entity&lt;TKey, TValue&gt;&gt;&gt; GetAll()
 ```
 
 ## Remarks

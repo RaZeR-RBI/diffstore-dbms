@@ -17,7 +17,7 @@ Main namespace which contains the storage interface
 * [DiffstoreDBMS](Diffstore.DBMS.DiffstoreDBMS.md)
 
 ### Interface
-* [IDiffstoreDBMS<TKey, TValue>](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
+* [IDiffstoreDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
 
 ------
 

@@ -1,4 +1,4 @@
-# Remote<TKey, TValue>(Uri)
+# Remote&lt;TKey, TValue&gt;(Uri)
 
 **Method**
 
@@ -16,7 +16,7 @@ Initializes a remote DBMS driver.
 ## Syntax
 
 ```csharp
-public static IDiffstoreDBMS<TKey, TValue> Remote<TKey, TValue>(
+public static IDiffstoreDBMS&lt;TKey, TValue&gt; Remote&lt;TKey, TValue&gt;(
 	Uri connectionUri
 )
 ```

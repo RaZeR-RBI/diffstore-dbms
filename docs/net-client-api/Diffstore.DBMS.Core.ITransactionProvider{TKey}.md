@@ -1,4 +1,4 @@
-# ITransactionProvider<TKey>
+# ITransactionProvider&lt;TKey&gt;
 
 **Interface**
 

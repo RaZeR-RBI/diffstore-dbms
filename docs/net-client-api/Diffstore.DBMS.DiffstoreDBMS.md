@@ -16,9 +16,9 @@ Main class for DBMS driver initialization.
 ## Members
 
 ### Method
-* [Embedded<TKey, TValue>(IDiffstore<TKey, TValue>, ITransactionProvider<TKey>, TransactionPolicyInfo)](Diffstore.DBMS.DiffstoreDBMS.Embedded{TKey,TValue}(IDiffstore{TKey,TValue},ITransactionProvider{TKey},TransactionPolicyInfo).md)
-* [Remote<TKey, TValue>()](Diffstore.DBMS.DiffstoreDBMS.Remote{TKey,TValue}().md)
-* [Remote<TKey, TValue>(Uri)](Diffstore.DBMS.DiffstoreDBMS.Remote{TKey,TValue}(Uri).md)
+* [Embedded&lt;TKey, TValue&gt;(IDiffstore&lt;TKey, TValue&gt;, ITransactionProvider&lt;TKey&gt;, TransactionPolicyInfo)](Diffstore.DBMS.DiffstoreDBMS.Embedded{TKey,TValue}(IDiffstore{TKey,TValue},ITransactionProvider{TKey},TransactionPolicyInfo).md)
+* [Remote&lt;TKey, TValue&gt;()](Diffstore.DBMS.DiffstoreDBMS.Remote{TKey,TValue}().md)
+* [Remote&lt;TKey, TValue&gt;(Uri)](Diffstore.DBMS.DiffstoreDBMS.Remote{TKey,TValue}(Uri).md)
 
 ------
 

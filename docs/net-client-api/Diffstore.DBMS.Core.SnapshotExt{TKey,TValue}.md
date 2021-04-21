@@ -1,4 +1,4 @@
-# SnapshotExt<TKey, TValue>
+# SnapshotExt&lt;TKey, TValue&gt;
 
 **Class**
 
@@ -6,7 +6,7 @@
 
 **Base types:**
 
-* [Snapshot<TKey, TValue>](#.md)
+* [Snapshot&lt;TKey, TValue&gt;](#.md)
 
 
 **Declared in:** [Diffstore.DBMS.Core](Diffstore.DBMS.Core.md)

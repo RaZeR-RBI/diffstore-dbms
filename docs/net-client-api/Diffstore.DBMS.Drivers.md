@@ -14,8 +14,8 @@ Defines local and remote driver implementations.
 ## Nested types
 
 ### Class
-* [EmbeddedDBMS<TKey, TValue>](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.md)
-* [RemoteDBMS<TKey, TValue>](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.md)
+* [EmbeddedDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.md)
+* [RemoteDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.md)
 
 ------
 

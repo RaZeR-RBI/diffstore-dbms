@@ -4,7 +4,7 @@
 
 **Namespace:** [Diffstore.DBMS.Drivers](Diffstore.DBMS.Drivers.md)
 
-**Declared in:** [Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.md)
+**Declared in:** [Diffstore.DBMS.Drivers.EmbeddedDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.md)
 
 ------
 
@@ -16,7 +16,7 @@ Fetches snapshots in time range [timeStart, timeEnd).
 ## Syntax
 
 ```csharp
-public async Task<IEnumerable<Snapshot<TKey, TValue>>> GetSnapshotsBetween(
+public async Task&lt;IEnumerable&lt;Snapshot&lt;TKey, TValue&gt;&gt;&gt; GetSnapshotsBetween(
 	TKey key,
 	long timeStart,
 	long timeEnd

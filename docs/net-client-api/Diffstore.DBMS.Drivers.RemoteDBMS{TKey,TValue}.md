@@ -1,4 +1,4 @@
-# RemoteDBMS<TKey, TValue>
+# RemoteDBMS&lt;TKey, TValue&gt;
 
 **Class**
 
@@ -6,7 +6,7 @@
 
 **Base types:**
 
-* [IDiffstoreDBMS<TKey, TValue>](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
+* [IDiffstoreDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
 
 
 **Declared in:** [Diffstore.DBMS.Drivers](Diffstore.DBMS.Drivers.md)
@@ -24,7 +24,7 @@ Implements remote DBMS driver.
 * [RemoteDBMS(Uri)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.RemoteDBMS(Uri).md)
 
 ### Method
-* [Delete(Entity<TKey, TValue>)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Delete(Entity{TKey,TValue}).md)
+* [Delete(Entity&lt;TKey, TValue&gt;)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Delete(Entity{TKey,TValue}).md)
 * [Delete(TKey)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Delete(TKey).md)
 * [Dispose()](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Dispose().md)
 * [Exists(TKey)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Exists(TKey).md)
@@ -38,8 +38,8 @@ Implements remote DBMS driver.
 * [GetSnapshots(TKey)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetSnapshots(TKey).md)
 * [GetSnapshotsBetween(TKey, long, long)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetSnapshotsBetween(TKey,long,long).md)
 * [Keys()](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Keys().md)
-* [PutSnapshot(Entity<TKey, TValue>, long)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long).md)
-* [Save(Entity<TKey, TValue>, bool)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool).md)
+* [PutSnapshot(Entity&lt;TKey, TValue&gt;, long)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long).md)
+* [Save(Entity&lt;TKey, TValue&gt;, bool)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool).md)
 * [Save(TKey, TValue, bool)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Save(TKey,TValue,bool).md)
 
 ------

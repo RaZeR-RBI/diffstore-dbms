@@ -4,7 +4,7 @@
 
 **Namespace:** [Diffstore.DBMS.Core](Diffstore.DBMS.Core.md)
 
-**Declared in:** [Diffstore.DBMS.Core.ConcurrentTransactionProvider<TKey>](Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.md)
+**Declared in:** [Diffstore.DBMS.Core.ConcurrentTransactionProvider&lt;TKey&gt;](Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.md)
 
 ------
 

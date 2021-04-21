@@ -1,4 +1,4 @@
-# Embedded<TKey, TValue>(IDiffstore<TKey, TValue>, ITransactionProvider<TKey>, TransactionPolicyInfo)
+# Embedded&lt;TKey, TValue&gt;(IDiffstore&lt;TKey, TValue&gt;, ITransactionProvider&lt;TKey&gt;, TransactionPolicyInfo)
 
 **Method**
 
@@ -16,9 +16,9 @@ Creates an embedded (local storage) Diffstore DBMS instance.
 ## Syntax
 
 ```csharp
-public static IDiffstoreDBMS<TKey, TValue> Embedded<TKey, TValue>(
-	IDiffstore<TKey, TValue> db,
-	ITransactionProvider<TKey> provider,
+public static IDiffstoreDBMS&lt;TKey, TValue&gt; Embedded&lt;TKey, TValue&gt;(
+	IDiffstore&lt;TKey, TValue&gt; db,
+	ITransactionProvider&lt;TKey&gt; provider,
 	TransactionPolicyInfo policy
 )
 ```

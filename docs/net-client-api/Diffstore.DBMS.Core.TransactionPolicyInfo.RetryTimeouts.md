@@ -16,7 +16,7 @@ Time to wait between transaction attempts.
 ## Syntax
 
 ```csharp
-public IEnumerable<TimeSpan> RetryTimeouts { public get; public set; }
+public IEnumerable&lt;TimeSpan&gt; RetryTimeouts { public get; public set; }
 ```
 
 ------

@@ -4,9 +4,9 @@ You can connect to remote DBMS instance using the following example code:
 using Diffstore.DBMS;
 
 // uses default connection uri
-var driver = DiffstoreDBMS.Remote<long, MyEntityType>();
+var driver = DiffstoreDBMS.Remote&lt;long, MyEntityType&gt;();
 // uses the specified connection uri
-var driver = DiffstoreDBMS.Remote<long, MyEntityType>("www.example.com");
+var driver = DiffstoreDBMS.Remote&lt;long, MyEntityType&gt;("www.example.com");
 ```
 
 If you want to instantiate a local one, you can check out this example code:
@@ -17,10 +17,10 @@ using Diffstore.DBMS.Core;
 
 var db = ...; // instantiate Diffstore instance, see Diffstore project
 
-var driver = DiffstoreDBMS.Embedded<long, MyEntityType>(
+var driver = DiffstoreDBMS.Embedded&lt;long, MyEntityType&gt;(
     db, 
     TransactionPolicy.FixedRetries(3, TimeSpan.FromMilliseconds(1000)),
-    new ConcurrentTransactionProvider<long>()
+    new ConcurrentTransactionProvider&lt;long&gt;()
 );
 ```
 
@@ -28,11 +28,11 @@ var driver = DiffstoreDBMS.Embedded<long, MyEntityType>(
 
 * [Diffstore.DBMS](Diffstore.DBMS.md)
     * [DiffstoreDBMS](Diffstore.DBMS.DiffstoreDBMS.md)
-        * [Embedded<TKey, TValue>(IDiffstore<TKey, TValue>, ITransactionProvider<TKey>, TransactionPolicyInfo)](Diffstore.DBMS.DiffstoreDBMS.Embedded{TKey,TValue}(IDiffstore{TKey,TValue},ITransactionProvider{TKey},TransactionPolicyInfo).md)
-        * [Remote<TKey, TValue>()](Diffstore.DBMS.DiffstoreDBMS.Remote{TKey,TValue}().md)
-        * [Remote<TKey, TValue>(Uri)](Diffstore.DBMS.DiffstoreDBMS.Remote{TKey,TValue}(Uri).md)
-    * [IDiffstoreDBMS<TKey, TValue>](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
-        * [Delete(Entity<TKey, TValue>)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Delete(Entity{TKey,TValue}).md)
+        * [Embedded&lt;TKey, TValue&gt;(IDiffstore&lt;TKey, TValue&gt;, ITransactionProvider&lt;TKey&gt;, TransactionPolicyInfo)](Diffstore.DBMS.DiffstoreDBMS.Embedded{TKey,TValue}(IDiffstore{TKey,TValue},ITransactionProvider{TKey},TransactionPolicyInfo).md)
+        * [Remote&lt;TKey, TValue&gt;()](Diffstore.DBMS.DiffstoreDBMS.Remote{TKey,TValue}().md)
+        * [Remote&lt;TKey, TValue&gt;(Uri)](Diffstore.DBMS.DiffstoreDBMS.Remote{TKey,TValue}(Uri).md)
+    * [IDiffstoreDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
+        * [Delete(Entity&lt;TKey, TValue&gt;)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Delete(Entity{TKey,TValue}).md)
         * [Delete(TKey)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Delete(TKey).md)
         * [Exists(TKey)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Exists(TKey).md)
         * [Get(TKey)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Get(TKey).md)
@@ -45,23 +45,23 @@ var driver = DiffstoreDBMS.Embedded<long, MyEntityType>(
         * [GetSnapshots(TKey)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.GetSnapshots(TKey).md)
         * [GetSnapshotsBetween(TKey, long, long)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.GetSnapshotsBetween(TKey,long,long).md)
         * [Keys()](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Keys().md)
-        * [PutSnapshot(Entity<TKey, TValue>, long)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long).md)
-        * [Save(Entity<TKey, TValue>, bool)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool).md)
+        * [PutSnapshot(Entity&lt;TKey, TValue&gt;, long)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long).md)
+        * [Save(Entity&lt;TKey, TValue&gt;, bool)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool).md)
         * [Save(TKey, TValue, bool)](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.Save(TKey,TValue,bool).md)
 
 
 * [Diffstore.DBMS.Core](Diffstore.DBMS.Core.md)
-    * [ConcurrentTransactionProvider<TKey>](Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.md)
+    * [ConcurrentTransactionProvider&lt;TKey&gt;](Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.md)
         * [InRead](Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.InRead.md)
         * [InWrite](Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.InWrite.md)
         * [BeginRead(TKey)](Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.BeginRead(TKey).md)
         * [BeginWrite(TKey)](Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.BeginWrite(TKey).md)
         * [EndRead(TKey)](Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.EndRead(TKey).md)
         * [EndWrite(TKey)](Diffstore.DBMS.Core.ConcurrentTransactionProvider{TKey}.EndWrite(TKey).md)
-    * [EntityExt<TKey, TValue>](Diffstore.DBMS.Core.EntityExt{TKey,TValue}.md)
+    * [EntityExt&lt;TKey, TValue&gt;](Diffstore.DBMS.Core.EntityExt{TKey,TValue}.md)
         * [EntityExt()](Diffstore.DBMS.Core.EntityExt{TKey,TValue}.EntityExt().md)
         * [Create()](Diffstore.DBMS.Core.EntityExt{TKey,TValue}.Create().md)
-    * [SnapshotExt<TKey, TValue>](Diffstore.DBMS.Core.SnapshotExt{TKey,TValue}.md)
+    * [SnapshotExt&lt;TKey, TValue&gt;](Diffstore.DBMS.Core.SnapshotExt{TKey,TValue}.md)
         * [Time](Diffstore.DBMS.Core.SnapshotExt{TKey,TValue}.Time.md)
         * [State](Diffstore.DBMS.Core.SnapshotExt{TKey,TValue}.State.md)
         * [SnapshotExt()](Diffstore.DBMS.Core.SnapshotExt{TKey,TValue}.SnapshotExt().md)
@@ -76,8 +76,8 @@ var driver = DiffstoreDBMS.Embedded<long, MyEntityType>(
     * [TransactionPolicyInfo](Diffstore.DBMS.Core.TransactionPolicyInfo.md)
         * [RetryTimeouts](Diffstore.DBMS.Core.TransactionPolicyInfo.RetryTimeouts.md)
     * [TransactionProvider](Diffstore.DBMS.Core.TransactionProvider.md)
-        * [OfType<TKey>()](Diffstore.DBMS.Core.TransactionProvider.OfType{TKey}().md)
-    * [ITransactionProvider<TKey>](Diffstore.DBMS.Core.ITransactionProvider{TKey}.md)
+        * [OfType&lt;TKey&gt;()](Diffstore.DBMS.Core.TransactionProvider.OfType{TKey}().md)
+    * [ITransactionProvider&lt;TKey&gt;](Diffstore.DBMS.Core.ITransactionProvider{TKey}.md)
         * [InRead](Diffstore.DBMS.Core.ITransactionProvider{TKey}.InRead.md)
         * [InWrite](Diffstore.DBMS.Core.ITransactionProvider{TKey}.InWrite.md)
         * [BeginRead(TKey)](Diffstore.DBMS.Core.ITransactionProvider{TKey}.BeginRead(TKey).md)
@@ -102,9 +102,9 @@ var driver = DiffstoreDBMS.Embedded<long, MyEntityType>(
 
 
 * [Diffstore.DBMS.Drivers](Diffstore.DBMS.Drivers.md)
-    * [EmbeddedDBMS<TKey, TValue>](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.md)
-        * [EmbeddedDBMS(IDiffstore<TKey, TValue>, TransactionPolicyInfo, ITransactionProvider<TKey>)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.EmbeddedDBMS(IDiffstore{TKey,TValue},TransactionPolicyInfo,ITransactionProvider{TKey}).md)
-        * [Delete(Entity<TKey, TValue>)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Delete(Entity{TKey,TValue}).md)
+    * [EmbeddedDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.md)
+        * [EmbeddedDBMS(IDiffstore&lt;TKey, TValue&gt;, TransactionPolicyInfo, ITransactionProvider&lt;TKey&gt;)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.EmbeddedDBMS(IDiffstore{TKey,TValue},TransactionPolicyInfo,ITransactionProvider{TKey}).md)
+        * [Delete(Entity&lt;TKey, TValue&gt;)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Delete(Entity{TKey,TValue}).md)
         * [Delete(TKey)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Delete(TKey).md)
         * [Dispose()](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Dispose().md)
         * [Exists(TKey)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Exists(TKey).md)
@@ -118,12 +118,12 @@ var driver = DiffstoreDBMS.Embedded<long, MyEntityType>(
         * [GetSnapshots(TKey)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.GetSnapshots(TKey).md)
         * [GetSnapshotsBetween(TKey, long, long)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.GetSnapshotsBetween(TKey,long,long).md)
         * [Keys()](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Keys().md)
-        * [PutSnapshot(Entity<TKey, TValue>, long)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long).md)
-        * [Save(Entity<TKey, TValue>, bool)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool).md)
+        * [PutSnapshot(Entity&lt;TKey, TValue&gt;, long)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long).md)
+        * [Save(Entity&lt;TKey, TValue&gt;, bool)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool).md)
         * [Save(TKey, TValue, bool)](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.Save(TKey,TValue,bool).md)
-    * [RemoteDBMS<TKey, TValue>](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.md)
+    * [RemoteDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.md)
         * [RemoteDBMS(Uri)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.RemoteDBMS(Uri).md)
-        * [Delete(Entity<TKey, TValue>)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Delete(Entity{TKey,TValue}).md)
+        * [Delete(Entity&lt;TKey, TValue&gt;)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Delete(Entity{TKey,TValue}).md)
         * [Delete(TKey)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Delete(TKey).md)
         * [Dispose()](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Dispose().md)
         * [Exists(TKey)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Exists(TKey).md)
@@ -137,8 +137,8 @@ var driver = DiffstoreDBMS.Embedded<long, MyEntityType>(
         * [GetSnapshots(TKey)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetSnapshots(TKey).md)
         * [GetSnapshotsBetween(TKey, long, long)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.GetSnapshotsBetween(TKey,long,long).md)
         * [Keys()](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Keys().md)
-        * [PutSnapshot(Entity<TKey, TValue>, long)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long).md)
-        * [Save(Entity<TKey, TValue>, bool)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool).md)
+        * [PutSnapshot(Entity&lt;TKey, TValue&gt;, long)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.PutSnapshot(Entity{TKey,TValue},long).md)
+        * [Save(Entity&lt;TKey, TValue&gt;, bool)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Save(Entity{TKey,TValue},bool).md)
         * [Save(TKey, TValue, bool)](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.Save(TKey,TValue,bool).md)
 
 

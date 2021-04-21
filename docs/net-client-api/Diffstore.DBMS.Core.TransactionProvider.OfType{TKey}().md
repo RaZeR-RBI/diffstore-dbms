@@ -1,4 +1,4 @@
-# OfType<TKey>()
+# OfType&lt;TKey&gt;()
 
 **Method**
 
@@ -16,7 +16,7 @@ Creates a default transaction provider for the specified key type.
 ## Syntax
 
 ```csharp
-public static ITransactionProvider<TKey> OfType<TKey>()
+public static ITransactionProvider&lt;TKey&gt; OfType&lt;TKey&gt;()
 ```
 
 ------

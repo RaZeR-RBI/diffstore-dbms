@@ -1,10 +1,10 @@
-# EmbeddedDBMS(IDiffstore<TKey, TValue>, TransactionPolicyInfo, ITransactionProvider<TKey>)
+# EmbeddedDBMS(IDiffstore&lt;TKey, TValue&gt;, TransactionPolicyInfo, ITransactionProvider&lt;TKey&gt;)
 
 **Constructor**
 
 **Namespace:** [Diffstore.DBMS.Drivers](Diffstore.DBMS.Drivers.md)
 
-**Declared in:** [Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.md)
+**Declared in:** [Diffstore.DBMS.Drivers.EmbeddedDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.md)
 
 ------
 
@@ -17,9 +17,9 @@ Default constructor.
 
 ```csharp
 public EmbeddedDBMS(
-	IDiffstore<TKey, TValue> db,
+	IDiffstore&lt;TKey, TValue&gt; db,
 	TransactionPolicyInfo policy,
-	ITransactionProvider<TKey> transaction
+	ITransactionProvider&lt;TKey&gt; transaction
 )
 ```
 

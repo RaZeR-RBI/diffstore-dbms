@@ -1,10 +1,10 @@
-# Save(Entity<TKey, TValue>, bool)
+# Save(Entity&lt;TKey, TValue&gt;, bool)
 
 **Method**
 
 **Namespace:** [Diffstore.DBMS](Diffstore.DBMS.md)
 
-**Declared in:** [Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
+**Declared in:** [Diffstore.DBMS.IDiffstoreDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
 
 ------
 
@@ -17,7 +17,7 @@ Saves the entity.
 
 ```csharp
 public Task Save(
-	Entity<TKey, TValue> entity,
+	Entity&lt;TKey, TValue&gt; entity,
 	bool makeSnapshot
 )
 ```

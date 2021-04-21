@@ -16,7 +16,7 @@ Helper class for [TransactionProvider](Diffstore.DBMS.Core.TransactionProvider.m
 ## Members
 
 ### Method
-* [OfType<TKey>()](Diffstore.DBMS.Core.TransactionProvider.OfType{TKey}().md)
+* [OfType&lt;TKey&gt;()](Diffstore.DBMS.Core.TransactionProvider.OfType{TKey}().md)
 
 ------
 

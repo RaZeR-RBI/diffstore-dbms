@@ -1,4 +1,4 @@
-# ConcurrentTransactionProvider<TKey>
+# ConcurrentTransactionProvider&lt;TKey&gt;
 
 **Class**
 
@@ -6,7 +6,7 @@
 
 **Base types:**
 
-* [ITransactionProvider<TKey>](Diffstore.DBMS.Core.ITransactionProvider{TKey}.md)
+* [ITransactionProvider&lt;TKey&gt;](Diffstore.DBMS.Core.ITransactionProvider{TKey}.md)
 
 
 **Declared in:** [Diffstore.DBMS.Core](Diffstore.DBMS.Core.md)

@@ -1,10 +1,10 @@
-# PutSnapshot(Entity<TKey, TValue>, long)
+# PutSnapshot(Entity&lt;TKey, TValue&gt;, long)
 
 **Method**
 
 **Namespace:** [Diffstore.DBMS](Diffstore.DBMS.md)
 
-**Declared in:** [Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
+**Declared in:** [Diffstore.DBMS.IDiffstoreDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
 
 ------
 
@@ -17,7 +17,7 @@ Saves an entity snapshot with the specified time.
 
 ```csharp
 public Task PutSnapshot(
-	Entity<TKey, TValue> entity,
+	Entity&lt;TKey, TValue&gt; entity,
 	long time
 )
 ```

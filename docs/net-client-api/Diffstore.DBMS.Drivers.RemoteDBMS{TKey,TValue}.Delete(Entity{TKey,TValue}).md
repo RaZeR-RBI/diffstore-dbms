@@ -1,10 +1,10 @@
-# Delete(Entity<TKey, TValue>)
+# Delete(Entity&lt;TKey, TValue&gt;)
 
 **Method**
 
 **Namespace:** [Diffstore.DBMS.Drivers](Diffstore.DBMS.Drivers.md)
 
-**Declared in:** [Diffstore.DBMS.Drivers.RemoteDBMS<TKey, TValue>](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.md)
+**Declared in:** [Diffstore.DBMS.Drivers.RemoteDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.Drivers.RemoteDBMS{TKey,TValue}.md)
 
 ------
 
@@ -17,7 +17,7 @@ Deletes the entity and all associated data by key.
 
 ```csharp
 public async Task Delete(
-	Entity<TKey, TValue> entity
+	Entity&lt;TKey, TValue&gt; entity
 )
 ```
 

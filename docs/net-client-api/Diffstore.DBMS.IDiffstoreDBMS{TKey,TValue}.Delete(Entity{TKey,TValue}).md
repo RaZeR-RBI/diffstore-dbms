@@ -1,10 +1,10 @@
-# Delete(Entity<TKey, TValue>)
+# Delete(Entity&lt;TKey, TValue&gt;)
 
 **Method**
 
 **Namespace:** [Diffstore.DBMS](Diffstore.DBMS.md)
 
-**Declared in:** [Diffstore.DBMS.IDiffstoreDBMS<TKey, TValue>](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
+**Declared in:** [Diffstore.DBMS.IDiffstoreDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.IDiffstoreDBMS{TKey,TValue}.md)
 
 ------
 
@@ -17,7 +17,7 @@ Deletes the entity and all associated data by key.
 
 ```csharp
 public Task Delete(
-	Entity<TKey, TValue> entity
+	Entity&lt;TKey, TValue&gt; entity
 )
 ```
 

@@ -1,10 +1,10 @@
-# Save(Entity<TKey, TValue>, bool)
+# Save(Entity&lt;TKey, TValue&gt;, bool)
 
 **Method**
 
 **Namespace:** [Diffstore.DBMS.Drivers](Diffstore.DBMS.Drivers.md)
 
-**Declared in:** [Diffstore.DBMS.Drivers.EmbeddedDBMS<TKey, TValue>](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.md)
+**Declared in:** [Diffstore.DBMS.Drivers.EmbeddedDBMS&lt;TKey, TValue&gt;](Diffstore.DBMS.Drivers.EmbeddedDBMS{TKey,TValue}.md)
 
 ------
 
@@ -17,7 +17,7 @@ Saves the entity.
 
 ```csharp
 public async Task Save(
-	Entity<TKey, TValue> entity,
+	Entity&lt;TKey, TValue&gt; entity,
 	bool makeSnapshot
 )
 ```
