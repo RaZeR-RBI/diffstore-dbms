@@ -4,9 +4,9 @@ You can connect to remote DBMS instance using the following example code:
 using Diffstore.DBMS;
 
 // uses default connection uri
-var driver = DiffstoreDBMS.Remote&lt;long, MyEntityType&gt;();
+var driver = DiffstoreDBMS.Remote<long, MyEntityType>();
 // uses the specified connection uri
-var driver = DiffstoreDBMS.Remote&lt;long, MyEntityType&gt;("www.example.com");
+var driver = DiffstoreDBMS.Remote<long, MyEntityType>("www.example.com");
 ```
 
 If you want to instantiate a local one, you can check out this example code:
@@ -17,10 +17,10 @@ using Diffstore.DBMS.Core;
 
 var db = ...; // instantiate Diffstore instance, see Diffstore project
 
-var driver = DiffstoreDBMS.Embedded&lt;long, MyEntityType&gt;(
-    db, 
+var driver = DiffstoreDBMS.Embedded<long, MyEntityType>(
+    db,
     TransactionPolicy.FixedRetries(3, TimeSpan.FromMilliseconds(1000)),
-    new ConcurrentTransactionProvider&lt;long&gt;()
+    new ConcurrentTransactionProvider<long>()
 );
 ```
 
